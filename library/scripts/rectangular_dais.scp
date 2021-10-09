@@ -1,0 +1,72 @@
+' Reminder: WindScript is NOT case-sensitive
+
+CATEGORY Buildings
+PARAM    TopX     Float   Default 0.75     ' Percentage width of top part
+PARAM    TopY     Float   Default 0.75     ' Percentage depth of top part
+PARAM    NumSteps Integer Default 10       ' Number of steps
+PARAM    Tex1     String
+
+HINT     TopX     The width of the top of the dais in the X direction as a
+HINT     TopX     fraction of the overall X size.
+HINT     TopY     The width of the top of the dais in the Y direction as a
+HINT     TopY     fraction of the overall Y size.
+HINT     NumSteps The number of steps.
+HINT     Tex1     The texture to use for the dais.
+
+VARIABLE SH       Float                    ' Step height
+VARIABLE SDX      Float                    ' Step depth in X direction
+VARIABLE SDY      Float                    ' Step depth in Y direction
+VARIABLE I        Integer                  ' Counter
+
+' Helper variables
+
+VARIABLE ISDX     Float
+VARIABLE ISDY     Float
+VARIABLE ISH      Float
+VARIABLE ISDX1    Float
+VARIABLE ISDY1    Float
+VARIABLE ISH1     Float
+
+' Figure out the step width and height
+
+SH  = 1 / NumSteps
+SDX = (1 - TOPX) / (2 * NumSteps)
+SDY = (1 - TOPY) / (2 * NumSteps)
+
+' Make the dais (all but the top step)
+
+I = 0
+While I < NumSteps - 1
+  ISDX  = I * SDX
+  ISDY  = I * SDY
+  ISH   = I * SH
+  ISDX1 = (I + 1) * SDX
+  ISDY1 = (I + 1) * SDY
+  ISH1  = (I + 1) * SH
+
+  Rectangle ISDX,ISDY,ISH,      ISDX,ISDY,ISH1,      1-ISDX,ISDY,ISH1,    1-ISDX,ISDY,ISH,    Tex1    ' Front  
+  Rectangle ISDX,ISDY,ISH1,     ISDX,ISDY1,ISH1,     1-ISDX,ISDY1,ISH1,   1-ISDX,ISDY,ISH,    Tex1    ' Front top
+  Rectangle ISDX,ISDY,ISH,      ISDX,1-ISDY,ISH,     ISDX,1-ISDY,ISH1,    ISDX,ISDY,ISH1,     Tex1    ' Left
+  Rectangle ISDX,ISDY,ISH1,     ISDX,1-ISDY,ISH1,    ISDX1,1-ISDY,ISH1,   ISDX1,ISDY,ISH1,    Tex1    ' Left top
+  Rectangle 1-ISDX,ISDY,ISH,    1-ISDX,ISDY,ISH1,    1-ISDX,1-ISDY,ISH1,  1-ISDX,1-ISDY,ISH,  Tex1    ' Right
+  Rectangle 1-ISDX,ISDY,ISH1,   1-ISDX1,ISDY,ISH1,   1-ISDX1,1-ISDY,ISH1, 1-ISDX,1-ISDY,ISH1, Tex1    ' Right top
+  Rectangle 1-ISDX,1-ISDY,ISH,  1-ISDX,1-ISDY,ISH1,  ISDX,1-ISDY,ISH1,    ISDX,1-ISDY,ISH,    Tex1    ' Rear
+  Rectangle 1-ISDX,1-ISDY,ISH1, 1-ISDX,1-ISDY1,ISH1, ISDX,1-ISDY1,ISH1,   ISDX,1-ISDY,ISH1,   Tex1    ' Rear top
+  I = I + 1
+Wend
+
+' Make the top of the dais
+
+I     = NumSteps - 1
+ISDX  = I * SDX
+ISDY  = I * SDY
+ISH   = I * SH
+' ISDX1 = (I + 1) * SDX
+' ISDY1 = (I + 1) * SDY
+ISH1  = (I + 1) * SH
+
+Rectangle ISDX,ISDY,ISH,     ISDX,ISDY,ISH1,     1-ISDX,ISDY,ISH1,   1-ISDX,ISDY,ISH,   Tex1    ' Front
+Rectangle ISDX,ISDY,ISH,     ISDX,1-ISDY,ISH,    ISDX,1-ISDY,ISH1,   ISDX,ISDY,ISH1,    Tex1    ' Left
+Rectangle 1-ISDX,ISDY,ISH,   1-ISDX,ISDY,ISH1,   1-ISDX,1-ISDY,ISH1, 1-ISDX,1-ISDY,ISH, Tex1    ' Right
+Rectangle 1-ISDX,1-ISDY,ISH, 1-ISDX,1-ISDY,ISH1, ISDX,1-ISDY,ISH1,   ISDX,1-ISDY,ISH,   Tex1    ' Rear
+Rectangle ISDX,ISDY,ISH1,    ISDX,1-ISDY,ISH1,   1-ISDX,1-ISDY,ISH1, 1-ISDX,ISDY,ISH1,  Tex1    ' Top

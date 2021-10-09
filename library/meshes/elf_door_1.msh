@@ -1,0 +1,30 @@
+Group
+  Name    elf_door_1
+  Loc     0, 0, 0
+  Heading 0, 0, 0
+  Size    1, 1, 1
+  Count   1
+  Category doors
+  Mesh
+    Name    elf_door_1
+    Loc     0, 0, 0
+    Heading 0, 0, 0
+    Size    1, 1, 1
+    Triangle -0.5, 0, 10.5857887268066, -0.5, 3, 12, 0.5, 3, 12, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 5.2605332712119E-7, 0, -1, 5.2605332712119E-7, 0, -1, 5.2605332712119E-7
+    Triangle 0.5, 6, 10.5857887268066, 0.5, 3, 12, -0.5, 3, 12, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 5.2605332712119E-7, 0, -1, 5.2605332712119E-7, 0, -1, 5.2605332712119E-7
+    Triangle -0.5, 0, 10.5857887268066, 0.5, 3, 12, 0.5, 0, 10.5857887268066, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 5.2605332712119E-7, 0, -1, 5.2605332712119E-7, 0, -1, 5.2605332712119E-7
+    Triangle 0.5, 6, 10.5857887268066, -0.5, 3, 12, -0.5, 6, 10.5857887268066, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 5.2605332712119E-7, 0, -1, 5.2605332712119E-7, 0, -1, 5.2605332712119E-7
+    TriangleTex -0.5, 0, 0, 0.5, 0, 0, 0.5, 6, 0, 0, 0, 0.333333343267441, 0, 0.333333343267441, 1, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -0.5, 3, 12, -0.5, 0, 10.5857849121094, -0.5, 0, 0, -0.499998509883881, 1.05999994277954, -1, 0.935077667236328, -1, 0, BOUND_DOOR_1+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex 0.5, 6, 10.5857849121094, 0.5, 6, 0, 0.5, 0, 0, 1, 0.935077667236328, 1, 0, 0, 0, BOUND_DOOR_1+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex 0.5, 0, 10.5857849121094, 0.5, 0, 0, -0.5, 0, 0, 0.333333343267441, 0.935077667236328, 0.333333343267441, 0, 0, 0, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -0.5, 6, 10.5857849121094, -0.5, 6, 0, 0.5, 6, 0, 0, 0.935077667236328, 0, 0, 0.333333343267441, 0, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -0.5, 0, 0, 0.5, 6, 0, -0.5, 6, 0, 0, 0, 0.333333343267441, 1, 0, 1, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -0.5, 3, 12, -0.5, 0, 0, -0.5, 6, 0, -0.499998509883881, 1.05999994277954, -1, 0, 0, 0, BOUND_DOOR_1+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -0.5, 3, 12, -0.5, 6, 0, -0.5, 6, 10.5857849121094, -0.499998509883881, 1.05999994277954, 0, 0, 0, 0.935077667236328, BOUND_DOOR_1+0, false, false, True, 0, false, 0, false, 270, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex 0.5, 6, 10.5857849121094, 0.5, 0, 0, 0.5, 0, 10.5857849121094, 1, 0.935077667236328, 0, 0, 0, 0.935077667236328, BOUND_DOOR_1+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex 0.5, 6, 10.5857849121094, 0.5, 0, 10.5857849121094, 0.5, 3, 12, 1, 0.935077667236328, 0, 0.935077667236328, 0.500001490116119, 1.05999994277954, BOUND_DOOR_1+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex 0.5, 0, 10.5857849121094, -0.5, 0, 0, -0.5, 0, 10.5857849121094, 0.333333343267441, 0.935077667236328, 0, 0, 0, 0.935077667236328, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -0.5, 6, 10.5857849121094, 0.5, 6, 0, 0.5, 6, 10.5857849121094, 0, 0.935077667236328, 0.333333343267441, 0, 0.333333343267441, 0.935077667236328, SIMPLE_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+  End
+End

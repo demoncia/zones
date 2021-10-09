@@ -1,0 +1,167 @@
+' Box, all 6 planes, specified by one point and one dimension
+
+CATEGORY Geometry
+
+PARAM Tex1        STRING                   ' Bottom face
+PARAM Tex2        STRING  DEFAULT Tex1     ' Left face
+PARAM Tex3        STRING  DEFAULT Tex1     ' Right face
+PARAM Tex4        STRING  DEFAULT Tex1     ' Front face
+PARAM Tex5        STRING  DEFAULT Tex1     ' Back face
+PARAM Tex6        STRING  DEFAULT Tex1     ' Top face
+PARAM SemiTrans   BOOLEAN DEFAULT False
+PARAM FullTexture BOOLEAN DEFAULT False
+PARAM TexScaleX   FLOAT   DEFAULT 1
+PARAM TexScaleZ   FLOAT   DEFAULT 1
+PARAM TopScaleX   FLOAT   DEFAULT 1
+PARAM TopScaleY   FLOAT   DEFAULT 1
+PARAM XShift      FLOAT   DEFAULT 0
+PARAM YShift      FLOAT   DEFAULT 0
+PARAM Top         BOOLEAN DEFAULT True
+PARAM Bottom      BOOLEAN DEFAULT True
+PARAM TexXShift   FLOAT   DEFAULT 0
+PARAM TexZShift   FLOAT   DEFAULT 0
+PARAM Transparent BOOLEAN DEFAULT False
+PARAM Left        BOOLEAN DEFAULT True
+PARAM Right       BOOLEAN DEFAULT True
+PARAM Front       BOOLEAN DEFAULT True
+PARAM Back        BOOLEAN DEFAULT True
+
+' Hint text for a given parameter has to come after the parameter was declared
+' (but not necessarily immediately after).  The longer the hint is, the longer
+' it will remain visible.
+
+HINT Tex1         The texture for the bottom face.
+HINT Tex2         The texture for the left face. Defaults to Tex1.
+HINT Tex3         The texture for the right face. Defaults to Tex1.
+HINT Tex4         The texture for the front face. Defaults to Tex1.
+HINT Tex5         The texture for the back face. Defaults to Tex1.
+HINT Tex6         The texture for the top face. Defaults to Tex1.
+HINT Semitrans    When True, makes the object 50% transparent.
+HINT FullTexture  When True, allows TexScaleX and TexScaleZ to determine how
+HINT FullTexture  the texture is mapped onto the faces. Otherwise, OpenZone
+HINT FullTexture  uses its internal algorithm based on overall object size to
+HINT FullTexture  map textures onto faces.
+HINT TexScaleX    Acts as a multiplier for horizontal texture coordinates
+HINT TexScaleX    when FullTexture is True.
+HINT TexScaleZ    Acts as a multiplier for vertical texture coordinates
+HINT TexScaleZ    when FullTexture is True.
+HINT TopScaleX    Acts as a multiplier for the size of the top of the box in
+HINT TopScaleX    the X direction. This can be used to taper (or expand) the
+HINT TopScaleX    box as it rises.
+HINT TopScaleY    Acts as a multiplier for the size of the top of the box in
+HINT TopScaleY    the Y direction. This can be used to taper (or expand) the
+HINT TopScaleY    box as it rises.
+HINT XShift       Shifts the top of the box relative to the bottom in the X
+HINT XShift       direction. This is specified in fractional units; a value
+HINT XShift       of 1 would shift by the object's X size, for instance.
+HINT XShift       Negative values can be used to shift in the opposite direction.
+HINT YShift       Shifts the top of the box relative to the bottom in the Y
+HINT YShift       direction. This is specified in fractional units; a value
+HINT YShift       of 1 would shift by the object's Y size, for instance.
+HINT YShift       Negative values can be used to shift in the opposite direction.
+HINT Top          When True, creates polygons for the top face.
+HINT Bottom       When True, creates polygons for the bottom face.
+HINT TexXShift    Acts as an offset to horizontal texture coordinates for all
+HINT TexXShift    faces. Values should generally range from -1 to 1.
+HINT TexXShift    This parameter is only active when FullTexture is True.
+HINT TexZShift    Acts as an offset to vertical texture coordinates for all
+HINT TexZShift    faces. Values should generally range from -1 to 1.
+HINT TexZShift    This parameter is only active when FullTexture is True.
+HINT Transparent  When True, makes the object fully transparent.
+HINT Left         When True, creates polygons for the left face.
+HINT Right        When True, creates polygons for the right face.
+HINT Front        When True, creates polygons for the front face.
+HINT Back         When True, creates polygons for the back face.
+
+VARIABLE X_XY  FLOAT
+VARIABLE Z_XY  FLOAT
+VARIABLE X_XZ  FLOAT
+VARIABLE Z_XZ  FLOAT
+VARIABLE X_YZ  FLOAT
+VARIABLE Z_YZ  FLOAT
+VARIABLE TS0X  FLOAT
+VARIABLE TS1X  FLOAT
+VARIABLE TS0Y  FLOAT
+VARIABLE TS1Y  FLOAT
+VARIABLE TS0XM FLOAT
+VARIABLE TS1XM FLOAT
+VARIABLE TS0YM FLOAT
+VARIABLE TS1YM FLOAT
+VARIABLE TS0XP FLOAT
+VARIABLE TS1XP FLOAT
+VARIABLE TS0YP FLOAT
+VARIABLE TS1YP FLOAT
+
+TS0X  = 0.5 - (TopScaleX / 2)
+TS1X  = 0.5 + (TopScaleX / 2)
+TS0Y  = 0.5 - (TopScaleY / 2)
+TS1Y  = 0.5 + (TopScaleY / 2)
+TS0XM = TS0X - XShift
+TS1XM = TS1X - XShift
+TS0YM = TS0Y - YShift
+TS1YM = TS1Y - YShift
+TS0XP = TS0X + XShift
+TS1XP = TS1X + XShift
+TS0YP = TS0Y + YShift
+TS1YP = TS1Y + YShift
+
+If FullTexture
+  X_XY = TexScaleX
+  If SizeX <> 0
+    Z_XY = (SizeY / SizeX) * X_XY * TexScaleZ
+  Else
+    Z_XY = X_XY
+  EndIf
+
+  X_XZ = TexScaleX * (SizeX / SizeY)
+  If SizeX <> 0
+    Z_XZ = (SizeZ / SizeX) * X_XZ * TexScaleZ
+  Else
+    Z_XZ = X_XZ
+  EndIf
+
+  X_YZ = TexScaleX
+  If SizeY <> 0
+    Z_YZ = (SizeZ / SizeY) * X_YZ * TexScaleZ
+  Else
+    Z_YZ = X_YZ
+  EndIf
+
+  If Bottom
+    RECTANGLETEX 0,0,0,                     1,0,0,                     1,1,0,                     0,1,0,                      TexXShift,TexZShift,    X_XZ+TexXShift,TexZShift,    X_XZ+TexXShift,X_XY+TexZShift, TexXShift,X_XY+TexZShift,    Tex1, Transparent, SemiTrans   ' Bottom face
+  EndIf
+  If Top
+    RECTANGLETEX TS0X+XShift,TS0Y+YShift,1,   TS0X+XShift,TS1Y+YShift,1,   TS1X+XShift,TS1Y+YShift,1,   TS1X+XShift,TS0Y+YShift,1,    TS0X*X_XZ+TexXShift,TS0Y*X_XY+TexZShift,    TS0X*X_XZ+TexXShift,TS1Y*X_XY+TexZShift,    TS1X*X_XZ+TexXShift,TS1Y*X_XY+TexZShift, TS1X*X_XZ+TexXShift,TS0Y*X_XY+TexZShift,    Tex6, Transparent, SemiTrans   ' Top face
+  EndIf
+  If Left
+    RECTANGLETEX 0,0,0,                     0,1,0,                       TS0X+XShift,TS1Y+YShift,1,   TS0X+XShift,TS0Y+YShift,1,    X_XY+TexXShift,TexZShift, TexXShift,TexZShift,                 TS0YM*X_XY+TexXShift,Z_XZ+TexZShift, TS1YM*X_XY+TexXShift,Z_XZ+TexZShift, Tex2, Transparent, SemiTrans   ' Left face
+  EndIf
+  If Right
+    RECTANGLETEX 1,0,0,                     TS1X+XShift,TS0Y+YShift,1,   TS1X+XShift,TS1Y+YShift,1,   1,1,0,                        TexXShift,TexZShift,      TS0YP*X_XY+TexXShift,Z_XZ+TexZShift, TS1YP*X_XY+TexXShift,Z_XZ+TexZShift, X_XY+TexXShift,TexZShift,            Tex3, Transparent, SemiTrans   ' Right face
+  EndIf
+  If Front
+    RECTANGLETEX 0,0,0,                     TS0X+XShift,TS0Y+YShift,1,   TS1X+XShift,TS0Y+YShift,1,   1,0,0,                        TexXShift,TexZShift,      TS0XP*X_XZ+TexXShift,Z_XZ+TexZShift, TS1XP*X_XZ+TexXShift,Z_XZ+TexZShift, X_XZ+TexXShift,TexZShift,            Tex4, Transparent, SemiTrans   ' Front face
+  EndIf
+  If Back
+    RECTANGLETEX 1,1,0,                     TS1X+XShift,TS1Y+YShift,1,   TS0X+XShift,TS1Y+YShift,1,   0,1,0,                        X_XZ+TexXShift,TexZShift, TS1XP*X_XZ+TexXShift,Z_XZ+TexZShift, TS0XP*X_XZ+TexXShift,Z_XZ+TexZShift, TexXShift,TexZShift,                 Tex5, Transparent, SemiTrans   ' Back face
+  EndIf
+Else
+  If Bottom
+    RECTANGLE    0,0,0,                     1,0,0,                     1,1,0,                     0,1,0,                      Tex1, Transparent, SemiTrans   ' Bottom face
+  EndIf
+  If Top
+    RECTANGLE    TS0X+XShift,TS0Y+YShift,1,   TS0X+XShift,TS1Y+YShift,1,   TS1X+XShift,TS1Y+YShift,1,   TS1X+XShift,TS0Y+YShift,1,    Tex6, Transparent, SemiTrans   ' Top face
+  EndIf
+  If Left
+    RECTANGLE    0,0,0,                     0,1,0,                       TS0X+XShift,TS1Y+YShift,1,   TS0X+XShift,TS0Y+YShift,1,    Tex2, Transparent, SemiTrans   ' Left face
+  EndIf
+  If Right
+    RECTANGLE    1,0,0,                     TS1X+XShift,TS0Y+YShift,1,   TS1X+XShift,TS1Y+YShift,1,   1,1,0,                        Tex3, Transparent, SemiTrans   ' Right face
+  EndIf
+  If Front
+    RECTANGLE    0,0,0,                     TS0X+XShift,TS0Y+YShift,1,   TS1X+XShift,TS0Y+YShift,1,   1,0,0,                        Tex4, Transparent, SemiTrans   ' Front face
+  EndIf
+  If Back
+    RECTANGLE    1,1,0,                     TS1X+XShift,TS1Y+YShift,1,   TS0X+XShift,TS1Y+YShift,1,   0,1,0,                        Tex5, Transparent, SemiTrans   ' Back face
+  EndIf
+EndIf

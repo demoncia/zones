@@ -1,0 +1,361 @@
+# Ubuntu Human Colorscheme
+#
+# Authors:
+# Richard Stellingwerff <remenic@gmail.com>
+# Daniel Borgmann <daniel.borgmann@gmail.com>
+# Billy Cantrell <bvcmdk@yahoo.com>
+#
+# Feel free to modify and share!
+
+gtk_color_scheme = "fg_color:#E6E6E6\nbg_color:#555753\nbase_color:#2E3436\ntext_color:#D4D4D4\nselected_bg_color:#FFD799\nselected_fg_color:#7AA3CC\ntooltips_bg_color:#EDDE5C\ntooltips_fg_color:#000000"
+
+
+style "clearlooks-default"
+{
+	GtkButton      ::default_border    = { 0, 0, 0, 0 }
+	GtkRange       ::trough_border     = 0
+	GtkPaned       ::handle_size       = 4
+	GtkRange       ::slider_width      = 15
+	GtkRange       ::stepper_size      = 15
+
+	GtkScrollbar   ::min_slider_length = 35
+	GtkCheckButton ::indicator_size    = 14
+	GtkMenuBar     ::internal-padding  = 0
+	GtkTreeView    ::expander-size     = 12
+	GtkExpander    ::expander_size     = 16
+	GtkScale       ::slider-length     = 31
+	# GtkToolbar     ::button-relief     = GTK_RELIEF_NORMAL
+	# GtkMenuBar     ::shadow-type       = GTK_SHADOW_OUT
+	# GtkScrollbar   ::has-secondary-forward-stepper = 1
+	# GtkScrollbar   ::has-secondary-backward-stepper = 1
+ GtkScrollbar   ::has-forward-stepper = 0
+ GtkScrollbar   ::has-backward-stepper = 0
+
+
+GtkToolbar     ::internal-padding     = 0
+
+GtkToolbar	::space-size	= 8  #def 12
+#GtkToolbar::space-style = GTK_TOOLBAR_SPACE_EMPTY
+
+	GtkScrolledWindow::scrollbar_spacing = 1
+	GtkTreeView    ::vertical-separator = 2
+	GtkTreeView    ::horizontal-separator = 0
+
+
+
+
+
+
+
+
+
+	GtkButton      ::child-displacement-x = 0
+	GtkButton      ::child-displacement-y = 1
+
+	xthickness = 1
+	ythickness = 1
+
+#	GtkTreeView::odd_row_color = "#F5F2ED"
+#	GtkTreeView::even_row_color = "#FAF9F7"
+
+	fg[NORMAL]        = "#101010"
+	fg[PRELIGHT]      = "#000000"
+	fg[ACTIVE]        = "#000000"
+	fg[SELECTED]      = "#ffffff"
+	fg[INSENSITIVE]   = "#B3AFAB"
+
+	bg[NORMAL]        = "#efebe7"
+	bg[PRELIGHT]      = "#f5f3f0"
+	bg[ACTIVE]        = "#E1D9D1"
+	bg[SELECTED]      = "#D6722D"
+	bg[INSENSITIVE]   = "#EBE7E3"
+
+	base[NORMAL]      = "#ffffff"
+	base[PRELIGHT]    = "#ffffff"
+	base[ACTIVE]      = "#E1D9D1"
+	base[SELECTED]    = "#FFD799"
+	base[INSENSITIVE] = "#EBE7E3"
+
+	text[NORMAL]      = "#000000"
+	text[PRELIGHT]    = "#000000"
+	text[ACTIVE]      = "#000000"
+	text[SELECTED]    = "#000000"
+	text[INSENSITIVE] = "#B3AFAB"
+
+
+	fg[NORMAL]        = @fg_color
+	fg[PRELIGHT]      = @fg_color
+	fg[SELECTED]      = @selected_fg_color
+	fg[ACTIVE]        = @fg_color
+	fg[INSENSITIVE]   = darker (@bg_color)
+
+	bg[NORMAL]        = @bg_color
+	bg[PRELIGHT]      = shade (1.02, @bg_color)
+	bg[SELECTED]	  = @selected_bg_color
+	bg[INSENSITIVE]   = @bg_color
+	bg[ACTIVE]        = shade (0.9, @bg_color)
+
+	base[NORMAL]      = @base_color
+	base[PRELIGHT]    = shade (0.95, @bg_color)
+	base[ACTIVE]      = shade (1.4, @bg_color)
+	base[SELECTED]    = @selected_bg_color
+	base[INSENSITIVE] = @bg_color
+
+	text[NORMAL]      = @text_color
+	text[PRELIGHT]    = @text_color
+	text[ACTIVE]      = @text_color
+	text[SELECTED]    = "#000000" #@selected_fg_color
+	text[INSENSITIVE] = shade (1.70,@bg_color)
+
+
+	engine "ubuntulooks" 
+	{
+		menubarstyle      = 2       # 0 = flat, 1 = sunken, 2 = flat gradient
+		menuitemstyle     = 1       # 0 = flat, 1 = 3d-ish (gradient), 2 = 3d-ish (button)
+		listviewitemstyle = 1       # 0 = flat, 1 = 3d-ish (gradient)
+		progressbarstyle  = 1       # 0 = candy bar, 1 = fancy candy bar, 2 = flat
+		animation         = FALSE
+	}
+}
+
+# Evolution (and some deprecated widgets) use bg and fg for its listview instead of 
+# base and text like they should, so we override it.
+style "evolution-hack" = "clearlooks-default"
+{	
+	bg[ACTIVE]   = "#E1D9D1"
+	bg[SELECTED] = "#FFD799"
+	fg[ACTIVE]   = "#000000"
+	fg[SELECTED] = "#000000"
+}
+
+# Bright orange highlights only for selected widgets
+style "clearlooks-orange" = "clearlooks-default"
+{
+	bg[SELECTED] = "#FF6D0C"
+}
+
+
+style "clearlooks-wide" = "clearlooks-default"
+{
+	xthickness = 1
+	ythickness = 1
+}
+style "clearlooks-wide-orange" = "clearlooks-wide"
+{
+	bg[SELECTED] = "#FF6D0C"
+}
+
+style "clearlooks-wider" = "clearlooks-default"
+{
+	xthickness = 3
+	ythickness = 3
+}
+style "clearlooks-wider-orange" = "clearlooks-wider"
+{
+	bg[SELECTED] = "#FF6D0C"
+}
+
+style "clearlooks-button" = "clearlooks-wider-orange"
+{
+#	bg[NORMAL]        = "#fbf8f1"
+	bg[NORMAL]        = shade( 0.85, @bg_color )
+	bg[PRELIGHT]      = shade( 1.4, @bg_color )
+
+#	bg[PRELIGHT] = "#f5f3f0"
+	bg[ACTIVE]   = shade( 1.9, @bg_color )
+
+
+xthickness   = 3
+ythickness   = 3
+}
+
+style "clearlooks-notebook" = "clearlooks-wide-orange"
+{
+	bg[NORMAL]      	= @bg_color
+	bg[ACTIVE]      	= "#d0c8c1"
+	bg[INSENSITIVE] 	= "#efebe5"
+}
+
+style "clearlooks-tasklist" = "clearlooks-default"
+{
+	xthickness = 5
+	ythickness = 3
+}
+
+style "clearlooks-menu" = "clearlooks-default"
+{
+	xthickness = 2
+	ythickness = 1
+	bg[NORMAL] = @bg_color
+}
+
+style "clearlooks-menubar-item" = "clearlooks-default"
+{
+	#fg[PRELIGHT] = "#000000"
+
+	bg[SELECTED] = "#FFD799"
+	fg[PRELIGHT] = "#000000"
+	text[PRELIGHT] = "#000000"
+
+	xthickness = 5
+	ythickness = 1
+}
+
+style "clearlooks-menu-item" = "clearlooks-default"
+{
+	xthickness = 2
+	ythickness = 3
+	bg[SELECTED] = "#FFD799"
+	fg[PRELIGHT] = "#000000"
+	text[PRELIGHT] = "#000000"
+}
+
+style "clearlooks-tree" = "clearlooks-wide"
+{
+}
+
+style "clearlooks-frame-title" = "clearlooks-default"
+{
+	fg[NORMAL] = shade( 1.2, @text_color )
+}
+
+style "clearlooks-tooltips" = "clearlooks-default"
+{
+	xthickness = 4
+	ythickness = 4
+	bg[NORMAL] = { 1.0,1.0,0.75 }
+}
+
+style "clearlooks-progressbar" = "clearlooks-wide-orange"
+{
+	xthickness = 2
+	ythickness = 2
+	fg[PRELIGHT]  = "#ffffff"
+}
+
+style "clearlooks-combo" = "clearlooks-button"
+{
+}
+
+style "clearlooks-check" = "clearlooks-button"
+{
+}
+
+style "clearlooks-range" = "clearlooks-wide-orange"
+{
+}
+
+style "metacity-frame" = "clearlooks-default"
+{
+	bg[SELECTED] = "#CC863E"
+}
+
+style "extra-view-widgets" = "clearlooks-default"
+{
+	bg[NORMAL] = "#F5C07F"
+}
+
+
+# widget styles
+class "GtkWidget"      style "clearlooks-default"
+class "GtkButton"      style "clearlooks-button"
+class "GtkCombo"       style "clearlooks-button"
+class "GtkRange"       style "clearlooks-range"
+class "GtkFrame"       style "clearlooks-wide"
+class "GtkMenu"        style "clearlooks-menu"
+class "GtkEntry"       style "clearlooks-wider-orange"
+class "GtkMenuItem"    style "clearlooks-menu-item"
+class "GtkNotebook"    style "clearlooks-notebook"
+class "GtkProgressBar" style "clearlooks-progressbar"
+class "MetaFrames"     style "metacity-frame"
+class "GtkWindow"      style "metacity-frame"
+
+class "GtkCheckButton" style "clearlooks-check"
+class "GtkRadioButton" style "clearlooks-check"
+
+widget_class "*MenuItem.*" style "clearlooks-menu-item"
+widget_class "*MenuItem.*ProgressBar*" style "clearlooks-default"
+
+# combobox stuff
+widget_class "*.GtkComboBox.GtkButton" style "clearlooks-combo"
+widget_class "*.GtkCombo.GtkButton"    style "clearlooks-combo"
+# tooltips stuff
+widget_class "*.tooltips.*.GtkToggleButton" style "clearlooks-tasklist"
+widget "gtk-tooltips" style "clearlooks-tooltips"
+
+# treeview stuff
+widget_class "*.GtkTreeView.GtkButton" style "clearlooks-tree"
+widget_class "*.GtkCTree.GtkButton" style "clearlooks-tree"
+widget_class "*.GtkList.GtkButton" style "clearlooks-tree"
+widget_class "*.GtkCList.GtkButton" style "clearlooks-tree"
+widget_class "*.GtkFrame.GtkLabel" style "clearlooks-frame-title"
+
+# notebook stuff
+widget_class "*.GtkNotebook.*.GtkEventBox" style "clearlooks-notebook"
+widget_class "*.GtkNotebook.*.GtkViewport" style "clearlooks-notebook"
+
+# these should really use base and text colors instead
+widget_class "*GtkCTree*" style "evolution-hack"
+widget_class "*GtkList*" style "evolution-hack"
+widget_class "*GtkCList*" style "evolution-hack"
+widget_class "*.ETree.*" style "evolution-hack"
+
+widget "*.nautilus-extra-view-widget" style:highest "extra-view-widgets"
+
+
+
+
+widget_class "*.<GtkMenuBar>.*" style "clearlooks-menubar-item"
+
+
+style "radiant-scrollbar"
+# = "clearlooks-default"
+{
+	engine "" 
+	{
+	}
+	bg[NORMAL]        = "#666666"
+	bg[PRELIGHT]      = "#EE8944" #D6722D #FFD799
+	GtkRange       ::slider_width      = 7
+}
+
+class "GtkScrollbar" style "radiant-scrollbar"
+
+
+style "radiant-toolbar"
+# = "clearlooks-default"
+{
+  engine "pixmap"
+  {
+    image
+    {
+       function			= VLINE
+       recolorable		= TRUE
+       file				= "line-v.png"
+       border			= { 1, 1, 0, 71 }
+       stretch			= TRUE
+    }
+  }
+	xthickness = 5
+	ythickness = 1
+}
+
+class "GtkToolbar" style "radiant-toolbar"
+
+style "radiant-toolbar-button"
+# = "clearlooks-default"
+{
+#	xthickness = 1
+#	ythickness = 1
+  GtkButton::child-displacement-x = 0
+  GtkButton::child-displacement-y = 1
+  GtkButton::default-border = { 0, 0, 0, 0 }
+  GtkButton::default-outside-border = { 0, 0, 0, 0 }
+  GtkButton::displace-focus = 0
+  GtkButton::image-spacing = 1
+  GtkButton::inner-border = { 0, 0, 0, 0 }
+}
+
+widget_class "*.GtkToolButton.*" style "radiant-toolbar-button"
+widget_class "*.GtkToggleToolButton.*" style "radiant-toolbar-button"
+class "GtkSeparatorToolItem" style "radiant-toolbar"

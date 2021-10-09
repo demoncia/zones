@@ -1,0 +1,49 @@
+CATEGORY Furniture
+PARAM OverhangX   FLOAT  DEFAULT 0.05  ' Overhang in X direction
+PARAM OverhangY   FLOAT  DEFAULT 0.05  ' Overhang in Y direction
+PARAM TableThick  FLOAT  DEFAULT 0.05  ' Tabletop thickness
+PARAM LegThick    FLOAT  DEFAULT 0.05  ' Leg thickness
+PARAM Tex1        STRING
+PARAM Tex2        STRING DEFAULT Tex1  ' Table covering
+
+HINT  OverhangX   The amount that the table surface hangs over the legs
+HINT  OverhangX   in the X direction. This is specified in fractional units;
+HINT  OverhangX   a value of 1 denotes the object's overall size in the X
+HINT  OverhangX   direction.
+HINT  OverhangY   The amount that the table surface hangs over the legs
+HINT  OverhangY   in the Y direction. This is specified in fractional units;
+HINT  OverhangY   a value of 1 denotes the object's overall size in the Y
+HINT  OverhangY   direction.
+HINT  TableThick  The thickness of the tabletop. This is specified in
+HINT  TableThick  fractional units; a value of 1 denotes the object's
+HINT  TableThick  overall height.
+HINT  LegThick    The thickness of the legs. This is specified in
+HINT  LegThick    fractional units; a value of 1 denotes the object's
+HINT  Legthick    overall height.
+HINT  Tex1        The texture of the table, except the tabletop.
+HINT  Tex2        The texture of the tabletop. Defaults to Tex1.
+
+Script Box -0.5, -0.5, 1-TableThick,
+           0,    0,    0,
+           1,    1,    TableThick,
+           Tex1,Tex1,Tex1,Tex1,Tex1,Tex2;  ' Table top
+
+Script Box -0.5+OverhangX, -0.5+OverhangY, 0,
+            0,             0,              0,
+            LegThick,      LegThick,       1-TableThick,
+	    Tex1;
+
+Script Box  0.5-OverhangX-LegThick, -0.5+OverhangY, 0,
+            0,                      0,              0,
+            LegThick,               LegThick,       1-TableThick,
+	    Tex1;
+
+Script Box -0.5+OverhangX, 0.5-OverhangY-LegThick, 0,
+            0,             0,                      0,
+            LegThick,      LegThick,               1-TableThick,
+	    Tex1;
+
+Script Box  0.5-OverhangX-LegThick, 0.5-OverhangY-LegThick, 0,
+            0,                      0,                      0,
+            LegThick,               LegThick,               1-TableThick,
+	    Tex1;

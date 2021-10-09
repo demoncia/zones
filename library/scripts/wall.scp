@@ -1,0 +1,158 @@
+' Wall section that can have either a door or window
+
+CATEGORY Buildings
+PARAM Door         Boolean Default False
+PARAM Window       Boolean Default False      ' Overrides door
+PARAM HoleWidth    Float   Default 6          ' Absolute size
+PARAM HoleBottom   Float   Default 4          ' Absolute position
+PARAM HoleHeight   Float   Default 8          ' Absolute height
+PARAM TopAndBottom Boolean Default False      ' Saves on polygons
+PARAM Texture      String
+PARAM Texture2     String  Default Texture
+PARAM Texture3     String  Default Texture
+PARAM SemiTrans    Boolean Default False
+PARAM FullTexture  Boolean Default False
+PARAM TexScaleX    Float   Default 1
+PARAM TexScaleZ    Float   Default 1
+PARAM TexXShift    Float   Default 0
+PARAM TexZShift    Float   Default 0
+PARAM HasGlass     Boolean Default False
+PARAM GlassTex     String
+PARAM HoleCount    Integer Default 1
+PARAM DoorIndex    Integer Default 1
+PARAM WindowHeight Float   Default HoleHeight
+PARAM HoleOffset   Float   Default 0
+
+HINT  Door         When True, means that one of the holes is a door rather than
+HINT  Door         a window. A door entry will automatically extend to the bottom
+HINT  Door         of the wall.
+HINT  Window       When True, means that the wall has either windows or a door in it.
+HINT  HoleWidth    Width of windows and doors in absolute units.
+HINT  HoleBottom   The height of the bottom of the window in absolute units (the
+HINT  HoleBottom   distance from the windowsill to the floor).
+HINT  HoleHeight   The height of the door in absolute units.
+HINT  TopAndBottom When True, generates polygons for the very top and bottom of the
+HINT  TopAndBottom wall. If the wall rests on a floor and something rests on the wall
+HINT  TopAndBottom then perhaps this should be False.
+HINT  Texture      The wall texture.
+HINT  Texture2     The outside wall texture. Defaults to Texture.
+HINT  Texture3     The windowsill texture. Defaults to Texture.
+HINT  SemiTrans    When True, makes the object 50% transparent.
+HINT  FullTexture  When True, allows TexScaleX and TexScaleZ to determine how
+HINT  FullTexture  the texture is mapped onto the faces. Otherwise, OpenZone
+HINT  FullTexture  uses its internal algorithm based on overall object size to
+HINT  FullTexture  map textures onto faces.
+HINT  TexScaleX    Acts as a multiplier for horizontal texture coordinates
+HINT  TexScaleX    when FullTexture is True.
+HINT  TexScaleZ    Acts as a multiplier for vertical texture coordinates
+HINT  TexScaleZ    when FullTexture is True.
+HINT  TexXShift    Acts as an offset to horizontal texture coordinates for all
+HINT  TexXShift    faces. Values should generally range from -1 to 1.
+HINT  TexXShift    This parameter is only active when FullTexture is True.
+HINT  TexZShift    Acts as an offset to vertical texture coordinates for all
+HINT  TexZShift    faces. Values should generally range from -1 to 1.
+HINT  TexZShift    This parameter is only active when FullTexture is True.
+HINT  HasGlass     If True, puts in polygons for all windows using GlassTex as the texture.
+HINT  HasGlass     Glass polygons are solid and players can't pass through them.
+HINT  GlassTex     The texture to use for window glass.
+HINT  HoleCount    The number of holes (windows and doors) in the wall. Only one hole
+HINT  HoleCount    can be a door.
+HINT  DoorIndex    Specifies which of the holes is a door. The first hole is 0, the
+HINT  DoorIndex    next hole is 1, and so on.
+HINT  WindowHeight Specifies the distance from the top of each window to the ground.
+HINT  WindowHeight Defaults to HoleHeight. The height of each window amounts to
+HINT  WindowHeight WindowHeight minus HoleBottom.
+HINT  HoleOffset   The horizontal distance to shift all of the holes, in absolute units.
+HINT  HoleOffset   This can be used to make windows and doors off-center.
+
+VARIABLE Bottom Float
+VARIABLE W2     Float
+VARIABLE H1     Float
+VARIABLE H2     Float
+VARIABLE H1A    Float
+VARIABLE H2A    Float
+VARIABLE W2A    Float
+VARIABLE W2B    Float
+VARIABLE X_XY   Float
+VARIABLE Z_XY   Float
+VARIABLE X_XZ   Float
+VARIABLE Z_XZ   Float
+VARIABLE X_YZ   Float
+VARIABLE Z_YZ   Float
+VARIABLE HoleX  Float
+VARIABLE HoleX0 Float
+VARIABLE Count  Integer
+Variable W3     Float
+Variable HOfs   Float
+
+If (Door Or Window) And (HoleCount > 0)
+  HOfs   = HoleOffset / SizeX
+  Count  = 1
+  W2     = (HoleWidth / SizeX) / 2
+  HoleX  = (1 / (2 * HoleCount) - W2)
+  W3     = HoleX
+  Repeat
+    If Window And Not ((Count = DoorIndex) And Door)
+      H1  = (HoleBottom / SizeZ)
+      H1A = (HoleBottom / SizeZ)
+      H2  = H1 + (WindowHeight / SizeZ)
+    Else
+      H1  = 0
+      H1A = 0
+      H2  = H1 + (HoleHeight / SizeZ)
+    EndIf
+    H2A = Frac(H2 * SizeZ * TexScaleX * TexScaleZ / SizeY)
+    W2A = Frac((HoleX+HOfs) * SizeX * TexScaleX / SizeY)
+
+    ' Left side
+
+    If Count = 1
+      Script Box 0,0,0, 0,0,0, W3+HOfs,1,1,
+                 Texture3, Texture3, Texture3, Texture, Texture2, Texture3, SemiTrans, FullTexture, TexScaleX, TexScaleZ, 1, 1, 0, 0, TopAndBottom, TopAndBottom, TexXShift, TexZShift, False;
+    Else
+      W2B = Frac((HoleX0+HOfs) * SizeX * TexScaleX / SizeY)
+      Script Box HoleX0+HOfs,0,0, 0,0,0, W3,1,1,
+                 Texture3, Texture3, Texture3, Texture, Texture2, Texture3, SemiTrans, FullTexture, TexScaleX, TexScaleZ, 1, 1, 0, 0, TopAndBottom, TopAndBottom, TexXShift+W2B, TexZShift, False, True, False;
+      W2B = Frac((HoleX0+W3+HOfs) * SizeX * TexScaleX / SizeY)
+      Script Box HoleX0+W3+HOfs,0,0, 0,0,0, W3,1,1,
+                 Texture3, Texture3, Texture3, Texture, Texture2, Texture3, SemiTrans, FullTexture, TexScaleX, TexScaleZ, 1, 1, 0, 0, TopAndBottom, TopAndBottom, TexXShift+W2B, TexZShift, False, False, True;
+    EndIf
+
+    ' Right side
+
+    If (HoleCount = 1) Or (Count = HoleCount)
+      W2B = Frac((HoleX+2*W2+HOfs) * SizeX * TexScaleX / SizeY)
+      Script Box HoleX+2*W2+HOfs,0,0, 0,0,0, W3-HOfs,1,1,
+                 Texture3, Texture3, Texture3, Texture, Texture2, Texture3, SemiTrans, FullTexture, TexScaleX, TexScaleZ, 1, 1, 0, 0, TopAndBottom, TopAndBottom, TexXShift+W2B, TexZShift, False;
+    EndIf
+
+    ' Lintel
+
+    If H2 < 1
+      Script Box HoleX+HOfs,0,H2, 0,0,0, W2*2,1,1-H2,
+                 Texture3, Texture3, Texture3, Texture, Texture2, Texture3, SemiTrans, FullTexture, TexScaleX, TexScaleZ, 1, 1, 0, 0, TopAndBottom, True, TexXShift+W2A, TexZShift+H2A, False, False, False;
+    EndIf
+
+    ' Doorstep/window base
+
+    If H1 <> 0
+      Script Box HoleX+HOfs,0,0, 0,0,0, W2*2,1,H1,
+                 Texture3, Texture3, Texture3, Texture, Texture2, Texture3, SemiTrans, FullTexture, TexScaleX, TexScaleZ, 1, 1, 0, 0, True, TopAndBottom, TexXShift+W2A, TexZShift, False, False, False;
+    EndIf
+
+    ' Window glass
+
+    If HasGlass And Window And Not ((Count = DoorIndex) And Door)
+      RectangleTex HoleX+HOfs,0.5,H1,      HoleX+HOfs,0.5,H2,      HoleX+2*W2+HOfs,0.5,H2, HoleX+2*W2+HOfs,0.5,H1, 0,1, 0,0, 1,0, 1,1, GlassTex, False,True
+      RectangleTex HoleX+2*W2+HOfs,0.5,H1, HoleX+2*W2+HOfs,0.5,H2, HoleX+HOfs,0.5,H2,      HoleX+HOfs,0.5,H1,      1,1, 1,0, 0,0, 0,1, GlassTex, False,True
+    EndIf
+    HoleX0 = HoleX + 2 * W2
+    HoleX  = HoleX + 2 * W2 + 2 * W3
+    Count  = Count + 1
+  Until Count > HoleCount
+Else
+  ' Solid wall
+
+  Script Box 0,0,0, 0,0,0, 1,1,1,
+             Texture3, Texture3, Texture3, Texture, Texture2, Texture3, SemiTrans, FullTexture, TexScaleX, TexScaleZ, 1, 1, 0, 0, TopAndBottom, TopAndBottom, TexXShift, TexZShift, False;
+EndIf

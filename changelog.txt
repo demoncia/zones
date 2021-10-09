@@ -1,0 +1,130 @@
+OpenZone 8.3
+----------------------------------
+1. Added "File...Save selected objects as..." menu item. This will save only the selected objects in a new scene file. This will NOT save anything else -- no water settings, additional included objects, sounds, zone bounds, etc.
+
+OpenZone 8.2
+----------------------------------
+1. Made a small change to .XWF/.XWA exporting so models with multiple facial variations (e.g. player models) can be supported.
+2. Made some improvements to certain meshes in the mesh library that contain lights (elf lantern and brazier).
+3. Made some improvements to the brick bank, store, and tavern.
+4. Made a slight change to the male wood elf, dark elf, and human models so they can support multiple facial textures.
+5. Added female wood elf and female dark elf player models.
+6. Added beetle mob model (7 subtypes). This is not compatible with the live client and will work properly only with SimpleClient (as it uses a different mesh for each subtype).
+7. Added a hanging flag "creature" model. It is used by exporting it as a mob model and placing it with the server's "objects" database table.
+8. Fixed a bug in the texture selection popup window where the colors were off.
+9. The usual slate of bugfixes.
+
+OpenZone 8.1
+----------------------------------
+1. Fixed several drawing bugs in 3D windows where things wouldn't appear.
+
+OpenZone 8.0
+----------------------------------
+1. Fixed a bug where scenes that use ice or icewater water settings won't load.
+2. Fixed a bug in the ground editor where clicking "show other polys" would hide the ground if it was created within OpenZone.
+3. Added a "realistic sky" checkbox to the display options pane. This will tint the sky the same way that SimpleClient does, and is aware of the time-of-day setting.
+
+OpenZone 7.9
+----------------------------------
+1. Fixed an engine bug that could cause a crash.
+2. Fixed a bug where the ground editor would show textures flipped.
+3. Added GeorgeS' orc model (with five subtypes) to the creature library.
+
+OpenZone 7.8
+----------------------------------
+1. Fixed some bugs in the ground editor so it works better when using an imported ground rather than one generated with OpenZone.
+2. Made some improvements to the code for walking along the ground so it better handles imported ground rather than one generated with OpenZone.
+
+OpenZone 7.7
+----------------------------------
+1. Added File...Alter Anim8or File. This will pop up a window with a myriad of features for making changes to Anim8or files that are tedious or impossible in Anim8or itself. The features on the window are all geared toward mob modeling. With this new feature, creature models can be viewed from within OpenZone, which makes choosing models easier.
+2. Added a large tutorial (in six parts) to the built-in help. The tutorial walks you through the process of creating a new mob model based on one that comes with OpenZone.
+3. Fixed some bugs in importing Anim8or files.
+4. Fixed some engine lighting bugs.
+5. Changed the way that placeable objects are exported to .XWF files. This will require a change to the client that is in beta-test but will fix some other problems (this is really the right way to handle them).
+6. Fixed a problem with the cone script when the vertical size is negative.
+7. Increased the light radius for the elf_lantern, conebrazier, and conebrazier_stone mesh library objects.
+8. Added a spectre mob model and two different skeleton models. The spectre model has four variants, the first skeleton model has two variants, and the second skeleton model has four variants. Thanks, GeorgeS!
+9. Fixed a problem with exporting incorrect door SQL code.
+10. The usual slate of internal bug fixes.
+11. There has been quite a bit of internal redesign, which may make other features possible in the future (e.g. animated placeable objects).
+
+
+OpenZone 7.6
+----------------------------------
+1. Added some bugfixes to .an8 import.
+2. Added a gnoll model in /library/creatures.
+
+OpenZone 7.5
+----------------------------------
+1. Increased the radius of the light sources for the campfire library objects.
+2. Added mind flayer, wight, hook horror, and dark elf male models. The dark elf model is playable in that it has plain, leather, chain, plate, and robed variants and has eight facial variants.
+3. Fixed bugs in .WLD and .XWF export where light sources weren't being properly exported. The bug didn't affect how zones were lit but it did affect how creatures were illuminated.
+4. Fixed bugs in .WLD and .XWF export where zonelines weren't being properly exported.
+5. Added support for importing Anim8or files that use the vertex painting feature for the purpose of setting bone influences. OpenZone limits this however to only looking at the bone with the highest influence for each vertex.
+6. Revised the human male, wood elf male, and goblin models to fix some texture problems.
+
+OpenZone 7.4
+----------------------------------
+1. Re-exported brick_bank, brick_store, and brick_tavern mesh library objects as the last time I did it I forgot to include the torches and lanterns.
+2. Made fixes to character import from .AN8 and export to .WLD.
+3. Expanded .XWF support and exporting. Anything that can be exported to .WLD can now also be exported to .XWF.
+4. Internal enhancements and bugfixes to OpenZone's engine.
+5. Added a goblin and human model to \library\creatures, and enhanced the elf model to support robed variants. Robed variants might not be visible in the live client and might only be usable by a third-party client.
+
+OpenZone 7.3
+----------------------------------
+1. In the ground editing options pane, changed the ground height label to an edit field. You can enter any height you want here for precise ground height editing. Entering an invalid value will turn the field background red.
+2. Added "Help...Tutorial" to the main menu to make the tutorial easier to find.
+3. Fixed a bug in the 3D engine where polygons would not be rendered in bird's-eye mode.
+4. Fixed texture coordinates in .3DS export.
+5. Fixed texture coordinates in .XWF export.
+6. Got curious about the whole ClearType(tm) fad, as I'm running Win2k and couldn't play with it. Wrote a bunch of Delphi components that simulate ClearType and changed the program to use them. Under Edit...Preferences, you can enable it if you wish and try it out. XP is not necessary, and in fact it won't do anything under XP since XP already has it (only OpenZone itself will change, by the way: this isn't an OS-wide thing). Anyhow, it's something to play with if you're using an LCD monitor. Some people love it, some people hate it; I'm not sure myself where I stand on it, but it was fun to add.
+7. Added File...Export...Export to .XWA. XWA files are just .S3D files, but they contain .XWF files instead of .WLD files. It's another step toward eventually creating our own game...
+
+OpenZone 7.2
+----------------------------------
+1. In fly mode, holding down Alt does the same thing as holding down Shift when moving (it allows more precise movement, by a factor of ten), but holding them both down allows *really* precise movement (by a factor of 100).
+2. Objects placed from the mesh library have a new attribute: DoorRef. It's False by default, but if you set it to True then the model will be exported when you export the zone but it won't be explicitly placed. Instead, OpenZone will generate a <zone>.sql file with SQL for inserting a reference to the object in the doors table. In this way you can use OpenZone to place doors.
+3. Added "File...Export...Export to .SQL". This lets you create just the <zone>.sql file without having to export the whole zone. This is useful if you simply tweaked door positions or added more doors that have been previously added to the zone.
+4. Added a new scripted object category, "Sql", and a scripted object called "Door_Parms". This object doesn't do anything visually but it allows you to set additional database parameters for objects you've placed where DoorRef is True. When OpenZone generates a .SQL file, these extra parameters will be included for each object. The Door_Parms object operates on all objects at or below the same level as itself where DoorRef is True. It means that a single object can be placed to set default parameters for all doors in the zone, and individual doors can be customized by grouping additional Door_Parms objects with them. People with servers that have more (or less) parameters than are in this script should update the door_parms script in the \library\scripts folder.
+5. Added a SQLPARM command to the scripting language. It takes three parameters: table name, column name, and value, where the table and column names can be specified directly by enclosing them in double quotes. The SQLPARM command operates on all placed objects at the same level as the scritped object whose DoorRef parameter is set to True (see the Door_Parms script to see how it' used).
+6. In the scripting language, default string parameter values can be specified in double quotes. This was necessary to fully support the new Door_Parms object.
+7. In the scripting language, string operands can be concatenated with the "+" operator. This feature is not used at this time but was easy to add.
+8. Added "Object...Insert hotspot". A hotspot is an object that has no visual properties, it is merely a location that you can reference and can be part of objects you place into the mesh library. The purpose of inserting hotspots into your zone is to create locations where you want to place objects on a regular basis. Using them makes certain things a lot easier: for instance, if a hut was exported to the mesh library that has a hotspot at the door entrance (or even better, one on each side of the door entrance), one can easily place the hut in the zone and add a door to it by selecting a hotspot, placing a door anywhere in the zone, and then selecting "Object...Move to last selected hotspot".
+9. Added "Object...Move to last selected hotspot". This moves the currently selected object to the last hotspot you selected. The selected hotspot shows up as a small orange sphere (and non-selected ones are red). This option automatically turns off the object's Gravity setting.
+10. Added a setting to the Display Properties pane that controls display of hotspots. They look much like model origins in the 3D view but are red instead, and the selected hotspot will display as orange.
+11. Added "Object...Select hotspot". This pops up a list that lets you select a hotspot that might be contained in an object that was placed from the mesh library. The reason for this is that objects placed from the mesh library show up in the object tree as single objects and their component parts normally can't be selected.
+12. Re-exported all of the elf hut models to include hotspots for door placement.
+13. Re-exported the brick_bank, brick_store, and brick_tavern models to include hotspots for door placement.
+14. Moved the elf_door mesh objects to the doors category.
+15. Made some minor speed improvements to the 3D engine.
+16. Fixed some memory leaks in the scripting engine.
+
+OpenZone 7.1
+----------------------------------
+1.  In fly mode, right-clicking allows selection of multiple objects.
+2.  In fly mode, right-clicking on mesh objects allows selection of multiple polygons.
+3.  When more than one object is selected, there will be a yellow selection rectangle shown around each one.
+4.  When more than one polygon is selected, there will be a green selection marquee shown around each one.
+5.  When more than one object is selected, there will be a blue model origin sphere shown for each object that has one.
+6.  Created a "Mesh" menu next to the "Object" menu. The "Mesh" menu is for operations that work on basic mesh objects, such as objects that are imported from .3DS files.
+7.  Moved "Edit...Change polygon properties" to "Mesh...Change polygon properties".
+8.  Moved "Edit...Delete polygons from mesh" to "Mesh...Delete polygons from mesh".
+9.  Moved "Object...Split with ground mesh" to "Mesh...Split with ground mesh".
+10. Moved "Object...Split selected meshes along grid" to "Mesh...Split selected meshes along grid".
+11. Added "Object...Convert objects to meshes". This will change any object to a basic mesh object so its polygons can be edited.
+12. Added "Object...Change mesh library object reference". This will change an object you've inserted into your zone from one library object to another. For instance, if you want to change from one chair type to another, select the new chair type in the mesh library, select the object in your zone that you want to change, and then select this option.
+13. Added "Mesh...Split selected meshes with each other". This will split the polygons of all selected basic mesh objects that intersect each other. In conjunction with other operations this allows CSG (Constructive Solid Geometry). Meshes can be used to cut holes in each other with this feature.
+14. Added "Mesh...Invert selected meshes". This reverses all polygons of all selected mesh objects so they face the other direction.
+15. Added "Mesh...Combine selected meshes". This creates a new mesh object containing all polygons from the selected meshes and deletes the original mesh objects.
+16. Added "Mesh...Flip selected polygon texture coordinates". This allows horizontal and/or vertical texture coordinates to be reversed for all selected polygons (allows flipping textures).
+17. Added "Mesh...Multiply selected polygon texture coordinates". This allows horizontal and/or vertical texture coordinates to be multiplied by any value for all selected polygons.
+18. Changing polygon properties will now affect all selected polygons (since more than one can now be selected). The properties in the pop-up dialog will reflect the first selected polygon.
+19. Multiple objects can now be copied to and pasted from the clipboard.
+20. Rearranged the items in the "Object" and "File...Export" menu items to try to make them more intuitive.
+21. Fixed the "Object...Move to current position" and "Object...Move to create object crosshair" options so they work properly.
+22. Made numerous updates to the built-in help.
+23. Added an option to the Sheet script to turn off the back face.
+24. Any extra objects added under the zone properties window will also be exported to XWF files. When extra objects are exported, the XWF file "wld-" atom will contain a "name" hash atom that links object ID's to export names. In this way a client could compare the export names with names from the server for locating door or weapon models, for instance. With this feature XWF files now support item-only files (weapons, shields, etc.)
+25. Added several elf huts to the mesh library, and moved the elf huts to the "structures" category.

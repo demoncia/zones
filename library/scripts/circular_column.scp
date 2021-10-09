@@ -1,0 +1,27 @@
+CATEGORY Buildings
+Param    Sides       Integer Default 8
+Param    Tex1        String
+Param    Tex2        String  Default Tex1
+Param    Tex3        String  Default Tex1
+Param    SemiTrans   Boolean Default False
+Param    FullTexture Boolean Default False
+Param    TexScaleX   Float   Default 1
+Param    TexScaleZ   Float   Default 1
+
+Hint     Sides       The number of sides for the column.
+Hint     Tex1        The texture for the column base.
+Hint     Tex2        The texture for the main part of the column. Defaults to Tex1.
+Hint     Tex3        The texture for the top of the column. Defaults to Tex1.
+Hint     SemiTrans   When True, makes the object 50% transparent.
+Hint     FullTexture When True, allows TexScaleX and TexScaleZ to determine how
+Hint     FullTexture the texture is mapped onto the faces. Otherwise, OpenZone
+Hint     FullTexture uses its internal algorithm based on overall object size to
+Hint     FullTexture map textures onto faces.
+Hint     TexScaleX   Acts as a multiplier for horizontal texture coordinates
+Hint     TexScaleX   when FullTexture is True.
+Hint     TexScaleZ   Acts as a multiplier for vertical texture coordinates
+Hint     TexScaleZ   when FullTexture is True.
+
+Script Cylinder 0, 0, 0,             0,0,0, 1,           1,           0.2/SizeZ,   Sides,True,True,False,360,Tex1,Tex1,Tex1,SemiTrans,FullTexture,TexScaleX,                  TexScaleZ;
+Script Cylinder 0, 0, 0.2/SizeZ,     0,0,0, 1-0.6/SizeX, 1-0.6/SizeY, 1-0.4/SizeZ, Sides,True,True,False,360,Tex2,Tex2,Tex2,SemiTrans,FullTexture,TexScaleX*(SizeX-0.6)/SizeX,TexScaleZ;
+Script Cylinder 0, 0, 1-0.2/SizeZ,   0,0,0, 1,           1,           0.2/SizeZ,   Sides,True,True,False,360,Tex3,Tex3,Tex3,SemiTrans,FullTexture,TexScaleX,                  TexScaleZ;

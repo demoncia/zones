@@ -1,0 +1,34 @@
+Group
+  Name    bookshelf
+  Loc     0, 0, 0
+  Heading 0, 0, 0
+  Size    1, 1, 1
+  Count   1
+  Category furniture
+  Mesh
+    Name    bookshelf
+    Loc     0, 0, 0
+    Heading 0, 0, 0
+    Size    1, 1, 1
+    TriangleTex -1, -3, 0, 1, -3, 0, 1, 3, 0, 0, 0, 0.33203125, 0, 0.33203125, 1, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -1, -3, 0, -1, 3, 0, -1, 3, 1, 1, 0, 0, 0, 0, 0.16796875, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 1, -3, 0, 1, -3, 1, 1, 3, 1, 0, 0, 0, 0.16796875, 1, 0.16796875, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -1, -3, 0, -1, -3, 1, 1, -3, 1, 0, 0, 0, 0.16796875, 0.33203125, 0.16796875, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 1, 3, 0, 1, 3, 1, -1, 3, 1, 0.33203125, 0, 0.33203125, 0.16796875, 0, 0.16796875, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+    TriangleTex -1, -3, 13, -1, 3, 13, 1, 3, 13, 0, 0, 0, 1, 0.33203125, 1, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, 1, 0, 0, 1, 0, 0, 1
+    TriangleTex -1, -3, 1, -1, 3, 1, -1, 3, 13, 1, 0, 0, 0, 0, 2, BOOKS_ON_SHELVES+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 1, -3, 1, 1, -3, 13, 1, 3, 13, 0, 0, 0, 2, 1, 2, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -1, -3, 1, -1, -3, 13, 1, -3, 13, 0, 0, 0, 2, 0.33203125, 2, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 1, 3, 1, 1, 3, 13, -1, 3, 13, 0.33203125, 0, 0.33203125, 2, 0, 2, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+    TriangleTex -1, -3, 0, 1, 3, 0, -1, 3, 0, 0, 0, 0.33203125, 1, 0, 1, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -1, -3, 0, -1, 3, 1, -1, -3, 1, 1, 0, 0, 0.16796875, 1, 0.16796875, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 1, -3, 0, 1, 3, 1, 1, 3, 0, 0, 0, 1, 0.16796875, 1, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -1, -3, 0, 1, -3, 1, 1, -3, 0, 0, 0, 0.33203125, 0.16796875, 0.33203125, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 1, 3, 0, -1, 3, 1, -1, 3, 0, 0.33203125, 0, 0, 0.16796875, 0, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+    TriangleTex -1, -3, 13, 1, 3, 13, 1, -3, 13, 0, 0, 0.33203125, 1, 0.33203125, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, 1, 0, 0, 1, 0, 0, 1
+    TriangleTex -1, -3, 1, -1, 3, 13, -1, -3, 13, 1, 0, 0, 2, 1, 2, BOOKS_ON_SHELVES+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 1, -3, 1, 1, 3, 13, 1, 3, 1, 0, 0, 1, 2, 1, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -1, -3, 1, 1, -3, 13, 1, -3, 1, 0, 0, 0.33203125, 2, 0.33203125, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 1, 3, 1, -1, 3, 13, -1, 3, 1, 0.33203125, 0, 0, 2, 0, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+  End
+End

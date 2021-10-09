@@ -1,0 +1,229 @@
+Category Buildings
+
+Param TopTex      String
+Param BottomTex   String  Default TopTex
+Param LeftTex     String  Default TopTex
+Param RightTex    String  Default LeftTex
+Param FrontTex    String  Default TopTex
+Param BackTex     String  Default FrontTex
+Param SemiTrans   Boolean Default False
+Param FullTexture Boolean Default False
+Param TexScaleX   Float   Default 1
+Param TexScaleZ   Float   Default 1
+Param ShowBottom  Boolean Default True
+Param TexXShift   Float   Default 0
+Param TexZShift   Float   Default 0
+Param Transparent Boolean Default False
+Param CutoutX     Float   Default 0
+Param CutoutY     Float   Default 0
+Param CutoutXSize Float   Default 0
+Param CutoutYSize Float   Default 0
+
+Hint  TopTex      The texture for the floor.
+Hint  BottomTex   The texture for the underside of the floor (usually the
+Hint  BottomTex   ceiling of the floor below). Defaults to TopTex.
+Hint  LeftTex     The texture for the left edge of the floor. Defaults to TopTex.
+Hint  RightTex    The texture for the right edge of the floor. Defaults to LeftTex.
+Hint  FrontTex    The texture for the front edge of the floor. Defaults to TopTex.
+Hint  BackTex     The texture for the back edge of the floor. Defaults to FrontTex.
+Hint  SemiTrans   When True, makes the object 50% transparent.
+Hint  FullTexture When True, allows TexScaleX and TexScaleZ to determine how
+Hint  FullTexture the texture is mapped onto the faces. Otherwise, OpenZone
+Hint  FullTexture uses its internal algorithm based on overall object size to
+Hint  FullTexture map textures onto faces.
+Hint  TexScaleX   Acts as a multiplier for horizontal texture coordinates
+Hint  TexScaleX   when FullTexture is True.
+Hint  TexScaleZ   Acts as a multiplier for vertical texture coordinates
+Hint  TexScaleZ   when FullTexture is True.
+Hint  ShowBottom  When True, generates polygons for the underside of the
+Hint  ShowBottom  floor. If this is the ground floor and there is no
+Hint  ShowBottom  basement, this should probably be set to False (though in
+Hint  ShowBottom  that case the Box script might be a better choice).
+Hint  TexXShift   Acts as an offset to horizontal texture coordinates for all
+Hint  TexXShift   faces. Values should generally range from -1 to 1.
+Hint  TexXShift   This parameter is only active when FullTexture is True.
+Hint  TexZShift   Acts as an offset to vertical texture coordinates for all
+Hint  TexZShift   faces. Values should generally range from -1 to 1.
+Hint  TexZShift   This parameter is only active when FullTexture is True.
+Hint  Transparent When True, makes the object fully transparent.
+Hint  CutoutX     The position of the cutout in the X direction, in absolute
+Hint  CutoutX     units, relative to the floor's position. The purpose of the
+Hint  CutoutX     cutout is to make a hole in the floor for a staircase (or
+Hint  CutoutX     ladder) leading to the floor below. The script will
+Hint  CutoutX     automatically make polygons for the edges along the sides of
+Hint  CutoutX     the hole.
+Hint  CutoutY     The position of the cutout in the Y direction, in absolute
+Hint  CutoutY     units, relative to the floor's position. The purpose of the
+Hint  CutoutY     cutout is to make a hole in the floor for a staircase (or
+Hint  CutoutY     ladder) leading to the floor below. The script will
+Hint  CutoutY     automatically make polygons for the edges along the sides of
+Hint  CutoutY     the hole.
+Hint  CutoutXSize The size of the cutout in the X direction, in absolute units.
+Hint  CutoutYSize The size of the cutout in the Y direction, in absolute units.
+
+Variable XCount Integer
+Variable YCount Integer
+Variable X      Float
+Variable Y      Float
+Variable XInc   Float
+Variable YInc   Float
+Variable XSize  Float
+Variable YSize  Float
+Variable CX     Float
+Variable CY     Float
+Variable CXSize Float
+Variable CYSize Float
+Variable X2     Float
+Variable Y2     Float
+Variable CX2    Float
+Variable CY2    Float
+
+Variable CXA    Float
+Variable CX2A   Float
+Variable CYA    Float
+Variable CY2A   Float
+
+Variable SX     Float
+Variable SY     Float
+Variable Aspect Float
+
+SX     = SizeX
+SY     = SizeY
+Aspect = SX / SY
+
+XInc   = 30 / SizeX
+YInc   = 30 / SizeY
+
+If XInc > 1
+  XInc = 1
+EndIf
+If YInc > 1
+  YInc = 1
+EndIf
+
+CX     = CutoutX / SizeX
+CY     = CutoutY / SizeY
+CXSize = CutoutXSize / SizeX
+CYSize = CutoutYSize / SizeY
+CX2    = CX + CXSize
+CY2    = CY + CYSize
+If CX2 > 1
+  CX2 = 1
+EndIf
+If CY2 > 1
+  CY2 = 1
+EndIf
+
+Y      = 0
+YCount = RoundUp(SizeY / 30)
+While YCount > 0
+  YSize = YInc
+  If YSize > 1 - Y
+    YSize = 1 - Y
+  EndIf
+  Y2 = Y + YSize
+
+  X      = 0
+  XCount = RoundUp(SizeX / 30)
+  While XCount > 0
+    XSize = XInc
+    If XSize > 1 - X
+      XSize = 1 - X
+    EndIf
+    X2 = X + XSize
+
+    ' With cutout
+
+    If (X < CX2) And (X2 > CX) And (Y < CY2) And (Y2 > CY)
+
+       CXA = CX
+       If CXA < X
+         CXA = X
+       EndIf
+       CX2A = CX2
+       If CX2A > X2
+         CX2A = X2
+       EndIf
+
+       CYA = CY
+       If CYA < Y
+         CYA = Y
+       EndIf
+       CY2A = CY2
+       If CY2A > Y2
+         CY2A = Y2
+       EndIf
+
+      ' Left section
+
+      If X < CX
+        If Y < CY
+          Script Box X,Y,0, 0,0,0, CX-X,CY-Y,1,
+                 BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+                 SemiTrans, FullTexture, TexScaleX*(CY-Y), TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+X*Aspect*TexScaleX, TexZShift+Y*TexScaleX, Transparent,
+                 X = 0, False, Y = 0, False;
+        EndIf
+        Script Box X,CYA,0, 0,0,0, CX-X,CY2A-CYA,1,
+               BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+               SemiTrans, FullTexture, TexScaleX*(CY2A-CYA), TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+X*Aspect*TexScaleX, TexZShift+CYA*TexScaleX, Transparent,
+               X = 0, CX2 > CX, Y = 0, (YCount = 1) And (Y2 <= CY2A);
+        If Y2 > CY2
+          Script Box X,CY2,0, 0,0,0, CX-X,Y2-CY2,1,
+                 BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+                 SemiTrans, FullTexture, TexScaleX*(Y2-CY2), TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+X*Aspect*TexScaleX, TexZShift+CY2*TexScaleX, Transparent,
+                 X = 0, False, False, YCount = 1;
+        EndIf
+      EndIf
+
+      If CX2 > CX
+        ' Front section
+
+        If Y < CY
+          Script Box CXA,Y,0, 0,0,0, CX2A-CXA,CY-Y,1,
+                 BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+                 SemiTrans, FullTexture, TexScaleX*(CY-Y), TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+CXA*Aspect*TexScaleX, TexZShift+Y*TexScaleX, Transparent,
+                 (X >= CXA) And (X = 0), (X2 <= CX2A) And (XCount = 1), Y = 0, CY2 > CY;
+        EndIf
+
+        ' Back section
+
+        If Y2 > CY2
+          Script Box CXA,CY2,0, 0,0,0, CX2A-CXA,Y2-CY2,1,
+                 BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+                 SemiTrans, FullTexture, TexScaleX*(Y2-CY2), TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+CXA*Aspect*TexScaleX, TexZShift+CY2*TexScaleX, Transparent,
+                 (X >= CXA) And (X = 0), (X2 <= CX2A) And (XCount = 1), CY2 > CY, YCount = 1;
+        EndIf
+      EndIf
+
+      ' Right section
+
+      If X2 > CX2
+        If Y < CY
+          Script Box CX2,Y,0, 0,0,0, X2-CX2,CY-Y,1,
+                 BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+                 SemiTrans, FullTexture, TexScaleX*(CY-Y), TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+CX2*Aspect*TexScaleX, TexZShift+Y*TexScaleX, Transparent,
+                 False, XCount = 1, Y = 0, False;
+        EndIf
+        Script Box CX2,CYA,0, 0,0,0, X2-CX2,CY2A-CYA,1,
+               BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+               SemiTrans, FullTexture, TexScaleX*(CY2A-CYA), TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+CX2*Aspect*TexScaleX, TexZShift+CYA*TexScaleX, Transparent,
+               CX < CX2, XCount = 1, Y = 0, (YCount = 1) And (Y2 <= CY2A);
+        If Y2 > CY2
+          Script Box CX2,CY2,0, 0,0,0, X2-CX2,Y2-CY2,1,
+                 BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+                 SemiTrans, FullTexture, TexScaleX*(Y2-CY2), TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+CX2*Aspect*TexScaleX, TexZShift+CY2*TexScaleX, Transparent,
+                 False, XCount = 1, False, YCount = 1;
+        EndIf
+      EndIf
+    Else
+      Script Box X,Y,0, 0,0,0, XSize,YSize,1,
+             BottomTex, LeftTex, RightTex, FrontTex, BackTex, TopTex,
+             SemiTrans, FullTexture, TexScaleX*YSize, TexScaleZ, 1, 1, 0, 0, True, ShowBottom, TexXShift+X*Aspect*TexScaleX, TexZShift+Y*TexScaleX, Transparent,
+             X = 0, XCount = 1, Y = 0, YCount = 1;
+    EndIf
+    X = X + XInc
+    XCount = XCount - 1
+  WEnd
+  Y = Y + YInc
+  YCount = YCount - 1
+Wend

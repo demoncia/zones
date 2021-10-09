@@ -1,0 +1,74 @@
+' Grid of square columns
+' Reminder: WindScript is NOT case-sensitive
+
+CATEGORY Containers
+PARAM    CW          Float   Default 1        ' Column width
+PARAM    CH          Float   Default 15       ' Column height
+PARAM    NX          Integer Default 1        ' Number of columns in the X direction
+PARAM    NY          Integer Default 5        ' Number of columns in the Y direction
+PARAM    SX          Float   Default 5        ' Spacing in the X direction
+PARAM    SY          Float   Default 5        ' Spacing in the Y direction
+Param    Tex1        String
+Param    Tex2        String  Default Tex1
+Param    Tex3        String  Default Tex1
+Param    Transparent Boolean Default False
+Param    SemiTrans   Boolean Default False
+Param    FullTexture Boolean Default False
+Param    TexScaleX   Float   Default 1
+Param    TexScaleZ   Float   Default 1
+Param    Top         Boolean Default True
+Param    Bottom      Boolean Default True
+Param    TexXShift   Float   Default 0
+Param    TexZShift   Float   Default 0
+
+HINT     CW          The column width in absolute units.
+HINT     CH          The column height in absolute units.
+HINT     NX          The number of columns in the X direction.
+HINT     NY          The number of columns in the Y direction.
+HINT     SX          Spacing between columns in the X direction, in absolute units.
+HINT     SY          Spacing between columns in the Y direction, in absolute units.
+HINT     Tex1        The texture for the column base.
+HINT     Tex2        The texture for the main part of the column. Defaults to Tex1.
+HINT     Tex3        The texture for the top of the column. Defaults to Tex1.
+HINT     Transparent When True, makes the object fully transparent.
+HINT     SemiTrans   When True, makes the object 50% transparent.
+HINT     FullTexture When True, allows TexScaleX and TexScaleZ to determine how
+HINT     FullTexture the texture is mapped onto the faces. Otherwise, OpenZone
+HINT     FullTexture uses its internal algorithm based on overall object size to
+HINT     FullTexture map textures onto faces.
+HINT     TexScaleX   Acts as a multiplier for horizontal texture coordinates
+HINT     TexScaleX   when FullTexture is True.
+HINT     TexScaleZ   Acts as a multiplier for vertical texture coordinates
+HINT     TexScaleZ   when FullTexture is True.
+HINT     Top         When True, creates polygons for the very top of each column.
+HINT     Top         If something is resting on the columns such that the tops
+HINT     Top         can't be seen, then this should be set to False.
+HINT     Bottom      When True, creates polygons for the very bottom of each column.
+HINT     Bottom      If the columns are resting on something such that the bottoms
+HINT     Bottom      can't be seen, then this should be set to False.
+HINT     TexXShift   Acts as an offset to horizontal texture coordinates for all
+HINT     TexXShift   faces. Values should generally range from -1 to 1.
+HINT     TexXShift   This parameter is only active when FullTexture is True.
+HINT     TexZShift   Acts as an offset to vertical texture coordinates for all
+HINT     TexZShift   faces. Values should generally range from -1 to 1.
+HINT     TexZShift   This parameter is only active when FullTexture is True.
+
+VARIABLE PosX     Float                    ' Current position
+VARIABLE PosY     Float                    ' Current position
+VARIABLE I        Integer                  ' Counter
+VARIABLE J        Integer                  ' Counter
+
+PosX = 0
+I = 0
+WHILE I < NX
+  PosY = 0
+  J = 0
+  WHILE J < NY
+    SCRIPT Rectangular_Column PosX,PosY,0, 0,0,0, CW,CW,CH, Tex1, Tex2, Tex3, Top, Bottom, Transparent, SemiTrans, FullTexture, TexScaleX, TexScaleZ, TexXShift, TexZShift;
+    PosY = PosY + CW + SY
+    J = J + 1
+  WEND
+  PosX = PosX + CW + SX
+  I = I + 1
+WEND
+

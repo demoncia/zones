@@ -1,0 +1,157 @@
+' Reminder: WindScript is NOT case-sensitive
+'
+' ==========================================================================
+' Ladder script
+'
+' The width of the ladder is determined by the X size of the object as
+' specified in the properties pane.
+'
+' The thickness of the sides of the ladder is determined by the Y size of
+' the object as specified in the properties pane. It must be less than or
+' equal to half the width of the ladder.
+'
+' The height of the ladder is determined by the Z size of the object as
+' specified in the properties pane.
+'
+' The origin of the ladder is at the bottom center. The rotation settings in
+' the properties pane can be used to orient it in any direction.
+' ==========================================================================
+
+CATEGORY Buildings
+PARAM    SideTex          String
+PARAM    RungTex          String  Default SideTex
+PARAM    EndTex           String  Default SideTex
+PARAM    SideFaces        Float   Default 4          ' Number of faces on the sides of the ladder, as long as SquareSides is false
+PARAM    RungFaces        Float   Default SideFaces  ' Number of faces on the rungs of the ladder, as long as SquareRungs is false
+PARAM    RungThickness    Float   Default 0.5        ' Percentage of the side thickness (should be set between 0 and 1)
+PARAM    RungSpacing      Float   Default 2          ' Absolute units
+PARAM    Semitransparent  Boolean Default False
+PARAM    SideTexScaleX    Float   Default 1
+PARAM    SideTexScaleZ    Float   Default SideTexScaleX
+PARAM    RungTexScaleX    Float   Default SideTexScaleX
+PARAM    RungTexScaleZ    Float   Default RungTexScaleX
+PARAM    SquareSides      Boolean Default False      ' If true, SideFaces is ignored and the box script is used instead of the cylinder script
+PARAM    SquareRungs      Boolean Default False      ' If true, RungFaces is ignored and the box script is used instead of the cylinder script
+
+HINT     SideTex          The texture for the sides of the ladder (the main spars).
+HINT     RungTex          The texture for the ladder rungs. Defaults to SideTex.
+HINT     EndTex           The texture for the ends of the spars and rungs.
+HINT     EndTex           For example, a texture showing wood rings. Defaults to
+HINT     EndTex           SideTex.
+HINT     SideFaces        Number of faces on the sides of the ladder, as long as SquareSides is False.
+HINT     SideFaces        By default the sides are cylinders, and this specifies how many faces they have.
+HINT     RungFaces        Number of faces on the rungs of the ladder, as long as SquareRungs is False.
+HINT     RungFaces        By default the rungs are cylinders, and this specifies how many faces they have.
+HINT     RungThickness    The thickness of the rungs, relative to the thickness of
+HINT     RungThickness    the sides. A value of 1 would make the rungs the same
+HINT     RungThickness    thickness as the sides.
+HINT     RungSpacing      The spacing of the rungs, in absolute units.
+HINT     SemiTransparent  When True, makes the object 50% transparent.
+HINT     SideTexScaleX    Acts as a multiplier for horizontal texture coordinates
+HINT     SideTexScaleX    for the side pieces of the ladder.
+HINT     SideTexScaleZ    Acts as a multiplier for vertical texture coordinates
+HINT     SideTexScaleZ    for the side pieces of the ladder.
+HINT     RungTexScaleX    Acts as a multiplier for horizontal texture coordinates for the rungs.
+HINT     RungTexScaleZ    Acts as a multiplier for vertical texture coordinates for the rungs.
+HINT     SquareSides      If True, SideFaces is ignored and the box script is used
+HINT     SquareSides      instead of the cylinder script to generate the sides of
+HINT     SquareSides      the ladder.
+HINT     SquareRungs      If True, RungFaces is ignored and the box script is used
+HINT     SquareRungs      instead of the cylinder script to generate the rungs.
+
+' Declare variables
+
+VARIABLE NumRungs    Integer                          ' The number of rungs we will need
+VARIABLE RT          Float                            ' Used to validate RungThickness
+VARIABLE RS          Float                            ' Used to validate RungSpacing
+VARIABLE SideAspectX Float                            ' Ratio of side thickness to ladder width
+VARIABLE SideAspectY Float                            ' Ratio of side thickness to ladder width
+VARIABLE SY          Float                            ' Used to validate SizeY
+VARIABLE SX0         Float
+VARIABLE SY0         Float
+VARIABLE SZ0         Float
+VARIABLE I           Integer
+VARIABLE Offset      Float
+
+' Make sure we have reasonable sizes
+
+If (SizeX > 0) And (SizeY > 0) And (SizeZ > 0)
+  SY = SizeY
+  If SY > SizeX / 2
+    SY = SizeX / 2
+  EndIf
+
+  ' We have to make local copies because passing the originals to script calls seems
+  ' to be causing problems (it looks like the scripts are using their local values
+  ' for them instead -- a possible bug here)
+
+  SX0 = SizeX
+  SY0 = SizeY
+  SZ0 = SizeZ
+
+  ' Draw the sides (remember, all scripts only draw from 0 to 1)
+
+  SideAspectX = SY / SizeX;
+  SideAspectY = SY / SizeY;
+  If SquareSides
+    Script Box      -0.5,-SideAspectY/2,0, 0,0,0, SY/SX0,SY/SY0,1,
+                    EndTex,SideTex,SideTex,SideTex,SideTex,EndTex,SemiTransparent,
+                    True,SideTexScaleX,SideTexScaleZ;
+
+    Script Box      0.5-SideAspectX,-SideAspectY/2,0, 0,0,0, SY/SX0,SY/SY0,1,
+                    EndTex,SideTex,SideTex,SideTex,SideTex,EndTex,SemiTransparent,
+                    True,SideTexScaleX,SideTexScaleZ;
+  Else
+    Script Cylinder -0.5+SideAspectX/2,0,0, 0,0,0, SY/SX0,SY/SY0,1,
+                    SideFaces,True,True,False,360,EndTex,EndTex,SideTex,SemiTransparent,
+                    True,SideTexScaleX,SideTexScaleZ;
+
+    Script Cylinder 0.5-SideAspectX/2,0,0, 0,0,0, SY/SX0,SY/SY0,1,
+                    SideFaces,True,True,False,360,EndTex,EndTex,SideTex,SemiTransparent,
+                    True,SideTexScaleX,SideTexScaleZ;
+  EndIf
+
+  ' Copy RungThickness so we can make sure it's between 0 and 1 (inclusive)
+
+  RT = RungThickness
+  If RT < 0
+    RT = 0
+  EndIf
+  If RT > 1
+    RT = 1
+  EndIf
+
+  ' Copy RungSpacing so we can make sure it's positive
+
+  RS = RungSpacing
+  If RS < 0
+    RS = 0
+  EndIf
+
+  ' First figure out how many rungs we need
+
+  NumRungs = RoundUp((SizeZ - (RT * SY)) / RS)
+  If SquareRungs
+    Offset = (SZ0 - (NumRungs - 1) * RS - RT * SY) / 2
+  Else
+    Offset = (SZ0 - (NumRungs - 1) * RS) / 2
+  EndIf
+
+  ' Draw the rungs
+
+  I = 0
+  While I < NumRungs
+    If SquareRungs
+      Script Box -0.5+SideAspectX/2,-RT*SideAspectY/2,(I*RungSpacing+Offset)/SZ0, 0,0,0, 1-SideAspectX,RT*SY/SY0,RT*SY/SZ0,
+                 RungTex,RungTex,RungTex,RungTex,RungTex,RungTex,SemiTransparent,
+                 True,RungTexScaleX,RungTexScaleZ;
+    Else
+      Script Cylinder -0.5+SideAspectX/2,0,(I*RungSpacing+Offset)/SZ0, 0,-90,0, RT*SY/SX0,RT*SY/SY0,(SX0/SZ0)*(1-SideAspectX),
+                      RungFaces,False,False,False,360,EndTex,EndTex,RungTex,SemiTransparent,
+                      True,RungTexScaleX,RungTexScaleZ;
+    EndIf
+    I = I + 1
+  Wend
+EndIf
+
+

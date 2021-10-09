@@ -1,0 +1,49 @@
+CATEGORY Geometry
+
+PARAM Tex         STRING
+PARAM Tex2        STRING  DEFAULT Tex
+PARAM Solid       BOOLEAN DEFAULT True
+PARAM Transparent BOOLEAN DEFAULT False
+PARAM SemiTrans   BOOLEAN DEFAULT False
+PARAM Masked      BOOLEAN DEFAULT False
+PARAM FullTexture BOOLEAN DEFAULT False
+PARAM TexScale    FLOAT   DEFAULT 1
+PARAM Stretch     BOOLEAN DEFAULT False
+
+HINT  Tex         The front texture.
+HINT  Tex2        The back texture. Defaults to Tex.
+HINT  Solid       When True, makes sure that the player can't pass through the object.
+HINT  Transparent When True, makes the object fully transparent.
+HINT  SemiTrans   When True, makes the object 50% transparent.
+HINT  Masked      When True, means that the textures used are 8-bit masked textures
+HINT  Masked      (e.g. tree leaves) where the first color in the color palette is
+HINT  Masked      the transparent color.
+HINT  FullTexture When True, allows TexScale and Stretch to determine how the
+HINT  FullTexture texture is mapped onto the faces. Otherwise, OpenZone uses its
+HINT  FullTexture internal algorithm based on overall object size to map textures
+HINT  FullTexture onto faces.
+HINT  TexScale    Acts as a multiplier for horizontal and vertical texture coordinates
+HINT  TexScale    when FullTexture is True.
+HINT  Stretch     When True, stretches the texture horizontally based on X size
+HINT  Stretch     vs. height.
+
+VARIABLE X FLOAT
+VARIABLE Z FLOAT
+
+If FullTexture
+  X = TexScale
+  If SizeX <> 0
+    Z = (SizeZ / SizeX) * TexScale
+  Else
+    Z = TexScale
+  EndIf
+  If Stretch
+    Z = X
+  EndIf
+
+  TRIANGLETEX 0,0,0, 0,0,1, 1,0,0, 0,0, 0,Z, X,0, Tex,  Transparent, SemiTrans, Solid, 0, false, Masked   ' Front face
+  TRIANGLETEX 1,0,0, 0,0,1, 0,0,0, X,0, 0,Z, 0,0, Tex2, Transparent, SemiTrans, Solid, 0, false, Masked   ' Back face
+Else
+  TRIANGLE 0,0,0, 0,0,1, 1,0,0, Tex,  Transparent, SemiTrans, Solid, 0, false, Masked   ' Front face
+  TRIANGLE 1,0,0, 0,0,1, 0,0,0, Tex2, Transparent, SemiTrans, Solid, 0, false, Masked   ' Back face
+EndIf

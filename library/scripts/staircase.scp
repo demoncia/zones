@@ -1,0 +1,122 @@
+' Reminder: WindScript is NOT case-sensitive
+
+CATEGORY Buildings
+PARAM    NumSteps         Integer Default 10       ' Number of steps
+PARAM    Sides            Boolean Default True
+PARAM    Back             Boolean Default True
+PARAM    Semitransparent  Boolean Default False
+PARAM    Tex1             String
+PARAM    Tex2             String  Default Tex1
+PARAM    Tex3             String  Default Tex1
+PARAM    LeftSlab         Boolean Default False
+PARAM    RightSlab        Boolean Default False
+PARAM    SlabThickness    Float   Default 1
+
+' Hint text for a given parameter has to come after the parameter was declared
+' (but not necessarily immediately after).  The longer the hint is, the longer
+' it will remain visible.
+
+HINT     NumSteps         The number of steps in the staircase.
+HINT     Sides            Whether or not to add polygons to the sides of the staircase.
+HINT     Sides            This should be True if a side of the staircase is visible,
+HINT     Sides            or False if the staircase is in, for example, a corridor.
+HINT     Back             Whether or not to add polygons to the rear of a staircase.
+HINT     Back             This should be False unless the player can walk behind the
+HINT     Back             staircase.
+HINT     Semitransparent  When True, makes the object 50% transparent.
+HINT     Tex1             Texture for the front of each step.
+HINT     Tex2             Texture for the sides and rear of the staircase. Defaults to
+HINT     Tex2             Tex1.
+HINT     Tex3             Texture for the top of each step. Defaults to Tex1.
+HINT     LeftSlab         When True, instead of merely putting polygons along the sides
+HINT     LeftSlab         of each step, creates a large slab along the entire staircase
+HINT     LeftSlab         that extends slightly above each step as it descends. Results
+HINT     LeftSlab         in fewer overall polygons for the staircase.
+HINT     RightSlab        When True, instead of merely putting polygons along the sides
+HINT     RightSlab        of each step, creates a large slab along the entire staircase
+HINT     RightSlab        that extends slightly above each step as it descends. Results
+HINT     RightSlab        in fewer overall polygons for the staircase.
+HINT     SlabThickness    The thickness of the slabs created by LeftSlab or
+HINT     SlabThickness    RightSlab when either is set to True. The thickness is
+HINT     SlabThickness    specified in absolute units.
+
+VARIABLE SH       Float                    ' Step height
+VARIABLE SW       Float                    ' Step depth
+VARIABLE ISH      Float                    ' I * Step height
+VARIABLE ISW      Float                    ' I * Step depth
+VARIABLE ISH1     Float                    ' (I + 1) * Step height
+VARIABLE ISW1     Float                    ' (I + 1) * Step depth
+VARIABLE I        Integer                  ' Counter
+VARIABLE L        Float                    ' Left edge
+VARIABLE R        Float                    ' Right edge
+
+' Figure out the step width and height
+
+SH = 1 / NumSteps
+SW = 1 / NumSteps
+
+' Figure out where the steps begin and end based on whether we want slabs on the sides
+
+If LeftSlab
+  L = SlabThickness / SizeX
+Else
+  L = 0
+EndIf
+If RightSlab
+  R = 1 - SlabThickness / SizeX
+Else
+  R = 1
+EndIf
+
+' Make the staircase
+
+I = 0
+While I < NumSteps
+  ISW  = I * SW;
+  ISH  = I * SH;
+  ISW1 = (I + 1) * SW;
+  ISH1 = (I + 1) * SH;
+
+  ' Draw the steps
+
+  Rectangle L,ISW,ISH,  L,ISW,ISH1,  R,ISW,ISH1,  R,ISW,ISH,  Tex1, false, Semitransparent  ' Front
+  Rectangle L,ISW,ISH1, L,ISW1,ISH1, R,ISW1,ISH1, R,ISW,ISH1, Tex3, false, Semitransparent  ' Top
+
+  ' Draw "bare" step sides
+
+  If Sides And Not LeftSlab
+    Rectangle 0,ISW,0,  0,ISW1,0, 0,ISW1,ISH1, 0,ISW,ISH1,  Tex2, false, Semitransparent  ' Left
+  EndIf
+  If Sides And Not RightSlab
+    Rectangle 1,ISW1,0, 1,ISW,0,  1,ISW,ISH1,  1,ISW1,ISH1, Tex2, false, Semitransparent  ' Right
+  EndIf
+  I = I + 1
+Wend
+
+' Draw slabs on sides
+
+ISW = (NumSteps - 1) * SW
+If LeftSlab
+  Rectangle 0,1,SH, 0,1,1,   0,ISW,1, 0,0,SH,     Tex2, False, Semitransparent
+  Rectangle 0,1,0,  0,1,SH,  0,0,SH,  0,0,0,      Tex2, False, Semitransparent
+  Rectangle 0,1,1,  L,1,1,   L,ISW,1, 0,ISW,1,    Tex2, False, Semitransparent
+  Rectangle 0,0,SH, 0,ISW,1, L,ISW,1, L,0,SH,     Tex2, False, Semitransparent
+  Rectangle 0,0,0,  0,0,SH,  L,0,SH,  L,0,0,      Tex2, False, Semitransparent
+  Rectangle L,0,0,  L,0,SH,  L,ISW,1, L,ISW,1-SH, Tex2, False, Semitransparent
+EndIf
+If RightSlab
+  Rectangle 1,0,SH,  1,ISW,1,    1,1,1,   1,1,SH,  Tex2, False, Semitransparent
+  Rectangle 1,0,0,   1,0,SH,     1,1,SH,  1,1,0,   Tex2, False, Semitransparent
+  Rectangle R,0,SH,  R,ISW,1,    1,ISW,1, 1,0,SH,  Tex2, False, Semitransparent
+  Rectangle R,0,0,   R,0,SH,     1,0,SH,  1,0,0,   Tex2, False, Semitransparent
+  Rectangle R,ISW,1, R,1,1,      1,1,1,   1,ISW,1, Tex2, False, Semitransparent
+  Rectangle R,0,0,   R,ISW,1-SH, R,ISW,1, R,0,SH,  Tex2, False, Semitransparent
+EndIf
+
+' Draw the back face
+
+If Back
+  ISW = NumSteps * SW;
+  ISH = NumSteps * SH;
+  Rectangle 1,ISW,0, 1,ISW,ISH, 0,ISW,ISH, 0,ISW,0, Tex2, false, Semitransparent
+EndIf

@@ -1,0 +1,154 @@
+CATEGORY Geometry
+PARAM Sides       INTEGER Default 8
+PARAM Top         BOOLEAN Default True
+PARAM Bottom      BOOLEAN Default Top
+PARAM Inside      BOOLEAN Default False
+PARAM Angle       FLOAT   Default 360
+PARAM Tex1        STRING
+PARAM Tex2        STRING  DEFAULT Tex1
+PARAM Tex3        STRING  DEFAULT Tex1
+PARAM SemiTrans   BOOLEAN DEFAULT False
+PARAM FullTexture BOOLEAN Default False
+PARAM TexScaleX   FLOAT   Default 1
+PARAM TexScaleZ   FLOAT   Default 1
+PARAM CenterX     FLOAT   Default 0
+PARAM CenterY     FLOAT   Default 0
+PARAM Solid       BOOLEAN Default True
+PARAM Color       INTEGER Default 0
+PARAM HasColor    BOOLEAN Default False
+PARAM Masked      BOOLEAN Default False
+PARAM CalcNormals BOOLEAN Default True
+
+HINT  Sides       The number of sides for the cone.
+HINT  Top         When True, creates polygons for the main part of the cone,
+HINT  Top         visible from the outside.
+HINT  Bottom      When True, creates a flat disc for the base of the cone, visible
+HINT  Bottom      from the outside. When False, creates polygons for the main part
+HINT  Bottom      of the cone, visible from the inside, but only if Inside is True.
+HINT  Inside      Used with the Bottom setting. If this is true and Bottom is
+HINT  Inside      False, then creates polygons for the main part of the cone,
+HINT  Inside      visible from the inside.
+HINT  Angle       The total sweep angle for the cone, in degrees. 360 yields
+HINT  Angle       a complete cone, while 180 yields just half of a cone, for
+HINT  Angle       example.
+HINT  Tex1        The texture for the main part of the cone, visible from the outside
+HINT  Tex1        if Top is True.
+HINT  Tex2        The texture for the disc at the base of the cone, visible from the
+HINT  Tex2        outside if Bottom is True. Defaults to Tex1.
+HINT  Tex3        The texture for the main part of the cone, visible from the inside
+HINT  Tex3        if Bottom is False and Inside is True. Defaults to Tex1.
+HINT  SemiTrans   When True, makes the object 50% transparent.
+HINT  FullTexture When True, allows TexScaleX and TexScaleZ to determine how
+HINT  FullTexture the texture is mapped onto the faces. Otherwise, OpenZone
+HINT  FullTexture uses its internal algorithm based on overall object size to
+HINT  FullTexture map textures onto faces.
+HINT  TexScaleX   Acts as a multiplier for horizontal texture coordinates
+HINT  TexScaleX   when FullTexture is True.
+HINT  TexScaleZ   Acts as a multiplier for vertical texture coordinates
+HINT  TexScaleZ   when FullTexture is True.
+HINT  CenterX     Skews the pointy end of the cone in the X direction. This is
+HINT  CenterX     specifed in fractional units; a 1 would shift it by the object's
+HINT  CenterX     overall X size.
+HINT  CenterY     Skews the pointy end of the cone in the Y direction. This is
+HINT  CenterY     specifed in fractional units; a 1 would shift it by the object's
+HINT  CenterY     overall Y size.
+HINT  Solid       When True, makes sure that the player can't pass through the object.
+HINT  Color       When HasColor is true, specifies a tint to apply to the object.
+HINT  Color       Being an integer, this can also be specified as a hecadecimal
+HINT  Color       number in the form $aabbggrr.
+HINT  HasColor    When True, applies Color as a tint to the object.
+HINT  Masked      When True, means that the textures used are 8-bit masked textures
+HINT  Masked      (e.g. tree leaves) where the first color in the color palette is
+HINT  Masked      the transparent color.
+HINT  CalcNormals When True, the script will specify normals to the polygon vertices
+HINT  CalcNormals so the cone appears rounded.
+
+Variable S      Integer
+Variable I      Integer
+Variable X1     Float
+Variable Y1     Float
+Variable X2     Float
+Variable Y2     Float
+Variable Angle1 Float
+Variable Angle2 Float
+Variable A      Float
+Variable X      Float
+Variable Z      Float
+
+' Sanity-check angle
+
+A = Angle
+If A < 0.1
+  A = 0.1
+EndIf
+If A > 360
+  A = 360
+EndIf
+
+' Put the number of sides in a variable so we can make sure it contains a valid value
+
+S = Sides
+If S < 3
+  S = 3
+EndIf
+
+' Initialize our starting angle and coordinates.  This way is the most efficient.
+
+Angle1 = 0
+X1     = 0.5
+Y1     = 0
+
+' Calculate texture scales
+
+If FullTexture
+  X = TexScaleX
+  If SizeX <> 0
+    Z = (SizeY / SizeX) * X * TexScaleZ
+  Else
+    Z = X
+  EndIf
+EndIf
+
+' Traverse around the circle
+
+I = 0
+While I < S
+  Angle2 = (I + 1) * (A / S)
+  X2 = Cos(Angle2) / 2     ' The parentheses aren't strictly necessary :)
+  Y2 = Sin(Angle2) / 2
+
+  ' Top
+
+  If Top
+    If FullTexture
+      TriangleTex CenterX,CenterY,1, X2,Y2,0, X1,Y1,0, 0,0, X2*X,Y2*Z, X1*X,Y1*Z, Tex1, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, Sgn(SizeZ) * (X1+X2)/2, Sgn(SizeZ) * (Y1+Y2)/2, 0, Sgn(SizeZ) * X2, Sgn(SizeZ) * Y2, 0, Sgn(SizeZ) * X1, Sgn(SizeZ) * Y1, 0
+    Else
+      Triangle CenterX,CenterY,1, X2,Y2,0, X1,Y1,0, Tex1, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, Sgn(SizeZ) * (X1+X2)/2, Sgn(SizeZ) * (Y1+Y2)/2, 0, Sgn(SizeZ) * X2, Sgn(SizeZ) * Y2, 0, Sgn(SizeZ) * X1, Sgn(SizeZ) * Y1, 0
+    EndIf
+  EndIf
+
+  ' Bottom
+
+  If Bottom
+    If FullTexture
+      TriangleTex CenterX,CenterY,0, X1,Y1,0, X2,Y2,0, 0,0, X1*X,Y1*Z, X2*X,Y2*Z, Tex2, False, SemiTrans
+    Else
+      Triangle CenterX,CenterY,0, X1,Y1,0, X2,Y2,0, Tex2, False, SemiTrans
+    EndIf
+  Else
+    If Inside
+      If FullTexture
+        TriangleTex CenterX,CenterY,1, X1,Y1,0, X2,Y2,0, 0,0, X1*X,Y1*Z, X2*X,Y2*Z, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, -Sgn(SizeZ) * (X1+X2)/2, -Sgn(SizeZ) * (Y1+Y2)/2, 0, -Sgn(SizeZ) * X1, -Sgn(SizeZ) * Y1, 0, -Sgn(SizeZ) * X2, -Sgn(SizeZ) * Y2, 0
+      Else
+        Triangle CenterX,CenterY,1, X1,Y1,0, X2,Y2,0, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, -Sgn(SizeZ) * (X1+X2)/2, -Sgn(SizeZ) * (Y1+Y2)/2, 0, -Sgn(SizeZ) * X1, -Sgn(SizeZ) * Y1, 0, -Sgn(SizeZ) * X2, -Sgn(SizeZ) * Y2, 0
+      EndIf
+    EndIf
+  EndIf
+
+  ' Prepare for the next section
+
+  Angle1 = Angle2
+  X1     = X2
+  Y1     = Y2
+  I      = I + 1
+Wend

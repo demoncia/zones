@@ -1,0 +1,61 @@
+Category Weapons
+
+Param Tex1        String
+Param Tex2        String  Default Tex1
+Param TipLength   Float   Default 0.05
+Param EndWidth    Float   Default 1
+Param SemiTrans   Boolean Default False
+Param Transparent Boolean Default False
+Param Solid       Boolean Default True
+Param Color       Integer Default 0
+Param HasColor    Boolean Default False
+Param Masked      Boolean Default False
+Param CalcNormals    Boolean Default True
+
+Hint  Tex1        The texture for the main part of the blade.
+Hint  Tex2        The texture for the tip of the blade. Defaults to Tex1.
+Hint  TipLength   The fraction of the total blade length for the tip length.
+Hint  EndWidth    The fraction of the total blade width for the tip width.
+Hint  SemiTrans   When True, makes the object 50% transparent.
+Hint  Transparent When True, makes the object fully transparent.
+Hint  Solid       When True, makes sure that the player can't pass through the object.
+Hint  Color       When HasColor is true, specifies a tint to apply to the object.
+Hint  Color       Being an integer, this can also be specified as a hecadecimal
+Hint  Color       number in the form $aabbggrr.
+Hint  HasColor    When True, applies Color as a tint to the object.
+Hint  Masked      When True, means that the textures used are 8-bit masked textures
+Hint  Masked      (e.g. tree leaves) where the first color in the color palette is
+Hint  Masked      the transparent color.
+Hint  CalcNormals When True, the script will specify normals to the polygon vertices
+Hint  CalcNormals so the object appears rounded.
+
+Variable TL Float
+Variable EW Float
+
+TL = TipLength
+If TL < 0
+  TL = 0
+EndIf
+If TL > 1
+  TL = 1
+EndIf
+
+EW = Abs(EndWidth) / 2
+
+' Main part of the blade: stretch Tex1 over the surface
+
+If TL < 1
+  RectangleTex 0,0,0.5,    1-TL,0,EW,   1-TL,-0.5,0, 0,-0.5,0,   0,0,   1,0,   1,0.5, 0,0.5, Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, 0,0,1,  0,0,1,  0,-1,0, 0,-1,0
+  RectangleTex 0,-0.5,0,   1-TL,-0.5,0, 1-TL,0,-EW,  0,0,-0.5,   0,0.5, 1,0.5, 1,1,   0,1,   Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, 0,-1,0, 0,-1,0, 0,0,-1, 0,0,-1
+  RectangleTex 1-TL,0,EW,  0,0,0.5,     0,0.5,0,     1-TL,0.5,0, 0,0,   1,0,   1,0.5, 0,0.5, Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, 0,0,1,  0,0,1,  0,1,0,  0,1,0
+  RectangleTex 1-TL,0.5,0, 0,0.5,0,     0,0,-0.5,    1-TL,0,-EW, 0,0.5, 1,0.5, 1,1,   0,1,   Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, 0,1,0,  0,1,0,  0,0,-1, 0,0,-1
+EndIf
+
+' Tip of the blade
+
+If TL > 0
+  TriangleTex 1-TL,0,EW,   1,0,0,      1-TL,-0.5,0,  0,0,   1,0,   0,0.5, Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, 0,0,1,  1,0,0,  0,-1,0
+  TriangleTex 1-TL,-0.5,0, 1,0,0,      1-TL,0,-EW,   0,0.5, 1,1,   0,1,   Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, 0,-1,0, 1,0,0,  0,0,-1
+  TriangleTex 1-TL,0,EW,   1-TL,0.5,0, 1,0,0,        0,0,   0,0.5, 1,0,   Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, 0,0,1,  0,1,0,  1,0,0
+  TriangleTex 1-TL,0.5,0,  1-TL,0,-EW, 1,0,0,        0,0.5, 0,1,   1,1,   Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, 0,1,0,  0,0,-1, 1,0,0
+EndIf

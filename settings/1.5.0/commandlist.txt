@@ -1,0 +1,364 @@
+AddTag                          
+ArbitraryRotation               Shift+R
+ArbitraryScale                  Shift+Ctrl+S
+AutoCaulkSelected               F4
+Brush3Sided                     Ctrl+3
+Brush4Sided                     Ctrl+4
+Brush5Sided                     Ctrl+5
+Brush6Sided                     Ctrl+6
+Brush7Sided                     Ctrl+7
+Brush8Sided                     Ctrl+8
+Brush9Sided                     Ctrl+9
+BrushCone                       
+BrushIcosahedron                
+BrushPrism                      
+BrushRock                       
+BrushSphere                     
+BuildMenuCustomize              
+Build_runRecentExecutedBuild    F5
+CSGMerge                        
+CSGSubtract                     Shift+U
+CSGTool                         
+CSGWrapMerge                    Ctrl+U
+CSGroom                         
+CameraAngleDown                 
+CameraAngleUp                   
+CameraBack                      
+CameraDown                      
+CameraFocusOnSelected           Tab
+CameraForward                   
+CameraFreeFocus                 
+CameraFreeMoveBack              S
+CameraFreeMoveBack2             
+CameraFreeMoveDown              
+CameraFreeMoveForward           W
+CameraFreeMoveForward2          
+CameraFreeMoveLeft              A
+CameraFreeMoveLeft2             
+CameraFreeMoveRight             D
+CameraFreeMoveRight2            
+CameraFreeMoveUp                
+CameraLeft                      
+CameraModeNext                  
+CameraModePrev                  
+CameraRight                     
+CameraSpeedDec                  Shift+-
+CameraSpeedInc                  Shift++
+CameraStrafeLeft                A
+CameraStrafeRight               D
+CameraUp                        
+CapCurrentCurve                 Shift+C
+CenterView                      
+CenterXYView                    Shift+Tab
+CheckForUpdate                  
+ChooseBrushColor                
+ChooseCameraBackgroundColor     
+ChooseCameraSelectedBrushColor  
+ChooseClipperColor              
+ChooseGridBackgroundColor       
+ChooseGridBlockColor            
+ChooseGridMajorColor            
+ChooseGridMinorColor            
+ChooseGridTextColor             
+ChooseOrthoViewNameColor        
+ChooseSelectedBrushColor        
+ChooseTextureBackgroundColor    
+ClipperClip                     Return
+ClipperFlip                     Ctrl+Return
+ClipperSplit                    Shift+Return
+CloneSelection                  Space
+CloneSelectionAndMakeUnique     Shift+Space
+ColorSchemeBlackAndGreen        
+ColorSchemeBlender              
+ColorSchemeOriginal             
+ColorSchemeQER                  
+ColorSchemeYdnar                
+Copy                            Ctrl+C
+CopyTag                         
+CubicClipZoomIn                 Ctrl+[
+CubicClipZoomOut                Ctrl+]
+DeleteSelection                 Z
+DeleteSelection2                BackSpace
+DeleteTag                       
+DownFloor                       Page Down
+DragEdges                       E
+DragFaces                       F
+DragVertices                    V
+EnableAlpha                     
+EntitiesConnect                 Ctrl+K
+EntityColorNormalize            
+EntityColorSet                  K
+EntityList                      L
+EntityMovePrimitivesToFirst     
+EntityMovePrimitivesToLast      Ctrl+M
+EntityUngroup                   
+EntityUngroupPrimitives         
+Exit                            
+ExpandSelectionToEntities       Shift+E
+ExpandSelectionToPrimitives     Ctrl+E
+FilterAreaportals               Alt+3
+FilterBotClips                  Alt+M
+FilterCaulk                     Alt+6
+FilterClips                     Alt+7
+FilterClusterportals            Alt+9
+FilterDecals                    Shift+D
+FilterDetails                   Ctrl+D
+FilterEntities                  Alt+2
+FilterFuncGroups                
+FilterHintsSkips                Ctrl+H
+FilterLightgrid                 
+FilterLights                    Alt+0
+FilterLiquids                   Alt+5
+FilterModels                    Shift+M
+FilterNotex                     
+FilterPatches                   Ctrl+P
+FilterPaths                     Alt+8
+FilterPointEntities             
+FilterStructural                Shift+Ctrl+D
+FilterTranslucent               Alt+4
+FilterTriggers                  Shift+Ctrl+T
+FilterWorldBrushes              Alt+1
+FindBrush                       
+FindReplaceTextures             
+FitTexture                      Ctrl+F
+FitTextureHeight                
+FitTextureHeightOnly            
+FitTextureWidth                 
+FitTextureWidthOnly             
+FixedSize                       
+Fullscreen                      F11
+GridDown                        [
+GridUp                          ]
+HideSelected                    H
+ImportMap                       
+InvertCurve                     Ctrl+I
+InvertCurveTextureX             Shift+Ctrl+I
+InvertCurveTextureY             Shift+I
+InvertFilters                   
+InvertSelection                 I
+MakeDetail                      Alt+D
+MakeStructural                  Alt+S
+MapInfo                         M
+MatrixTranspose                 Shift+Ctrl+M
+MaximizeView                    F12
+MirrorSelectionHorizontally     
+MirrorSelectionVertically       
+MirrorSelectionX                
+MirrorSelectionY                
+MirrorSelectionZ                
+MouseBuild                      B
+MouseDrag                       
+MouseDragOrTransform            Q
+MouseRotate                     R
+MouseRotateOrScale              
+MouseScale                      
+MouseTransform                  
+MouseTranslate                  W
+MouseUV                         G
+MoveSelectionDOWN               -
+MoveSelectionUP                 +
+MoveToCamera                    Shift+Ctrl+V
+NaturalizePatch                 Ctrl+N
+NewMap                          
+NextLeakSpot                    Shift+Ctrl+K
+NextView                        Ctrl+Tab
+OpenGLFont                      
+OpenManual                      F1
+OpenMap                         Ctrl+O
+Paste                           Ctrl+V
+PasteTag                        
+PasteToCamera                   Shift+V
+PatchBevel                      
+PatchCone                       
+PatchCylinder                   
+PatchDeform                     
+PatchDeleteFirstColumn          
+PatchDeleteFirstRow             
+PatchDeleteLastColumn           Shift+Ctrl+-
+PatchDeleteLastRow              Ctrl+-
+PatchEndCap                     
+PatchInsertFirstColumn          Shift+Ctrl++
+PatchInsertFirstRow             Ctrl++
+PatchInsertLastColumn           
+PatchInsertLastRow              
+PatchInspector                  Shift+S
+PatchSphere                     
+PatchSquareCylinder             
+PatchThicken                    Ctrl+T
+PatchXactCone                   
+PatchXactCylinder               
+PatchXactSphere                 
+Preferences                     P
+PrevLeakSpot                    Shift+Ctrl+L
+ProjectSettings                 
+RedisperseCols                  
+RedisperseRows                  
+Redo                            Ctrl+Y
+Redo2                           Shift+Ctrl+Z
+RefreshReferences               
+RefreshShaders                  
+RegionOff                       
+RegionSetBrush                  
+RegionSetSelection              Shift+Ctrl+R
+RegionSetXY                     
+RenameTag                       
+RepeatTransforms                Ctrl+R
+ResetFilters                    
+RotateSelectionAnticlockwise    
+RotateSelectionClockwise        
+RotateSelectionX                
+RotateSelectionY                
+RotateSelectionZ                
+SaveMap                         Ctrl+S
+SaveMapAs                       
+SaveRegion                      
+SaveSelected                    
+SearchFromStart                 
+SelectAllOfType                 Shift+A
+SelectConnectedEntities         Shift+Ctrl+E
+SelectInside                    
+SelectNudgeDown                 Alt+Down
+SelectNudgeLeft                 Alt+Left
+SelectNudgeRight                Alt+Right
+SelectNudgeUp                   Alt+Up
+SelectTextured                  Shift+Ctrl+A
+SelectTouching                  
+SetGrid0.125                    
+SetGrid0.25                     
+SetGrid0.5                      
+SetGrid1                        1
+SetGrid128                      8
+SetGrid16                       5
+SetGrid2                        2
+SetGrid256                      9
+SetGrid32                       6
+SetGrid4                        3
+SetGrid64                       7
+SetGrid8                        4
+ShaderInfo                      
+ShowAllTextures                 Ctrl+A
+ShowAngles                      
+ShowAxes                        
+ShowBboxes                      
+ShowBlocks                      
+ShowConnections                 
+ShowCoordinates                 
+ShowHidden                      Shift+H
+ShowInUse                       U
+ShowLightRadiuses               
+ShowNames                       
+ShowSize2d                      J
+ShowSize3d                      
+ShowStats                       
+ShowUntagged                    
+ShowWindowOutline               
+ShowWorkzone2d                  
+ShowWorkzone3d                  
+SimplePatchMesh                 Shift+P
+SmoothCols                      Shift+Ctrl+W
+SmoothRows                      Ctrl+W
+SnapToGrid                      Ctrl+G
+SurfaceInspector                S
+TexRotateClock                  Shift+Page Down
+TexRotateCounter                Shift+Page Up
+TexScaleDown                    Ctrl+Down
+TexScaleLeft                    Ctrl+Left
+TexScaleRight                   Ctrl+Right
+TexScaleUp                      Ctrl+Up
+TexShiftDown                    Shift+Down
+TexShiftLeft                    Shift+Left
+TexShiftRight                   Shift+Right
+TexShiftUp                      Shift+Up
+TextureProjectAxial             
+TextureProjectCam               
+TextureProjectOrtho             
+TextureReset/Cap                Shift+N
+TogTexLock                      Shift+T
+TogTexVertexLock                
+ToggleCamera                    Shift+Ctrl+C
+ToggleClipper                   X
+ToggleConsole                   O
+ToggleCrosshairs                Shift+X
+ToggleCubicClip                 Ctrl+Backslash
+ToggleEntityInspector           N
+ToggleFrontView                 
+ToggleGrid                      0
+ToggleGridSnap                  
+ToggleModelBrowser              /
+TogglePointfile                 
+ToggleShowShaderlistOnly        
+ToggleShowShaders               
+ToggleShowTextures              
+ToggleSideView                  
+ToggleTextures                  T
+ToggleView                      
+UnSelectSelection               C
+UnSelectSelection2              Escape
+Undo                            Ctrl+Z
+UpFloor                         Page Up
+ViewFront                       1
+ViewSide                        3
+ViewTop                         7
+XYFocusOnSelected               `
+Zoom100                         
+ZoomIn                          Delete
+ZoomOut                         Insert
+bobToolz::About                 
+bobToolz::BrushCleanup          
+bobToolz::CaulkSelection        
+bobToolz::DropEntity            
+bobToolz::MergePatches          
+bobToolz::PitOMatic             
+bobToolz::PlotSplines           
+bobToolz::PolygonBuilder        
+bobToolz::ResetTextures         
+bobToolz::SplitPatches          
+bobToolz::SplitPatchesCols      
+bobToolz::SplitPatchesRows      
+bobToolz::TreePlanter           
+bobToolz::TurnEdge              
+bobToolz::VisViewer             
+brushexport2::About             
+brushexport2::Export.obj        
+gtkThemeDlg                     
+meshTex.About                   
+meshTex.GeneralFunction         
+meshTex.GetInfo                 
+meshTex.Help                    
+meshTex.SMaxAlign               
+meshTex.SMinAlign               
+meshTex.SMinMaxAlignAuto        
+meshTex.SMinMaxAlignShrink      
+meshTex.SMinMaxAlignStretch     
+meshTex.STMinMaxAlignAuto       
+meshTex.SetScale                
+meshTex.TMaxAlign               
+meshTex.TMinAlign               
+meshTex.TMinMaxAlignAuto        
+meshTex.TMinMaxAlignShrink      
+meshTex.TMinMaxAlignStretch     
+prtview::AboutPortalViewer      
+prtview::ConfigurePortalViewer  
+prtview::Load.prtFile           
+prtview::TogglePortals(2D)      
+prtview::TogglePortals(3D)      
+prtview::Unload.prtFile         
+shaderPlug::About               
+shaderPlug::CreateTagFile       
+sunPlug::About                  
+uFO:AI::About                   
+uFO:AI::ActorClip               
+uFO:AI::Level1                  
+uFO:AI::Level2                  
+uFO:AI::Level3                  
+uFO:AI::Level4                  
+uFO:AI::Level5                  
+uFO:AI::Level6                  
+uFO:AI::Level7                  
+uFO:AI::Level8                  
+uFO:AI::Nodraw                  
+uFO:AI::PerformCheck            
+uFO:AI::StepOn                  
+uFO:AI::WeaponClip              
+uFO:AI::Worldspawn              
+uFO:AI::WorldspawnReset         

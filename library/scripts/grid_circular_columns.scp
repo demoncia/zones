@@ -1,0 +1,58 @@
+' Grid of circular columns
+' Reminder: WindScript is NOT case-sensitive
+
+CATEGORY Containers
+PARAM    CW          Float   Default 1        ' Column width
+PARAM    CH          Float   Default 15       ' Column height
+PARAM    NX          Integer Default 1        ' Number of columns in the X direction
+PARAM    NY          Integer Default 5        ' Number of columns in the Y direction
+PARAM    SX          Float   Default 5        ' Spacing in the X direction
+PARAM    SY          Float   Default 5        ' Spacing in the Y direction
+PARAM    Sides       Float   Default 8        ' Number of sides to each column
+Param    Tex1        String
+Param    Tex2        String  Default Tex1
+Param    Tex3        String  Default Tex1
+Param    SemiTrans   Boolean Default False
+Param    FullTexture Boolean Default False
+Param    TexScaleX   Float   Default 1
+Param    TexScaleZ   Float   Default 1
+
+HINT     CW          The column width in absolute units.
+HINT     CH          The column height in absolute units.
+HINT     NX          The number of columns in the X direction.
+HINT     NY          The number of columns in the Y direction.
+HINT     SX          Spacing between columns in the X direction, in absolute units.
+HINT     SY          Spacing between columns in the Y direction, in absolute units.
+HINT     Sides       The number of sides for each column.
+HINT     Tex1        The texture for the column base.
+HINT     Tex2        The texture for the main part of the column. Defaults to Tex1.
+HINT     Tex3        The texture for the top of the column. Defaults to Tex1.
+HINT     SemiTrans   When True, makes the object 50% transparent.
+HINT     FullTexture When True, allows TexScaleX and TexScaleZ to determine how
+HINT     FullTexture the texture is mapped onto the faces. Otherwise, OpenZone
+HINT     FullTexture uses its internal algorithm based on overall object size to
+HINT     FullTexture map textures onto faces.
+HINT     TexScaleX   Acts as a multiplier for horizontal texture coordinates
+HINT     TexScaleX   when FullTexture is True.
+HINT     TexScaleZ   Acts as a multiplier for vertical texture coordinates
+HINT     TexScaleZ   when FullTexture is True.
+
+VARIABLE PosX     Float                    ' Current position
+VARIABLE PosY     Float                    ' Current position
+VARIABLE I        Integer                  ' Counter
+VARIABLE J        Integer                  ' Counter
+
+PosX = 0
+I = 0
+WHILE I < NX
+  PosY = 0
+  J = 0
+  WHILE J < NY
+    SCRIPT Circular_Column PosX,PosY,0, 0,0,0, CW,CW,CH, Sides, Tex1, Tex2, Tex3, SemiTrans, FullTexture, TexScaleX, TexScaleZ;
+    PosY = PosY + CW + SY
+    J = J + 1
+  WEND
+  PosX = PosX + CW + SX
+  I = I + 1
+WEND
+

@@ -1,0 +1,42 @@
+CATEGORY Geometry
+
+PARAM X1       FLOAT
+PARAM Y1       FLOAT
+PARAM Z1       FLOAT
+PARAM X2       FLOAT
+PARAM Y2       FLOAT
+PARAM Z2       FLOAT
+PARAM X3       FLOAT
+PARAM Y3       FLOAT
+PARAM Z3       FLOAT
+PARAM TX1      FLOAT
+PARAM TZ1      FLOAT
+PARAM TX2      FLOAT
+PARAM TZ2      FLOAT
+PARAM TX3      FLOAT
+PARAM TZ3      FLOAT
+PARAM Tex      STRING
+PARAM Tex2     STRING  DEFAULT Tex
+PARAM Solid    BOOLEAN DEFAULT True
+
+HINT  X1       The absolute X coordinate of vertex 1.
+HINT  Y1       The absolute Y coordinate of vertex 1.
+HINT  Z1       The absolute Z coordinate of vertex 1.
+HINT  X2       The absolute X coordinate of vertex 2.
+HINT  Y2       The absolute Y coordinate of vertex 2.
+HINT  Z2       The absolute Z coordinate of vertex 2.
+HINT  X3       The absolute X coordinate of vertex 3.
+HINT  Y3       The absolute Y coordinate of vertex 3.
+HINT  Z3       The absolute Z coordinate of vertex 3.
+HINT  TX1      The horizontal texture coordinate of vertex 1.
+HINT  TZ1      The vertical texture coordinate of vertex 1.
+HINT  TX2      The horizontal texture coordinate of vertex 2.
+HINT  TZ2      The vertical texture coordinate of vertex 2.
+HINT  TX3      The horizontal texture coordinate of vertex 3.
+HINT  TZ3      The vertical texture coordinate of vertex 3.
+HINT  Tex      The front texture.
+HINT  Tex2     The back texture. Defaults to Tex.
+HINT  Solid    When True, makes sure that the player can't pass through the object.
+
+TRIANGLETEX X1-PlaceX,Y1-PlaceY,Z1-PlaceZ, X2-PlaceX,Y2-PlaceY,Z2-PlaceZ, X3-PlaceX,Y3-PlaceY,Z3-PlaceZ, TX1,TZ1, TX2,TZ2, TX3,TZ3, Tex,  false, false, Solid, 0, false   ' Front face
+TRIANGLETEX X3-PlaceX,Y3-PlaceY,Z3-PlaceZ, X2-PlaceX,Y2-PlaceY,Z2-PlaceZ, X1-PlaceX,Y1-PlaceY,Z1-PlaceZ, TX3,TZ3, TX2,TZ2, TX1,TZ1, Tex2, false, false, Solid, 0, false   ' Back face

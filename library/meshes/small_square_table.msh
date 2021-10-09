@@ -1,0 +1,36 @@
+Group
+  Name    small_square_table
+  Loc     0, 0, 0
+  Heading 0, 0, 0
+  Size    1, 1, 1
+  Count   1
+  Category furniture
+  Mesh
+    Name    small_square_table
+    Loc     0, 0, 0
+    Heading 0, 0, 0
+    Size    1, 1, 1
+    TriangleTex -2, -2, 0, 2, -2, 0, 2, 2, 0, 0, 0, 1, 0, 1, 1, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -2, -2, 0, -2, 2, 0, -1.20000076293945, 1.20000076293945, 3, 1, 0, 0, 0, 0.19921875, 0.75, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, -0.966234982013702, 0, 0.257662415504456, -0.966234982013702, 0, 0.257662415504456, -0.966234982013702, 0, 0.257662415504456
+    TriangleTex 2, -2, 0, 1.20000076293945, -1.20000076293945, 3, 1.20000076293945, 1.20000076293945, 3, 0, 0, 0.19921875, 0.75, 0.80078125, 0.75, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 0.966234982013702, 0, 0.257662415504456, 0.966234982013702, 0, 0.257662415504456, 0.966234982013702, 0, 0.257662415504456
+    TriangleTex -2, -2, 0, -1.20000076293945, -1.20000076293945, 3, 1.20000076293945, -1.20000076293945, 3, 0, 0, 0.19921875, 0.75, 0.80078125, 0.75, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -0.966234982013702, 0.257662415504456, 0, -0.966234982013702, 0.257662415504456, 0, -0.966234982013702, 0.257662415504456
+    TriangleTex 2, 2, 0, 1.20000076293945, 1.20000076293945, 3, -1.20000076293945, 1.20000076293945, 3, 1, 0, 0.80078125, 0.75, 0.19921875, 0.75, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0.966234982013702, 0.257662415504456, 0, 0.966234982013702, 0.257662415504456, 0, 0.966234982013702, 0.257662415504456
+    TriangleTex -4, -4, 3, 4, -4, 3, 4, 4, 3, 0, 0, 1, 0, 1, 1, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -4, -4, 3.20000004768372, -4, 4, 3.20000004768372, 4, 4, 3.20000004768372, 0, 0, 0, 1, 1, 1, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, 1, 0, 0, 1, 0, 0, 1
+    TriangleTex -4, -4, 3, -4, 4, 3, -4, 4, 3.20000004768372, 1, 0, 0, 0, 0, 0.0234375, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 4, -4, 3, 4, -4, 3.20000004768372, 4, 4, 3.20000004768372, 0, 0, 0, 0.0234375, 1, 0.0234375, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -4, -4, 3, -4, -4, 3.20000004768372, 4, -4, 3.20000004768372, 0, 0, 0, 0.0234375, 1, 0.0234375, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 4, 4, 3, 4, 4, 3.20000004768372, -4, 4, 3.20000004768372, 1, 0, 1, 0.0234375, 0, 0.0234375, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+    TriangleTex -2, -2, 0, 2, 2, 0, -2, 2, 0, 0, 0, 1, 1, 0, 1, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -2, -2, 0, -1.20000076293945, 1.20000076293945, 3, -1.20000076293945, -1.20000076293945, 3, 1, 0, 0.19921875, 0.75, 0.80078125, 0.75, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, -0.966234982013702, 0, 0.257662415504456, -0.966234982013702, 0, 0.257662415504456, -0.966234982013702, 0, 0.257662415504456
+    TriangleTex 2, -2, 0, 1.20000076293945, 1.20000076293945, 3, 2, 2, 0, 0, 0, 0.80078125, 0.75, 1, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 0.966234982013702, 0, 0.257662415504456, 0.966234982013702, 0, 0.257662415504456, 0.966234982013702, 0, 0.257662415504456
+    TriangleTex -2, -2, 0, 1.20000076293945, -1.20000076293945, 3, 2, -2, 0, 0, 0, 0.80078125, 0.75, 1, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -0.966234982013702, 0.257662415504456, 0, -0.966234982013702, 0.257662415504456, 0, -0.966234982013702, 0.257662415504456
+    TriangleTex 2, 2, 0, -1.20000076293945, 1.20000076293945, 3, -2, 2, 0, 1, 0, 0.19921875, 0.75, 0, 0, BROWN_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0.966234982013702, 0.257662415504456, 0, 0.966234982013702, 0.257662415504456, 0, 0.966234982013702, 0.257662415504456
+    TriangleTex -4, -4, 3, 4, 4, 3, -4, 4, 3, 0, 0, 1, 1, 0, 1, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -4, -4, 3.20000004768372, 4, 4, 3.20000004768372, 4, -4, 3.20000004768372, 0, 0, 1, 1, 1, 0, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, 1, 0, 0, 1, 0, 0, 1
+    TriangleTex -4, -4, 3, -4, 4, 3.20000004768372, -4, -4, 3.20000004768372, 1, 0, 0, 0.0234375, 1, 0.0234375, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 4, -4, 3, 4, 4, 3.20000004768372, 4, 4, 3, 0, 0, 1, 0.0234375, 1, 0, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -4, -4, 3, 4, -4, 3.20000004768372, 4, -4, 3, 0, 0, 1, 0.0234375, 1, 0, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 4, 4, 3, -4, 4, 3.20000004768372, -4, 4, 3, 1, 0, 0, 0.0234375, 0, 0, CHERRY_WOOD+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+  End
+End

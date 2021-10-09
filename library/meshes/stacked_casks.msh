@@ -1,0 +1,25 @@
+Group
+  Name    stacked_casks
+  Loc     0, 0, 0
+  Heading 0, 0, 0
+  Size    1, 1, 1
+  Count   1
+  Mesh
+    Name    stacked_casks
+    Loc     0, 0, 0
+    Heading 0, 0, 0
+    Size    1, 1, 1
+    TriangleTex -3.75, -4.5, 0, 3.75, -4.5, 0, 3.75, 4.5, 0, 0, 0, 0.83203125, 0, 0.83203125, 1, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -3.75, -4.5, 13.5, -3.75, 4.5, 13.5, 3.75, 4.5, 13.5, 0, 0, 0, 1, 0.83203125, 1, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 0, 0, 1, 0, 0, 1, 0, 0, 1
+    TriangleTex -3.75, -4.5, 0, -3.75, 4.5, 0, -3.75, 4.5, 13.5, 1, 0, 0, 0, 0, 1.5, 4_barrels_on_shelf1, false, false, true, 0, false, 0, false, 0, false, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 3.75, -4.5, 0, 3.75, -4.5, 13.5, 3.75, 4.5, 13.5, 0, 0, 0, 1.5, 1, 1.5, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -3.75, -4.5, 0, -3.75, -4.5, 13.5, 3.75, -4.5, 13.5, 0, 0, 0, 1.5, 0.83203125, 1.5, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 3.75, 4.5, 0, 3.75, 4.5, 13.5, -3.75, 4.5, 13.5, 0.83203125, 0, 0.83203125, 1.5, 0, 1.5, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+    TriangleTex -3.75, -4.5, 0, 3.75, 4.5, 0, -3.75, 4.5, 0, 0, 0, 0.83203125, 1, 0, 1, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -3.75, -4.5, 13.5, 3.75, 4.5, 13.5, 3.75, -4.5, 13.5, 0, 0, 0.83203125, 1, 0.83203125, 0, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 0, 0, 1, 0, 0, 1, 0, 0, 1
+    TriangleTex -3.75, -4.5, 0, -3.75, 4.5, 13.5, -3.75, -4.5, 13.5, 1, 0, 0, 1.5, 1, 1.5, 4_barrels_on_shelf1, false, false, true, 0, false, 0, false, 0, false, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 3.75, -4.5, 0, 3.75, 4.5, 13.5, 3.75, 4.5, 0, 0, 0, 1, 1.5, 1, 0, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -3.75, -4.5, 0, 3.75, -4.5, 13.5, 3.75, -4.5, 0, 0, 0, 0.83203125, 1.5, 0.83203125, 0, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 3.75, 4.5, 0, -3.75, 4.5, 13.5, -3.75, 4.5, 0, 0.83203125, 0, 0, 1.5, 0, 0, brown_wood, false, false, true, 0, false, 0, false, 0, false, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+  End
+End

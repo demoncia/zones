@@ -1,0 +1,125 @@
+CATEGORY Furniture
+PARAM OverhangX     FLOAT   DEFAULT 0.05  ' Overhang in X direction
+PARAM OverhangY     FLOAT   DEFAULT 0.05  ' Overhang in Y direction
+PARAM SeatThick     FLOAT   DEFAULT 0.05  ' Seat and back thickness
+PARAM LegThick      FLOAT   DEFAULT 0.05  ' Leg thickness
+PARAM SeatHeight    FLOAT   DEFAULT 0.5   ' Seat height
+PARAM ArmrestHeight FLOAT   DEFAULT 0.25  ' Armrest height
+PARAM ArmRests      BOOLEAN DEFAULT FALSE
+PARAM Frills        BOOLEAN DEFAULT FALSE
+PARAM Tex1          STRING
+PARAM Tex2          STRING  DEFAULT Tex1  ' Seat and back covering
+
+HINT OverhangX      The amount that the seat hangs over the legs in the X
+HINT OverhangX      direction. This is specified in fractional units; a
+HINT OverhangX      value of 1 denotes the object's overall size in the X
+HINT OverhangX      direction.
+HINT OverhangY      The amount that the seat hangs over the legs in the Y
+HINT OverhangY      direction. This is specified in fractional units; a
+HINT OverhangY      value of 1 denotes the object's overall size in the Y
+HINT OverhangY      direction.
+HINT SeatThick      The thickness of the seat and seat back. This is specified
+HINT SeatThick      in fractional units; a value of 1 denotes the object's
+HINT SeatThick      overall height.
+HINT LegThick       The thickness of the legs and armrests. This is specified
+HINT LegThick       in fractional units; a value of 1 denotes the object's
+HINT Legthick       overall height.
+HINT SeatHeight     The height of the seat relative to the chair's overall
+HINT SeatHeight     height. A value of 0.5 puts the seat halfway up, while a
+HINT SeatHeight     smaller value results in a high-backed chair.
+HINT ArmrestHeight  The height of the armrests above the seat, relative to
+HINT ArmrestHeight  the chair's overall height. A value of 0.25, for instance,
+HINT ArmrestHeight  puts the armrests above the seat by one-quarter of the
+HINT ArmrestHeight  chair's overall height.
+HINT ArmRests       When True, creates armrests for the chair.
+HINT Frills         When True, puts small boxes at the top of the chair such
+HINT Frills         that the seat back stops just below the spars along the
+HINT Frills         sides.
+HINT Tex1           Texture for the chair, except the top of the seat and the
+HINT Tex1           front face of the seat back.
+HINT Tex2           Texture for the top of the seat and the front face of the
+HINT Tex2           seat back. Defaults to Tex1.
+
+VARIABLE I        Float
+
+' Seat
+
+Script Box        -0.5, -0.5, SeatHeight - SeatThick / 2,
+                  0,0,0,
+                  1,1,SeatThick,
+                  Tex1,Tex1,Tex1,Tex1,Tex1,Tex2;
+
+' Chair back
+
+Script Box        -0.5, 0.5 - SeatThick, SeatHeight + SeatThick / 2,
+                  0,0,0,
+                  1, SeatThick, 1 - SeatHeight - SeatThick / 2,
+                  Tex1,Tex1,Tex1,Tex2;
+
+' Legs
+
+Script Box        -0.5 + OverhangX, -0.5 + OverhangY, 0,
+                  0,0,0,
+		  LegThick, LegThick, SeatHeight - SeatThick / 2,
+		  Tex1;
+
+Script Box        0.5 - OverhangX - LegThick, -0.5 + OverhangY, 0,
+                  0,0,0,
+		  LegThick, LegThick, SeatHeight - SeatThick / 2,
+		  Tex1;
+
+Script Box        -0.5 + OverhangX, 0.5 - OverhangY - LegThick, 0,
+                  0,0,0,
+		  LegThick, LegThick, SeatHeight - SeatThick / 2,
+		  Tex1;
+
+Script Box        0.5 - OverhangX - LegThick, 0.5 - OverhangY - LegThick, 0,
+                  0,0,0,
+		  LegThick, LegThick, SeatHeight - SeatThick / 2,
+		  Tex1;
+
+' Armrests
+
+IF ArmRests
+  I = ArmrestHeight
+  If I > 1 - SeatHeight - SeatThick / 2
+    I = 1 - SeatHeight - SeatThick / 2
+  EndIf
+
+  Script Box        -0.5, -0.5 + LegThick, SeatHeight + SeatThick / 2,
+                    0,0,0,
+                    LegThick, LegThick, I - LegThick,
+                    Tex1;
+
+  Script Box        0.5 - LegThick, -0.5 + LegThick, SeatHeight + SeatThick / 2,
+                    0,0,0,
+                    LegThick, LegThick, I - LegThick,
+                    Tex1;
+
+  Script Box        -0.5, -0.5 + LegThick, SeatHeight + SeatThick / 2 + I - LegThick,
+                    0,0,0,
+                    LegThick, 1 - LegThick, LegThick,
+                    Tex1;
+
+  Script Box        0.5 - LegThick, -0.5 + LegThick, SeatHeight + SeatThick / 2 + I - LegThick,
+                    0,0,0,
+                    LegThick, 1 - LegThick, LegThick,
+                    Tex1;
+
+ENDIF
+
+' Frills
+
+IF Frills
+
+  Script Box        -0.5, 0.5 - SeatThick, 1,
+                    0,0,0,
+                    SeatThick, SeatThick, SeatThick,
+                    Tex1;
+
+  Script Box        0.5 - SeatThick, 0.5 - SeatThick, 1,
+                    0,0,0,
+                    SeatThick, SeatThick, SeatThick,
+                    Tex1;
+
+ENDIF

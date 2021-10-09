@@ -1,0 +1,8 @@
+CATEGORY Earth
+
+PARAM Tex STRING
+
+HINT  Tex The texture to use for the leaves.
+
+RECTANGLETEX 0,0,0, 0,0,1, 1,0,1, 1,0,0,   0,0, 0,1, 1,1, 1,0, Tex, false, false, false, 0, false, true   ' Front face
+RECTANGLETEX 1,0,0, 1,0,1, 0,0,1, 0,0,0,   0,0, 0,1, 1,1, 1,0, Tex, false, false, false, 0, false, true   ' Back face

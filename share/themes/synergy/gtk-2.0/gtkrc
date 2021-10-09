@@ -1,0 +1,883 @@
+# human synergy                                                build 28
+# 2008/10/28 16:52:45
+#
+# Author:   j baer <baerjj@gmail.com>
+#
+# version:  8.10
+#
+# #####################################################################
+# Attribution
+# #####################################################################
+#
+# Ubuntu Human-Clearlooks
+#   & Dust theme
+#   & New Wave
+#
+# #####################################################################
+# D O C U M E N T A T I O N
+# #####################################################################
+#
+# Engine specific setting
+#
+#   engine "clearlooks"
+#
+# Property values
+#
+#   class::property = value
+#
+# Color States
+#
+#   NORMAL - Color for widget @ default
+#
+#   ACTIVE  - Color for active widget
+#
+#   PRELIGHT  - Color for button/menu item when mouse hovers above
+#
+#   INSENSITIVE - Color for disabled widget
+#
+# #####################################################################
+# Style Declarations
+# #####################################################################
+#
+# ---------------------------------------------------------------------
+# Property          HEX     PMS/HTML      COMMENT
+# ----------------- ------- ------------- -----------------------------
+# bg_ACTIVE         #e8e1d5 Neutral mix   active background
+# bg_INSENSITIVE    #dedad3 Neutral mix   dimmed background
+# bg_NORMAL         #e4e0d8 Neutral       default background
+# bg_PRELIGHT       #cdc0b0 Light Brown   prelight background
+# bg_SELECTED       #ffb515 Ubuntu Yellow selected background
+#
+# fg_ACTIVE         #ef6b00 Orange 021    active foreground
+# fg_INSENSITIVE    #525252 Gray 32       dimmed foreground
+# fg_NORMAL         #000000 Black         default foreground
+# fg_PRELIGHT       #30383A Dark Brown    prelight foreground
+# fg_SELECTED       #665613 PMS 455       selected foreground
+#
+# base_ACTIVE       #c4c0b9 Custom mix    active widget background (nautilus / rhythmbox)
+# base_INSENSITIVE  #f5f5f5 Smoke         dimmed widget background (rhythmbox left column headers)
+# base_NORMAL       #ffffff White         default widget background (inside panel)
+# base_PRELIGHT     #f5f5f5 Smoke         prelight widget background
+# base_SELECTED     #b9bdc4 Custom Blue   selected widget background (nautilus / rhythmbox)
+#
+# text_ACTIVE       #000000 Black         active widget text
+# text_INSENSITIVE  #696969 Dimgray       dimmed widget text
+# text_NORMAL       #101010 Black 3       default widget text
+# text_PRELIGHT     #4f2e06 Custom mix    prelight widget text
+# text_SELECTED     #002553 PMS 282       selected widget text (blue)
+#
+# opt1_NORMAL       #d2cec4 Cool gray 3   rhythmbox/evolution list header
+# opt1_INSENSITIVE  #dedede Grey 87       progressbar dimmed text
+# opt2_NORMAL       #bf5b00 PMS 716       metacity frame highlight (Drk Orange)
+#
+# pnbg_NORMAL       #190b00 Drk Redwood   default panel background
+# pnbg_PRELIGHT     #4d4d4d Gray 30       prelight panel background
+#
+# pnfg_NORMAL       #f5f5f5 Smoke         default panel text
+# pnfg_PRELIGHT     #ffffff White         prelight panel text
+#
+# #####################################################################
+#
+
+gtk_color_scheme = "fg_ACTIVE:#ef6b00\nfg_INSENSITIVE:#525252\nfg_NORMAL:#000000\nfg_PRELIGHT:#30383A\nfg_SELECTED:#665613\nbg_ACTIVE:#e8e1d5\nbg_INSENSITIVE:#dedad3\nbg_NORMAL:#e4e0d8\nbg_PRELIGHT:#cdc0b0\nbg_SELECTED:#ffb515\nbase_ACTIVE:#c4c0b9\nbase_INSENSITIVE:#f5f5f5\nbase_NORMAL:#ffffff\nbase_PRELIGHT:#f5f5f5\nbase_SELECTED:#b9bdc4\ntext_ACTIVE:#000000\ntext_INSENSITIVE:#696969\ntext_NORMAL:#101010\ntext_PRELIGHT:#4f2e06\ntext_SELECTED:#002553\nopt1_NORMAL:#d2cec4\nopt2_NORMAL:#bf5b00\nopt1_INSENSITIVE:#dedede\npnbg_NORMAL:#190b00\npnbg_PRELIGHT:#4d4d4d\npnfg_NORMAL:#f5f5f5\npnfg_PRELIGHT:#ffffff"
+
+include "scrollbars/scrollbar.rc"
+
+style "clearlooks-default"
+{
+  #
+  # -------------------------------------------------------------------
+  # style properties
+  # -------------------------------------------------------------------
+  #
+
+  #These properties control how the image on a button is displaced when it is clicked.
+  GtkButton      ::child-displacement-x = 1
+  GtkButton      ::child-displacement-y = 1
+  GtkButton      ::default-border       = { 0, 0, 0, 0 }
+  GtkCheckButton ::indicator-size       = 14
+
+  GtkPaned       ::handle-size          = 6
+
+  GtkRange       ::trough-border        = 0
+  GtkRange       ::slider-width         = 15
+  GtkRange       ::stepper-size         = 15
+
+  GtkScale       ::slider-length        = 20  # 30
+  GtkScale       ::trough-side-details  = 0   # Restores sliders (1)
+  GtkScrollbar   ::min-slider-length    = 30
+
+  GtkMenuBar     ::internal-padding     = 0
+  GtkExpander    ::expander-size        = 16
+  GtkToolbar     ::internal-padding     = 1
+# GtkToolbar     ::shadow_type          = GTK_SHADOW_OUT
+  GtkTreeView    ::expander-size        = 14
+  GtkTreeView    ::vertical-separator   = 0
+
+  GtkMenu        ::horizontal-padding   = 1
+  GtkMenu        ::vertical-padding     = 0
+# GtkScrolledWindow::shadow_type        = GTK_SHADOW_OUT
+# GtkMenuBar::shadow_type               = GTK_SHADOW_ETCHED_IN
+  WnckTasklist   ::fade-overlay-rect    = 0   # Glow the tasklist by changing the color
+
+  xthickness = 1
+  ythickness = 1
+
+# GtkTreeView    ::odd_row_color        = "#F5F2ED"
+# GtkTreeView    ::even_row_color       = "#FAF9F7"
+
+# bg[state]   = Background color of most widgets
+#
+  bg[ACTIVE]        = @bg_ACTIVE                    # Active button/widget
+  bg[INSENSITIVE]   = @bg_INSENSITIVE               # Disabled buttons/widgets
+  bg[NORMAL]        = @bg_NORMAL                    # Normal window trim
+  bg[PRELIGHT]      = @bg_PRELIGHT                  # Prelight used by rhythmbox library headers
+  bg[SELECTED]      = @bg_SELECTED                  # Selected Desktop Status Tray
+
+# fg[state]   = Foreground color of most widgets
+#
+  fg[ACTIVE]        = @fg_ACTIVE                    # Click/press
+  fg[INSENSITIVE]   = @fg_INSENSITIVE               # Dimmed button text
+  fg[NORMAL]        = @fg_NORMAL                    # Default text including rhythmbox headers
+  fg[PRELIGHT]      = @fg_PRELIGHT                  # MouseOver Text (rhythmbox headers)
+  fg[SELECTED]      = @fg_SELECTED                  # Button down
+
+# base[state] = Background color of widgets with editable text
+#               ( GtkText/GtkEntry/GtkList/GtkCList )
+#
+  base[ACTIVE]      = @base_ACTIVE                  # Use by nautilus / rhythmbox
+  base[INSENSITIVE] = @base_INSENSITIVE             # Combobox background
+  base[NORMAL]      = @base_NORMAL                  # Background inside trim
+  base[PRELIGHT]    = @base_PRELIGHT                # Base mouse over
+  base[SELECTED]    = @base_SELECTED                # Use by nautilus / rhythmbox
+
+# text[state] = Set color of text of base[state] widgets
+#
+  text[ACTIVE]      = @text_ACTIVE                  # Artist/Album titles in rhythmbox - paired to base[ACTIVE]
+  text[INSENSITIVE] = @text_INSENSITIVE             # Dimmed widget text
+  text[NORMAL]      = @text_NORMAL                  # Rhythmbox/Evolution Text
+  text[PRELIGHT]    = @text_PRELIGHT                # Widget Mouse over
+  text[SELECTED]    = @text_SELECTED                # Widget Selected
+
+  engine "clearlooks"
+  {
+    colorize_scrollbar = FALSE
+    reliefstyle        = 1
+    menubarstyle       = 2                          # 0 = flat, 1 = sunken, 2 = flat gradient
+    toolbarstyle       = 0                          # 0 = flat, 1 = enable effects
+    animation          = TRUE
+    radius             = 2.0
+    style              = GUMMY                      # version released with GNOME 2.20
+
+    # Set a hint to disable backward compatibility fallbacks.
+    hint = "use-hints"
+  }
+}
+
+style "clearlooks-toolbar" = "clearlooks-default"
+{
+    xthickness = 4
+    ythickness = 3
+
+  engine "pixmap"
+  {
+    image {
+        function = BOX
+        file = "toolbar_light.png"
+        border = {1,1,1,1}
+    }
+#
+# Researching this ... ;)
+#
+#   image {
+#     function        = HANDLE
+#     overlay_file    = "handlebox.png"
+#     overlay_stretch = FALSE
+#     orientation     = HORIZONTAL
+#   }
+#    image {
+#     function        = HANDLE
+#     overlay_file    = "handlebox.png"
+#     overlay_stretch = FALSE
+#     orientation     = VERTICAL
+#   }
+  }
+}
+
+style "clearlooks-toolbar-item" = "clearlooks-toolbar"
+{
+  bg[NORMAL]      = @bg_NORMAL                      # toolbar separators
+
+  engine "clearlooks" {
+    contrast    = 1.0
+    radius      = 2.0
+    style       = GUMMY                             # version released with GNOME 2.20
+    reliefstyle = 1
+  }
+}
+
+# scale controls (slider)
+
+# bgINSENSITIVE/PRELIGHT/SELECTED has no effect
+# fgACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# baseACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# textACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+
+style "clearlooks-wide"
+{
+
+  bg[ACTIVE]      = @bg_NORMAL                      # firefox scrollbar background
+  bg[NORMAL]      = @bg_NORMAL                      # frame lines, form/combo box spacer lines
+
+  xthickness = 1
+  ythickness = 1
+}
+
+# button defaults
+
+# bgPRELIGHT has no effect
+# fgNORMAL/SELECTED has no effect
+# baseACTIVE/PRELIGHT has no effect
+# textPRELIGHT/SELECTED has no effect
+
+style "clearlooks-wider"
+{
+
+  # exception to theme colors
+  bg[ACTIVE]        = shade(.8,@bg_NORMAL)          # active combobox controls ^/v
+  bg[INSENSITIVE]   = @bg_INSENSITIVE               # disabled combobox controls ^/v
+  # exception to theme colors
+  bg[NORMAL]        = shade(.94,@bg_NORMAL)         # default combobox controls ^/v
+  # exception to theme colors
+  bg[SELECTED]      = "#969696"                     # selected inputbox border (Gray 59)
+
+  fg[ACTIVE]        = @fg_ACTIVE                    # active/selected combobox description & ^/v controls
+  fg[INSENSITIVE]   = @fg_INSENSITIVE               # dimmed combobox description & ^/v controls
+  fg[NORMAL]        = @fg_NORMAL                    # default combobox description & ^/v controls
+  fg[PRELIGHT]      = @fg_PRELIGHT                  # pelight combobox description & ^/v controls
+
+  base[INSENSITIVE] = @base_INSENSITIVE             # dimmed combobox input
+  base[NORMAL]      = @base_NORMAL                  # default combobox input
+  base[SELECTED]    = @base_SELECTED                # selected combobox input
+
+  text[ACTIVE]      = @text_ACTIVE                  # active combobox input text
+  text[INSENSITIVE] = @text_INSENSITIVE             # dimmed combobox input text
+  text[NORMAL]      = @text_NORMAL                  # default combobox input text
+
+  xthickness = 3
+  ythickness = 3
+
+}
+
+# buttons
+
+# fgSELECTED has no effect
+# baseACTIVE/INSENSITIVE/PRELIGHT/SELECTED has no effect
+# textACTIVE/INSENSITIVE/PRELIGHT/SELECTED has no effect
+
+style "clearlooks-button" = "clearlooks-wider"
+{
+  bg[ACTIVE]      = @bg_ACTIVE                      # depressed/active (toggle) button
+  bg[INSENSITIVE] = @bg_INSENSITIVE                 # disabled button
+  bg[NORMAL]      = @bg_NORMAL                      # default button
+  # exception to theme colors
+  bg[PRELIGHT]    = shade(1.03,@bg_NORMAL)          # button prelight mouse over
+  bg[SELECTED]    = @bg_SELECTED                    # selected navigation button background / prelight radio button background
+
+  fg[ACTIVE]      = @fg_ACTIVE                      # e.g.  Text on depressed/active button
+  fg[INSENSITIVE] = @fg_INSENSITIVE                 # e.g.  Text on dimmed button
+  fg[NORMAL]      = @fg_NORMAL                      # e.g.  Text on default button
+  fg[PRELIGHT]    = @fg_PRELIGHT                    # e.g.  Text @ mouse over
+
+  base[NORMAL]    = @base_NORMAL                    # Default background for check boxed
+
+  # exception to theme colors
+  text[NORMAL]    = "#9E2727"                       # Default check symbol & dot (PMS 704 drk red)
+
+  engine "clearlooks"
+  {
+  }
+}
+
+# notebook tabs
+
+# bgINSENSITIVE/PRELIGHT has no effect
+# fgACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# baseACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# textACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+
+style "clearlooks-notebook"
+{
+
+  bg[ACTIVE]        = @bg_ACTIVE                    # Active / unselected tabs
+  # exception to theme colors
+  bg[NORMAL]        = shade (1.08, @bg_NORMAL)      # Selected tab body
+  bg[SELECTED]      = @bg_SELECTED                  # Selected tab edge
+
+  xthickness = 2
+
+}
+
+
+# This appear to be out-of-date
+
+# style "clearlooks-tasklist" = "clearlooks-wide"
+# {
+#
+# }
+
+# bgACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# fgACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# baseACTIVE/INSENSITIVE/PRELIGHT/SELECTED has no effect
+# textACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+
+style "clearlooks-menu" = "clearlooks-wider"
+{
+
+  xthickness = 0
+  
+  bg[NORMAL]        = @bg_NORMAL                    # Match menu panel to window trim
+
+}
+
+# bgACTIVE/INSENSITIVE/NORMAL/PRELIGHT has no effect
+# fgACTIVE/SELECTED has no effect
+# baseACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# textACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+
+style "clearlooks-menu-item" = "clearlooks-wider"
+{
+
+  # exception to theme colors
+  bg[SELECTED]      = "#aea79d"                     # evolution menu tabs
+  # exception to theme colors
+  fg[NORMAL]        = "#262626"                     # default menu text
+  fg[INSENSITIVE]   = @fg_INSENSITIVE               # dimmed menu text
+  # exception to theme colors
+  fg[PRELIGHT]      = "#000000"                     # mouse-over menu text
+
+  engine "clearlooks"
+  {
+    radius = 1.5
+  }
+
+  engine "pixmap"
+  # the desire is to match the menu prelight to the scroll bars
+  {
+    image
+    {
+      function          = BOX
+      recolorable       = TRUE
+      overlay_file      = "menu_background.png"
+      border            = { 4, 4, 4, 4 }
+      stretch           = TRUE
+    }
+    image
+    {
+      function          = ARROW
+      recolorable       = TRUE
+      state             = NORMAL
+      overlay_file      = "arrows/arrow-right.png"
+      overlay_stretch   = FALSE
+      arrow_direction   = RIGHT
+    }
+    image
+    {
+      function          = ARROW
+      recolorable       = TRUE
+      state             = PRELIGHT
+      overlay_file      = "arrows/arrow-right-prelight.png"
+      overlay_stretch   = FALSE
+      arrow_direction   = RIGHT
+    }
+    image
+    {
+      function          = ARROW
+      recolorable       = TRUE
+      state             = INSENSITIVE
+      overlay_file      = "arrows/arrow-right-insens.png"
+      overlay_stretch   = FALSE
+      arrow_direction   = RIGHT
+    }
+  }
+}
+
+style "clearlooks-separator-menu-item"
+{
+  GtkSeparatorMenuItem::horizontal-padding = 0
+  GtkWidget::wide-separators  = 1
+  GtkWidget::separator-width  = 1
+  GtkWidget::separator-height = 1
+  xthickness = 3                                    # left / right space
+  ythickness = 3                                    # top / bottom space
+}
+
+
+# treeview
+# tested against add/remove applications & rhythmbox
+
+# bgACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# fgACTIVE/INSENSITIVE/SELECTED has no effect
+# baseINSENSITIVE/PRELIGHT has no effect
+# textACTIVE/INSENSITIVE/PRELIGHT has no effect
+
+style "clearlooks-treeview"
+{
+
+  fg[NORMAL]        = @fg_NORMAL                    # Default header text
+  fg[PRELIGHT]      = @fg_PRELIGHT                  # Prelight header text
+
+  base[ACTIVE]      = @base_ACTIVE                  # Default selected list item
+  base[NORMAL]      = @base_NORMAL                  # Panel background
+  base[SELECTED]    = @base_SELECTED                # Selected list item
+
+  text[ACTIVE]      = @text_ACTIVE                  # Category headers text
+
+  # exception to theme colors
+  text[NORMAL]      = @fg_PRELIGHT                  # Default list item text (Very drk blue)
+  text[SELECTED]    = @text_SELECTED                # Selected list item text
+
+  engine "clearlooks" {
+    hint = "treeview"
+  }
+}
+
+# used by evolution / rhythmbox
+
+# bgINSENSITIVE/PRELIGHT has no effect
+# fgINSENSITIVE/PRELIGHT has no effect
+# baseACTIVE/INSENSITIVE/PRELIGHT/SELECTED has no effect
+# textACTIVE/INSENSITIVE/PRELIGHT/SELECTED has no effect
+
+style "clearlooks-treeview-header" = "clearlooks-default"
+{
+  # exception to theme colors
+  bg[ACTIVE]        = shade(1.08,@base_ACTIVE)      # Default list item background
+  bg[NORMAL]        = @opt1_NORMAL                  # GtkList header background (replaced with pixmap)
+  bg[SELECTED]      = shade(1.08,@base_SELECTED)    # Light blue
+
+  fg[ACTIVE]        = @text_SELECTED                # Default list item text
+  fg[NORMAL]        = @fg_NORMAL                    # Outline for adding tasks & notes
+  fg[SELECTED]      = @text_SELECTED                # Blue
+
+  base[NORMAL]      = @base_NORMAL                  # Default list panel background
+
+  text[NORMAL]      = @text_NORMAL                  # Default list text
+
+  engine "clearlooks"
+  {
+    hint = "treeview-header"
+  }
+
+  # GtkList header image
+  engine "pixmap"
+  {
+    image
+    {
+      function        = BOX
+      recolorable     = TRUE
+      state           = NORMAL
+      file            = "headers/header_NORMAL.png"
+      border          = {0,0,0,0}
+      stretch         = TRUE
+    }
+    image
+    {
+      function        = BOX
+      recolorable     = TRUE
+      state           = PRELIGHT
+      file            = "headers/header_PRELIGHT.png"
+      border          = {0,0,0,0}
+      stretch         = TRUE
+    }
+  }
+
+}
+
+# Used by geany
+style "clearlooks-frame-title"
+{
+
+  # exception to theme colors
+  fg[NORMAL]        = "#5F5F5B"                     # PMS 425
+}
+
+style "clearlooks-tooltips" = "clearlooks-wider"
+{
+  # exception to theme colors
+  bg[NORMAL]        = "#fffea7"                     # Light yellow
+
+  fg[NORMAL]        = @fg_NORMAL                    # PMS Black 2 2X
+}
+
+# style "clearlooks-progressbar"
+# {
+#   xthickness = 1
+# ythickness = 1
+#
+#  fg[PRELIGHT]      = @text_ACTIVE                  # White
+#  bg[SELECTED]      = "#B55300"                     # Custom
+#
+#  engine "clearlooks"
+#  {
+#    # Explicitly set the radius, for progress
+#    # bars inside menuitems
+#    hint  = "progressbar"
+#  }
+#}
+
+# custom progress bar
+style "clearlooks-progressbar" {
+
+  fg[NORMAL]          = @opt1_INSENSITIVE           # Dimmed text  (Gray)
+  fg[PRELIGHT]        = @pnfg_PRELIGHT              # Prelight text (White)
+
+  xthickness          = 0
+  ythickness          = 0
+
+  engine "pixmap"
+  {
+    image
+    {
+      function        = BOX
+      detail          = "trough"
+      file            = "ProgressBar/trough-progressbar-horiz.png"
+      border          = { 2, 2, 2, 2 }
+      stretch         = TRUE
+    }
+    image
+    {
+      function        = BOX
+      detail          = "bar"
+      file            = "ProgressBar/progressbar-horiz.png"
+      border          = { 2, 2, 2, 2 }
+      stretch         = TRUE
+      orientation     = HORIZONTAL
+    }
+    image
+    {
+      function        = BOX
+      detail          = "bar"
+      file            = "ProgressBar/progressbar-vert.png"
+      border          = { 2, 2, 2, 2 }
+      stretch         = TRUE
+      orientation     = VERTICAL
+    }
+  }
+}
+
+style "clearlooks-statusbar"
+{
+
+  bg[NORMAL]          = @bg_NORMAL                      # form bottom
+
+  engine "pixmap"
+  {
+    image
+      {
+        function = RESIZE_GRIP
+        recolorable = TRUE
+        detail = "statusbar"
+        overlay_file = "statusgrip.png"
+        overlay_border = {0,0,0,0}
+        overlay_stretch = TRUE
+      }
+  }
+
+#  engine "clearlooks"
+#  {
+#    hint  = "statusbar"
+#  }
+}
+
+style "clearlooks-comboboxentry"
+{
+  # NOTE:
+  # If you set the appears-as-list option on comboboxes in the theme
+  # you should set this hint on the combobox instead.
+
+  engine "clearlooks"
+  {
+    hint  = "comboboxentry"
+  }
+}
+
+style "clearlooks-spinbutton"
+{
+  engine "clearlooks"
+  {
+    hint  = "spinbutton"
+  }
+}
+
+# Slider "button"
+
+# bgACTIVE/INSENSITIVE has no effect
+# fgACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# baseACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# textACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+
+style "clearlooks-scale"
+{
+
+  bg[NORMAL]        = @base_SELECTED                # Default button (light blue)
+  bg[SELECTED]      = @base_NORMAL                  # selected background
+
+  engine "clearlooks"
+  {
+    hint  = "scale"
+    style = CLASSIC
+  }
+}
+
+style "clearlooks-hscale"
+{
+  engine "clearlooks"
+  {
+    hint  = "hscale"
+  }
+}
+
+style "clearlooks-vscale"
+{
+  engine "clearlooks"
+  {
+    hint  = "vscale"
+  }
+}
+
+style "clearlooks-scrollbar"
+{
+  engine "clearlooks"
+  {
+    hint  = "scrollbar"
+    #style  = CLASSIC
+  }
+}
+
+style "clearlooks-hscrollbar"
+{
+  engine "clearlooks"
+  {
+    hint  = "hscrollbar"
+  }
+}
+
+style "clearlooks-vscrollbar"
+{
+  engine "clearlooks"
+  {
+    hint  = "vscrollbar"
+  }
+}
+
+style "clearlooks-menubar"
+{
+  engine "clearlooks"
+  {
+    hint  = "menubar"
+  }
+}
+
+# unsure what this is about :|
+style "clearlooks-nautilus-location"
+{
+  bg[NORMAL]        = @bg_NORMAL                    # ?
+}
+
+# this provides the highlight to the metacity window frame
+style "metacity-frame"
+{
+  bg[SELECTED]      = @opt2_NORMAL                 # Drk orange
+}
+
+# color of checkbox check
+style "clearlooks-radiocheck" = "clearlooks-default"
+{
+
+  text[NORMAL]      = @opt2_NORMAL                 # Drk orange
+
+}
+
+# panels @ top & bottom of screen
+
+# bgACTIVE/INSENSITIVE/SELECTED has no effect
+# fgACTIVE/INSENSITIVE/SELECTED has no effect
+# baseACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+# textACTIVE/INSENSITIVE/NORMAL/PRELIGHT/SELECTED has no effect
+
+style "panel"
+{
+
+  bg[NORMAL]        = @pnbg_NORMAL                  # Default panel background
+  bg[PRELIGHT]      = @pnbg_PRELIGHT                # Panel prelight ( Gray 30 )
+
+  fg[NORMAL]        = @pnfg_NORMAL                  # Default text (smoke)
+  fg[PRELIGHT]      = @pnfg_PRELIGHT                # Prelight mouse over (white)
+
+}
+
+#########################################
+# Matches
+#########################################
+
+# theme radio buttons and checkmarks
+class "GtkRadio*"             style "clearlooks-radiocheck"
+class "GtkCheck*"             style "clearlooks-radiocheck"
+
+# keep proper colour for Metacity
+class "MetaFrames"            style "metacity-frame"
+class "GtkWindow"             style "metacity-frame"
+
+# theme default style is applied to every widget
+class "GtkWidget"             style "clearlooks-default"
+
+# Increase the x/ythickness in some widgets
+class "GtkRange"              style "clearlooks-wide"
+class "GtkFrame"              style "clearlooks-wide"
+class "GtkSeparator"          style "clearlooks-wide"
+class "GtkEntry"              style "clearlooks-wider"
+
+# Toolbars
+#class "GtkToolbar"            style "clearlooks-default"
+class "GtkToolbar"            style "clearlooks-toolbar"
+widget_class "*<GtkToolbar>.*"   style "clearlooks-toolbar-item"
+
+
+class "GtkSpinButton"         style "clearlooks-spinbutton"
+class "GtkScale"              style "clearlooks-scale"
+class "GtkVScale"             style "clearlooks-vscale"
+class "GtkHScale"             style "clearlooks-hscale"
+
+#class "GtkScrollbar"          style "clearlooks-scrollbar"
+#class "GtkVScrollbar"         style "clearlooks-vscrollbar"
+#class "GtkHScrollbar"         style "clearlooks-hscrollbar"
+
+class "GtkScrollbar"          style "pixmap-scrollbar"
+class "GtkVScrollbar"         style "pixmap-scrollbar"
+class "GtkHScrollbar"         style "pixmap-scrollbar"
+
+# General matching following, the order is choosen so that the right styles override each other
+# eg. progressbar needs to be more important then the menu match.
+
+# This is not perfect, it could be done better
+# (That is modify *every* widget in the notebook, and change those back that
+# we really don't want changed)
+widget_class "*<GtkNotebook>*<GtkEventBox>"     style "clearlooks-notebook"
+widget_class "*<GtkNotebook>*<GtkDrawingArea>"  style "clearlooks-notebook"
+widget_class "*<GtkNotebook>*<GtkLayout>"       style "clearlooks-notebook"
+
+widget_class "*<GtkButton>"                     style "clearlooks-button"
+widget_class "*<GtkNotebook>"                   style "clearlooks-notebook"
+widget_class "*<GtkStatusbar>*"                 style "clearlooks-statusbar"
+
+widget_class "*<GtkComboBoxEntry>*"             style "clearlooks-comboboxentry"
+widget_class "*<GtkCombo>*"                     style "clearlooks-comboboxentry"
+
+widget_class "*<GtkMenuBar>*"                   style "clearlooks-menubar"
+widget_class "*<GtkMenu>*"                      style "clearlooks-menu"
+widget_class "*<GtkMenuItem>*"                  style "clearlooks-menu-item"
+widget_class "*<GtkSeparatorMenuItem>*"         style "clearlooks-separator-menu-item"
+
+widget_class "*.<GtkFrame>.<GtkLabel>"          style "clearlooks-frame-title"
+widget_class "*.<GtkTreeView>*"                 style "clearlooks-treeview"
+
+widget_class "*<GtkProgressBar>"                style "clearlooks-progressbar"
+
+# Treeview header
+widget_class "*.<GtkTreeView>.<GtkButton>"      style "clearlooks-treeview-header"
+widget_class "*.<GtkCTree>.<GtkButton>"         style "clearlooks-treeview-header"
+widget_class "*.<GtkList>.<GtkButton>"          style "clearlooks-treeview-header"
+widget_class "*.<GtkCList>.<GtkButton>"         style "clearlooks-treeview-header"
+
+# Workarounds for Evolution
+widget_class "*.ETable.ECanvas"                 style "clearlooks-treeview-header"
+widget_class "*.ETree.ECanvas"                  style "clearlooks-treeview-header"
+
+# The window of the tooltip is called "gtk-tooltip"
+################################
+# FIXME:
+# This will not work if one embeds eg. a button into the tooltip.
+# As far as I can tell right now we will need to rework the theme
+# quite a bit to get this working correctly.
+# (It will involve setting different priorities, etc.)
+################################
+widget "gtk-tooltip*"                           style "clearlooks-tooltips"
+
+###################################################
+# Special cases and work arounds
+###################################################
+
+# Special case the nautilus-extra-view-widget
+# ToDo: A more generic approach for all applications that have a widget like this.
+widget "*.nautilus-extra-view-widget"           style : highest "clearlooks-nautilus-location"
+
+# Work around for http://bugzilla.gnome.org/show_bug.cgi?id=382646
+# Note that the work around assumes that the combobox is _not_ in
+# appears-as-list mode.
+# Similar hack also in the menuitem style.
+# This style does not affect GtkComboBoxEntry, it does have an effect
+# on comboboxes in appears-as-list mode though.
+style "clearlooks-combobox-text-color-workaround"
+{
+  text[NORMAL]      = @text_NORMAL                # Normal text
+  text[PRELIGHT]    = @text_NORMAL                # Normal text
+  text[SELECTED]    = @text_NORMAL                # Normal text
+  text[ACTIVE]      = @text_NORMAL                # Normal text
+  text[INSENSITIVE] = @text_INSENSITIVE           # Dimgray
+}
+widget_class "*.<GtkComboBox>.<GtkCellView>"    style "clearlooks-combobox-text-color-workaround"
+
+style "clearlooks-menuitem-text-is-fg-color-workaround"
+{
+  text[NORMAL]      = @text_NORMAL                  # Normal text
+  text[PRELIGHT]    = @text_NORMAL                  # Normal text
+  text[SELECTED]    = @text_NORMAL                  # Normal text
+  text[ACTIVE]      = @text_NORMAL                  # Normal text
+  text[INSENSITIVE] = @text_INSENSITIVE             # Dimgray
+}
+
+widget "*.gtk-combobox-popup-menu.*"        style "clearlooks-menuitem-text-is-fg-color-workaround"
+
+# Work around the usage of GtkLabel inside GtkListItems to display text.
+# This breaks because the label is shown on a background that is based on the
+# base color set.
+# *** gFTP  ***
+style "clearlooks-fg-is-text-color-workaround"
+{
+  bg[SELECTED]      = @base_SELECTED                # yellow
+  fg[NORMAL]        = @text_NORMAL                  #
+  fg[SELECTED]      = @text_NORMAL                  #
+  text[NORMAL]      = @text_NORMAL                  # Normal text
+  text[PRELIGHT]    = @text_NORMAL                  # Normal text
+  text[SELECTED]    = @text_NORMAL                  # Normal text
+  text[ACTIVE]      = @text_NORMAL                  # Normal text
+  text[INSENSITIVE] = @text_INSENSITIVE             # Dimgray
+}
+
+widget_class "*<GtkListItem>*"        style "clearlooks-fg-is-text-color-workaround"
+
+# The same problem also exists for GtkCList and GtkCTree
+# Only match GtkCList and not the parent widgets, because that would also change the headers.
+
+widget_class "*<GtkCList>"        style "clearlooks-fg-is-text-color-workaround"
+
+style "clearlooks-evo-new-button-workaround"
+{
+
+  engine "clearlooks"
+  {
+    toolbarstyle = 0
+  }
+}
+widget_class "EShellWindow.GtkVBox.BonoboDock.BonoboDockBand.BonoboDockItem*" style "clearlooks-evo-new-button-workaround"
+
+# Theme panel elements
+widget "*PanelWidget*"          style "panel"
+widget "*PanelApplet*"          style "panel"
+widget "*fast-user-switch*"     style "panel"
+class "PanelApp*"               style "panel"
+class "PanelToplevel*"          style "panel"
+widget_class "*Mail*"           style "panel"
+widget_class "*notif*"          style "panel"
+widget_class "*Notif*"          style "panel"

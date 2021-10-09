@@ -1,0 +1,37 @@
+Group
+  Name    wooden_crate_3
+  Loc     0, 0, 0
+  Heading 0, 0, 0
+  Size    1, 1, 1
+  Count   1
+  Mesh
+    Name    wooden_crate_3
+    Loc     0, 0, 0
+    Heading 0, 0, 0
+    Size    1, 1, 1
+    TriangleTex -1.5, -2, 0, -1.5, -2, 2, 1.5, -2, 2, 0, 0, 0, 1, 1, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, -2, 0, 1.5, -2, 2, -1.5, -2, 2, 1, 0, 1, 1, 0, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, 2, 0, -1.5, 2, 2, 1.5, 2, 2, 0, 0, 0, 1, 1, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, 2, 0, 1.5, 2, 2, -1.5, 2, 2, 1, 0, 1, 1, 0, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, -2, 0, -1.5, -2, 2, -1.5, 2, 2, 0, 0, 0, 1, 1, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, 2, 0, -1.5, 2, 2, -1.5, -2, 2, 1, 0, 1, 1, 0, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, -2, 0, 1.5, -2, 2, 1.5, 2, 2, 0, 0, 0, 1, 1, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, 2, 0, 1.5, 2, 2, 1.5, -2, 2, 1, 0, 1, 1, 0, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, -2, 0, -1.5, 2, 4.76995225540122E-8, 1.5, 2, 4.76995225540122E-8, 0, 0, 0, 1, 1, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, -2, 0, 1.5, 2, 4.76995225540122E-8, -1.5, 2, 4.76995225540122E-8, 1, 0, 1, 1, 0, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, -2, 2, -1.5, 2, 2, 1.5, 2, 2, 0, 0, 0, 1, 1, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, -2, 2, 1.5, 2, 2, -1.5, 2, 2, 1, 0, 1, 1, 0, 1, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, -2, 0, 1.5, -2, 2, 1.5, -2, 0, 0, 0, 1, 1, 1, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, -2, 0, -1.5, -2, 2, -1.5, -2, 0, 1, 0, 0, 1, 0, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, 2, 0, 1.5, 2, 2, 1.5, 2, 0, 0, 0, 1, 1, 1, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, 2, 0, -1.5, 2, 2, -1.5, 2, 0, 1, 0, 0, 1, 0, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, -2, 0, -1.5, 2, 2, -1.5, 2, 0, 0, 0, 1, 1, 1, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, 2, 0, -1.5, -2, 2, -1.5, -2, 0, 1, 0, 0, 1, 0, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, -2, 0, 1.5, 2, 2, 1.5, 2, 0, 0, 0, 1, 1, 1, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, 2, 0, 1.5, -2, 2, 1.5, -2, 0, 1, 0, 0, 1, 0, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, -2, 0, 1.5, 2, 4.76995225540122E-8, 1.5, -2, 0, 0, 0, 1, 1, 1, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, -2, 0, -1.5, 2, 4.76995225540122E-8, -1.5, -2, 0, 1, 0, 0, 1, 0, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex -1.5, -2, 2, 1.5, 2, 2, 1.5, -2, 2, 0, 0, 1, 1, 1, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+    TriangleTex 1.5, -2, 2, -1.5, 2, 2, -1.5, -2, 2, 1, 0, 0, 1, 0, 0, wooden_crate_1, false, false, True, $00000000, False, 0, False, 0, False, False, True
+  End
+End

@@ -1,0 +1,26 @@
+Group
+  Name    gray_pitted_door
+  Loc     0, 0, 0
+  Heading 0, 0, 0
+  Size    1, 1, 1
+  Count   1
+  Category doors
+  Mesh
+    Name    gray_pitted_door
+    Loc     0, 0, 0
+    Heading 0, 0, 0
+    Size    1, 1, 1
+    TriangleTex -0.125, 0, 0, 0.125, 0, 0, 0.125, 10, 0, 0, 0, 0.0234375, 0, 0.0234375, 1, WROUGHT_IRON+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -0.125, 0, 10, -0.125, 10, 10, 0.125, 10, 10, 0, 0, 0, 1, 0.0234375, 1, WROUGHT_IRON+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, 1, 0, 0, 1, 0, 0, 1
+    TriangleTex -0.125, 0, 0, -0.125, 10, 0, -0.125, 10, 10, 1, 0, 0, 0, 0, 1, GRAY_PITTED_DOOR_BACK+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 0.125, 0, 0, 0.125, 0, 10, 0.125, 10, 10, 0, 0, 0, 1, 1, 1, GRAY_PITTED_DOOR+0, false, false, True, 0, false, 0, false, 180, True, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -0.125, 0, 0, -0.125, 0, 10, 0.125, 0, 10, 0, 0, 0, 1, 0.0234375, 1, WROUGHT_IRON+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 0.125, 10, 0, 0.125, 10, 10, -0.125, 10, 10, 0.0234375, 0, 0.0234375, 1, 0, 1, WROUGHT_IRON+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+    TriangleTex -0.125, 0, 0, 0.125, 10, 0, -0.125, 10, 0, 0, 0, 0.0234375, 1, 0, 1, WROUGHT_IRON+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, -1, 0, 0, -1, 0, 0, -1
+    TriangleTex -0.125, 0, 10, 0.125, 10, 10, 0.125, 0, 10, 0, 0, 0.0234375, 1, 0.0234375, 0, WROUGHT_IRON+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 0, 0, 1, 0, 0, 1, 0, 0, 1
+    TriangleTex -0.125, 0, 0, -0.125, 10, 10, -0.125, 0, 10, 1, 0, 0, 1, 1, 1, GRAY_PITTED_DOOR_BACK+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, -1, 0, 0, -1, 0, 0, -1, 0, 0
+    TriangleTex 0.125, 0, 0, 0.125, 10, 10, 0.125, 10, 0, 0, 0, 1, 1, 1, 0, GRAY_PITTED_DOOR+0, false, false, True, 0, false, 0, false, 90, True, false, false, true, 1, 0, 0, 1, 0, 0, 1, 0, 0
+    TriangleTex -0.125, 0, 0, 0.125, 0, 10, 0.125, 0, 0, 0, 0, 0.0234375, 1, 0.0234375, 0, WROUGHT_IRON+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, -1, 0, 0, -1, 0, 0, -1, 0
+    TriangleTex 0.125, 10, 0, -0.125, 10, 10, -0.125, 10, 0, 0.0234375, 0, 0, 1, 0, 0, WROUGHT_IRON+0, false, false, True, 0, false, 0, false, 0, True, false, false, true, 0, 1, 0, 0, 1, 0, 0, 1, 0
+  End
+End

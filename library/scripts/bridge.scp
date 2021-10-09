@@ -1,0 +1,269 @@
+CATEGORY Buildings
+
+PARAM DeckTexture   String
+PARAM SideTexture   String
+PARAM PostTexture   String
+PARAM SideAngle     Float   Default 15
+PARAM Sides         Boolean Default True
+PARAM Posts         Boolean Default True
+PARAM RoadEnds      Boolean Default True
+PARAM RoadSides     Boolean Default True
+PARAM RoadTop       Boolean Default True
+PARAM RoadBottom    Boolean Default True
+PARAM RoadThickness Float   Default 2
+PARAM PostThickness Float   Default 1
+PARAM SideHeight    Float   Default 4
+PARAM PostHeight    Float   Default 6
+PARAM Sections      Integer Default 10
+PARAM TexScaleX     Float   Default 1
+PARAM TexScaleZ     Float   Default 1
+PARAM Transparent   Boolean Default False
+PARAM SemiTrans     Boolean Default False
+PARAM Solid         Boolean Default True
+PARAM Color         Integer Default 0
+PARAM HasColor      Boolean Default False
+PARAM Masked        Boolean Default False
+PARAM SideMasked    Boolean Default False
+PARAM BridgeAngle   Float   Default 30
+PARAM Skew          Float   Default 0
+PARAM SideTexScale  Float   Default 1
+
+HINT  DeckTexture   The texture for the deck of the bridge.
+HINT  SideTexture   The texture for the sides of the bridge.
+HINT  SideAngle     The angle in degrees that the sides should cant outward.
+HINT  Sides         When True, creates walls along the sides of the bridge
+HINT  Sides         (or ropes if you use the correct texture).
+HINT  Posts         When True, creates small posts at the ends of the bridge
+HINT  Posts         to anchor the side walls. Useful mainly for rope bridges
+HINT  Posts         or for decorative work.
+HINT  RoadEnds      When True, puts rectangles on the ends of the road deck.
+HINT  RoadSides     When True, puts rectangles on the sides of the road deck.
+HINT  RoadTop       When True, creates the top of the road deck.
+HINT  RoadBottom    When True, creates the bottom of the road deck. If only this
+HINT  RoadBottom    is True, then the bridge can be used as a simple arch.
+HINT  RoadThickness The thickness in absolute units of the road deck.
+HINT  PostThickness The thickness in absolute units of the posts at the ends
+HINT  PostThickness of the bridge.
+HINT  SideHeight    The height in absolute units of the sides of the bridge.
+HINT  SideHeight    The height will really be the length of the sides from
+HINT  SideHeight    the road deck to the top of the sides (so if they cant
+HINT  SideHeight    outward they won't get any higher than if they don't).
+HINT  PostHeight    The height in absolute units of the posts at the ends of
+HINT  PostHeight    the bridge.
+HINT  Sections      The number of sections for the road deck and sides.
+HINT  TexScaleX     Acts as a multiplier for horizontal texture coordinates.
+HINT  TexScaleZ     Acts as a multiplier for vertical texture coordinates.
+HINT  Transparent   When True, makes the object transparent.
+HINT  SemiTrans     When True, makes the object 50% transparent.
+HINT  Solid         When True, makes sure that the player can't pass through the object.
+HINT  Color         When HasColor is true, specifies a tint to apply to the object.
+HINT  Color         Being an integer, this can also be specified as a hecadecimal
+HINT  Color         number in the form $aabbggrr.
+HINT  HasColor      When True, applies Color as a tint to the object.
+HINT  Masked        When True, means that the textures used are 8-bit masked textures
+HINT  Masked        (e.g. tree leaves) where the first color in the color palette is
+HINT  Masked        the transparent color.
+HINT  SideMasked    Same as Masked but works on the bridge sides rather than the
+HINT  SideMasked    road deck.
+HINT  BridgeAngle   The angle of the bridge in degrees.
+HINT  Skew          The amount in absolute units to skew the end of the bridge
+HINT  Skew          left or right.
+HINT  SideTexScale  Acts as a multiplier for horizontal texture coordinates for the
+HINT  SideTexScale  side walls.
+
+VARIABLE Y   Float
+VARIABLE Z   Float
+VARIABLE I   Integer
+VARIABLE A   Float
+VARIABLE G   Float
+VARIABLE B0  Float
+VARIABLE BI  Float
+VARIABLE BJ  Float
+VARIABLE XI  Float
+VARIABLE XJ  Float
+VARIABLE ZI  Float
+VARIABLE ZJ  Float
+VARIABLE R   Float
+VARIABLE XS  Float
+VARIABLE ZS  Float
+VARIABLE TZI Float
+VARIABLE TZJ Float
+VARIABLE SX  Float
+VARIABLE SY  Float
+VARIABLE SZ  Float
+VARIABLE SKI Float
+VARIABLE SKJ Float
+VARIABLE SSZ Float
+VARIABLE SPZ Float
+VARIABLE TSI Float
+VARIABLE TSJ Float
+VARIABLE PY  Float
+VARIABLE CSA Float
+VARIABLE SSA Float
+
+' Sanity check
+
+If (SizeX <> 0) And (SizeY <> 0) And (SizeZ <> 0) And (Sections > 0)
+
+  SX = Abs(SizeX)
+  SY = Abs(SizeY)
+  SZ = Abs(SizeZ)
+
+  ' Get the aspect ratio...the bridge will be built along the X axis, with the
+  ' road deck starting at z=1 and proceeding down to 0 plus the thickness
+  ' (which will be stored in Z)
+
+  ' The height of the object will ONLY take the road deck into account, since
+  ' everything else is specified in absolute units. If SizeZ > 0 Then the
+  ' bridge will curve upward and if SizeZ < 0 then it will curve downward like
+  ' a rope bridge.
+
+  Z = Abs(RoadThickness / SZ)
+  SSZ = SideHeight / SZ
+  SPZ = PostHeight / SZ
+  CSA = Cos(SideAngle)
+  SSA = Sin(SideAngle)
+  If SizeZ < 0
+    Z = -Z
+    SSZ = -SSZ
+    SPZ = -SPZ
+    SSA = -SSA
+  EndIf
+
+  ' Setup variables
+
+  A  = Abs(BridgeAngle)
+  G  = A / Sections
+  B0 = A / 2
+  R  = 0.5 / Sin(A / 2)
+  Y = 0.5
+  If Posts
+    PY = (PostThickness / SY) / 2
+  Else
+    PY = 0
+  EndIf
+
+  ' Calculate scaling factors
+
+  XS = 1 / (R * (2 * Sin(A/2)))
+  If SY > SX
+    XS = XS * (SX / SY)
+  EndIf
+  ZS = 1 / (R * (1 - Cos(B0)))
+
+  If RoadEnds
+    ' Make the first end
+
+    BI = B0
+    BJ = B0 - G
+    XI = R * (Sin(A/2)-Sin(BI))*XS
+    XJ = R * (Sin(A/2)-Sin(BJ))*XS
+    ZI = R * (Cos(BI)-Cos(B0))*ZS
+    ZJ = R * (Cos(BJ)-Cos(B0))*ZS
+
+    TZI = TexScaleZ * (SX / SY)
+
+    RectangleTex XI,Y,ZI, XI,-Y,ZI, XI,-Y,ZI-Z, XI,Y,ZI-Z, 0,TZI, TexScaleX,TZI, TexScaleX,TZI, 0,TZI, DeckTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+
+    ' Make the second end
+
+    BI = B0 - (Sections - 1) * G
+    BJ = B0 - Sections * G
+    XI = R * (Sin(A/2)-Sin(BI))*XS
+    XJ = R * (Sin(A/2)-Sin(BJ))*XS
+    ZI = R * (Cos(BI)-Cos(B0))*ZS
+    ZJ = R * (Cos(BJ)-Cos(B0))*ZS
+
+    SKJ = Skew / SY
+
+    RectangleTex XJ,Y+SKJ,ZJ, XJ,Y+SKJ,ZJ-Z, XJ,-Y+SKJ,ZJ-Z, XJ,-Y+SKJ,ZJ, 0,0, 0,0, TexScaleX,0, TexScaleX,0, DeckTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+  EndIf
+
+  ' Make the road deck and bridge sides
+
+  I = 0
+  While I < Sections
+    BI = B0 - G * I
+    BJ = B0 - G * (I + 1)
+
+    XI = R * (Sin(A/2)-Sin(BI))*XS
+    XJ = R * (Sin(A/2)-Sin(BJ))*XS
+    ZI = R * (Cos(BI)-Cos(B0))*ZS
+    ZJ = R * (Cos(BJ)-Cos(B0))*ZS
+
+    TZI = TexScaleZ * (SX / SY) * (1 - I / Sections)
+    TZJ = TexScaleZ * (SX / SY) * (1 - (I+1) / Sections)
+
+    TSI = SideTexScale * (SX / SY) * (1 - I / Sections)
+    TSJ = SideTexScale * (SX / SY) * (1 - (I+1) / Sections)
+
+    SKI = (Skew / SY) * I / Sections
+    SKJ = (Skew / SY) * (I + 1) / Sections
+
+    ' Create the road deck
+
+    If RoadTop
+      RectangleTex XI,Y+SKI,ZI,   XJ,Y+SKJ,ZJ,    XJ,-Y+SKJ,ZJ,   XI,-Y+SKI,ZI,   0,TZI, 0,TZJ, TexScaleX,TZJ, TexScaleX,TZI, DeckTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    EndIf
+    If RoadBottom
+      RectangleTex XI,Y+SKI,ZI-Z, XI,-Y+SKI,ZI-Z, XJ,-Y+SKJ,ZJ-Z, XJ,Y+SKJ,ZJ-Z,  0,TZI, TexScaleX,TZI, TexScaleX,TZJ, 0,TZJ, DeckTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    EndIf
+    If RoadSides
+      RectangleTex XI,-Y+SKI,ZI, XJ,-Y+SKJ,ZJ,  XJ,-Y+SKJ,ZJ-Z, XI,-Y+SKI,ZI-Z, TexScaleX,TZI, TexScaleX,TZJ, TexScaleX,TZJ, TexScaleX,TZI, DeckTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+      RectangleTex XI,Y+SKI,ZI,  XI,Y+SKI,ZI-Z, XJ,Y+SKJ,ZJ-Z,  XJ,Y+SKJ,ZJ,    0,TZI, 0,TZI, 0,TZJ, 0,TZJ, DeckTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    EndIf
+
+    ' Create the road sides
+
+    If Sides
+      RectangleTex XI,Y+SKI-PY+SSZ*SSA*(SZ/SY),ZI+SSZ*CSA, XI,Y+SKI-PY,ZI, XJ,Y+SKJ-PY,ZJ, XJ,Y+SKJ-PY+SSZ*SSA*(SZ/SY),ZJ+SSZ*CSA, TSI,0, TSI,1, TSJ,1, TSJ,0, SideTexture, Transparent, SemiTrans, Solid, Color, HasColor, SideMasked
+      RectangleTex XI,Y+SKI-PY+SSZ*SSA*(SZ/SY),ZI+SSZ*CSA, XJ,Y+SKJ-PY+SSZ*SSA*(SZ/SY),ZJ+SSZ*CSA, XJ,Y+SKJ-PY,ZJ, XI,Y+SKI-PY,ZI, TSI,0, TSJ,0, TSJ,1, TSI,1, SideTexture, Transparent, SemiTrans, Solid, Color, HasColor, SideMasked
+      RectangleTex XI,-Y+SKI+PY-SSZ*SSA*(SZ/SY),ZI+SSZ*CSA, XI,-Y+SKI+PY,ZI, XJ,-Y+SKJ+PY,ZJ, XJ,-Y+SKJ+PY-SSZ*SSA*(SZ/SY),ZJ+SSZ*CSA, TSI,0, TSI,1, TSJ,1, TSJ,0, SideTexture, Transparent, SemiTrans, Solid, Color, HasColor, SideMasked
+      RectangleTex XI,-Y+SKI+PY-SSZ*SSA*(SZ/SY),ZI+SSZ*CSA, XJ,-Y+SKJ+PY-SSZ*SSA*(SZ/SY),ZJ+SSZ*CSA, XJ,-Y+SKJ+PY,ZJ, XI,-Y+SKI+PY,ZI, TSI,0, TSJ,0, TSJ,1, TSI,1, SideTexture, Transparent, SemiTrans, Solid, Color, HasColor, SideMasked
+    EndIf
+
+    I = I + 1
+  Wend
+
+  ' Create the posts
+
+  If Posts
+    ' Make the posts at the first end
+
+    BI  = B0
+    XI  = R * (Sin(A/2)-Sin(BI)) * XS
+    ZI  = R * (Cos(BI)-Cos(B0)) * ZS
+    SKI = 0
+
+    Rectangle XI,Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI-2*PY,ZI-Z/2, XI,Y+SKI,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI,Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI-2*PY,ZI-Z/2, XI,Y+SKI-2*PY,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI+2*PY*(SY/SX),Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI,ZI-Z/2, XI+2*PY*(SY/SX),Y+SKI-2*PY,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI+2*PY*(SY/SX),Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI,ZI-Z/2, XI+2*PY*(SY/SX),Y+SKI,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI,Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+
+    Rectangle XI,-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI,ZI-Z/2, XI,-Y+SKI+2*PY,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI,-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI,ZI-Z/2, XI,-Y+SKI,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI+2*PY*(SY/SX),-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI+2*PY,ZI-Z/2, XI+2*PY*(SY/SX),-Y+SKI,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI+2*PY*(SY/SX),-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI+2*PY,ZI-Z/2, XI+2*PY*(SY/SX),-Y+SKI+2*PY,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI,-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+
+    ' Make the posts at the second end
+
+    BI  = B0 - Sections * G
+    XI  = R * (Sin(A/2)-Sin(BI)) * XS - 2*PY*(SY/SX)
+    ZI  = R * (Cos(BI)-Cos(B0)) * ZS
+    SKI = Skew / SY
+
+    Rectangle XI,Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI-2*PY,ZI-Z/2, XI,Y+SKI,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI,Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI-2*PY,ZI-Z/2, XI,Y+SKI-2*PY,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI+2*PY*(SY/SX),Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI,ZI-Z/2, XI+2*PY*(SY/SX),Y+SKI-2*PY,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI+2*PY*(SY/SX),Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI,ZI-Z/2, XI+2*PY*(SY/SX),Y+SKI,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI,Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,Y+SKI-2*PY+SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+
+    Rectangle XI,-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI,ZI-Z/2, XI,-Y+SKI+2*PY,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI,-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI,ZI-Z/2, XI,-Y+SKI,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI+2*PY*(SY/SX),-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI+2*PY,ZI-Z/2, XI+2*PY*(SY/SX),-Y+SKI,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI+2*PY*(SY/SX),-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI+2*PY,ZI-Z/2, XI+2*PY*(SY/SX),-Y+SKI+2*PY,ZI-Z/2, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle XI,-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI+2*PY-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI+2*PY*(SY/SX),-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, XI,-Y+SKI-SPZ*SSA*(SZ/SY),ZI+SPZ*CSA, PostTexture, Transparent, SemiTrans, Solid, Color, HasColor, Masked
+  EndIf
+EndIf

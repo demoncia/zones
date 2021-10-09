@@ -1,0 +1,147 @@
+CATEGORY Dungeon
+PARAM EndLocX     FLOAT   DEFAULT PlaceX
+PARAM EndLocY     FLOAT   DEFAULT PlaceY
+PARAM EndLocZ     FLOAT   DEFAULT PlaceZ
+
+' The user will need the absolute x-y angle of the corridor for when connecting
+' corridors to the endpoints.  We do this with a new parameter: the at sign (@).
+' Given dx and dy values it returns the angle they represent, in degrees.
+
+PARAM DX          FLOAT   DEFAULT EndLocX-PlaceX HIDDEN
+PARAM DY          FLOAT   DEFAULT EndLocY-PlaceY HIDDEN
+PARAM XYAngle     FLOAT   DEFAULT DX@DY READONLY
+
+PARAM StartWidth  FLOAT   DEFAULT 16
+PARAM StartHeight FLOAT   DEFAULT StartWidth
+PARAM EndWidth    FLOAT   DEFAULT StartWidth
+PARAM EndHeight   FLOAT   DEFAULT StartHeight
+PARAM StartAngle  FLOAT   DEFAULT 0
+PARAM EndAngle    FLOAT   DEFAULT StartAngle
+PARAM BottomTex   STRING
+PARAM TopTex      STRING  DEFAULT BottomTex
+PARAM LeftTex     STRING  DEFAULT BottomTex
+PARAM RightTex    STRING  DEFAULT LeftTex
+PARAM FrontTex    STRING  DEFAULT LeftTex
+PARAM BackTex     STRING  DEFAULT FrontTex
+PARAM SemiTrans   BOOLEAN DEFAULT False
+PARAM Top         BOOLEAN DEFAULT True
+PARAM Bottom      BOOLEAN DEFAULT True
+PARAM Left        BOOLEAN DEFAULT True
+PARAM Right       BOOLEAN DEFAULT True
+PARAM Front       BOOLEAN DEFAULT False
+PARAM Back        BOOLEAN DEFAULT False
+PARAM Transparent BOOLEAN DEFAULT False
+
+' We can't declare variables and use them in parameters but we can declare
+' hidden parameters to accomplish the same thing.  The reason I want to do
+' this is because I want the script to calculcate the proper X,Y,Z positions
+' of the left and right holes in the corridor and pass them back to the
+' user as read-only parameters.  That way the user doesn't have to calculate
+' the endpoint of a connecting corridor.  The one caveat is that we can't
+' have any spaces in the default expression.
+
+PARAM R           FLOAT   DEFAULT Sqrt(Sqr(DX)+Sqr(DY)) HIDDEN
+PARAM CA          FLOAT   DEFAULT DX/R HIDDEN
+PARAM SA          FLOAT   DEFAULT DY/R HIDDEN
+PARAM SWC         FLOAT   DEFAULT (StartWidth/2)*(SA*Cos(StartAngle)+CA*Sin(StartAngle))/Cos(StartAngle) HIDDEN
+PARAM SWS         FLOAT   DEFAULT (StartWidth/2)*(SA*Sin(StartAngle)-CA*Cos(StartAngle))/Cos(StartAngle) HIDDEN
+PARAM EWC         FLOAT   DEFAULT (EndWidth/2)*(SA*Cos(EndAngle)+CA*Sin(EndAngle))/Cos(EndAngle) HIDDEN
+PARAM EWS         FLOAT   DEFAULT (EndWidth/2)*(SA*Sin(EndAngle)-CA*Cos(EndAngle))/Cos(EndAngle) HIDDEN
+PARAM LX1         FLOAT   DEFAULT -SWC HIDDEN
+PARAM LY1         FLOAT   DEFAULT -SWS HIDDEN
+PARAM LX2         FLOAT   DEFAULT -EWC+EndLocX-PlaceX HIDDEN
+PARAM LY2         FLOAT   DEFAULT -EWS+EndLocY-PlaceY HIDDEN
+PARAM RX1         FLOAT   DEFAULT SWC HIDDEN
+PARAM RY1         FLOAT   DEFAULT SWS HIDDEN
+PARAM RX2         FLOAT   DEFAULT EWC+EndLocX-PlaceX HIDDEN
+PARAM RY2         FLOAT   DEFAULT EWS+EndLocY-PlaceY HIDDEN
+PARAM Z1          FLOAT   DEFAULT 0 HIDDEN
+PARAM Z2          FLOAT   DEFAULT EndLocZ-PlaceZ HIDDEN
+
+' Parameters for a possible hole in the left wall.  This is so we can easily construct an intersection.
+
+PARAM LHolePos    FLOAT   DEFAULT 0.5
+PARAM LHoleWidth  FLOAT   DEFAULT 0
+PARAM LHoleHeight FLOAT   DEFAULT StartHeight
+PARAM LHoleZOfs   FLOAT   DEFAULT 0
+
+' These read-only parameters are visible to the user.  They show where a connecting corridor should end.
+
+PARAM LHoleX      FLOAT    DEFAULT PlaceX+LX1+(LX2-LX1)*LHolePos READONLY
+PARAM LHoleY      FLOAT    DEFAULT PlaceY+LY1+(LY2-LY1)*LHolePos READONLY
+PARAM LHoleZ      FLOAT    DEFAULT PlaceZ+LHoleZOfs+(EndLocZ-PlaceZ)/2 READONLY
+
+' Parameters for a possible hole in the right wall.  This is so we can easily construct an intersection.
+
+PARAM RHolePos    FLOAT   DEFAULT 0.5
+PARAM RHoleWidth  FLOAT   DEFAULT 0
+PARAM RHoleHeight FLOAT   DEFAULT StartHeight
+PARAM RHoleZOfs   FLOAT   DEFAULT 0
+
+' These read-only parameters are visible to the user.  They show where a connecting corridor should end.
+
+PARAM RHoleX      FLOAT    DEFAULT PlaceX+RX1+(RX2-RX1)*RHolePos READONLY
+PARAM RHoleY      FLOAT    DEFAULT PlaceY+RY1+(RY2-RY1)*RHolePos READONLY
+PARAM RHoleZ      FLOAT    DEFAULT PlaceZ+RHoleZOfs+(EndLocZ-PlaceZ)/2 READONLY
+
+' ------------------------
+' Main script body
+' ------------------------
+
+VARIABLE R1 FLOAT
+VARIABLE R2 FLOAT
+VARIABLE Z3 FLOAT
+VARIABLE Z4 FLOAT
+
+If Bottom
+  RECTANGLE    -SWC,-SWS,0,                                            -EWC+EndLocX-PlaceX,-EWS+EndLocY-PlaceY,EndLocZ-PlaceZ,           EWC+EndLocX-PlaceX,EWS+EndLocY-PlaceY,EndLocZ-PlaceZ,             SWC,SWS,0,                                              BottomTex, Transparent, SemiTrans   ' Bottom face
+EndIf
+If Top
+  RECTANGLE    SWC,SWS,StartHeight,                                    EWC+EndLocX-PlaceX,EWS+EndLocY-PlaceY,EndHeight+EndLocZ-PlaceZ,   -EWC+EndLocX-PlaceX,-EWS+EndLocY-PlaceY,EndHeight+EndLocZ-PlaceZ, -SWC,-SWS,StartHeight,                                  TopTex,    Transparent, SemiTrans   ' Top face
+EndIf
+If Left
+  R  = Sqrt(Sqr(LX2-LX1) + Sqr(LY2-LY1))
+  R1 = ((R*LHolePos)-(LHoleWidth/2))/R
+  R2 = ((R*LHolePos)+(LHoleWidth/2))/R
+  Z3 = Z1+(Z2-Z1)*R1
+  Z4 = Z1+(Z2-Z1)*R2
+
+  ' Draw four-sided polygons on either side of the hole (if any)
+
+  RECTANGLE LX1,LY1,Z1,                           LX1,LY1,StartHeight,                                                                 LX1+(LX2-LX1)*R1,LY1+(LY2-LY1)*R1,StartHeight+(EndHeight-StartHeight)*R1+(Z2-Z1)*R1, LX1+(LX2-LX1)*R1,LY1+(LY2-LY1)*R1,Z3, LeftTex,   Transparent, SemiTrans
+  RECTANGLE LX1+(LX2-LX1)*R2,LY1+(LY2-LY1)*R2,Z4, LX1+(LX2-LX1)*R2,LY1+(LY2-LY1)*R2,StartHeight+(EndHeight-StartHeight)*R2+(Z2-Z1)*R2, LX2,LY2,EndHeight+(Z2-Z1),                                                           LX2,LY2,Z2,                           LeftTex,   Transparent, SemiTrans
+
+  ' Draw a four-sided polygon below the hole
+
+  RECTANGLE LX1+(LX2-LX1)*R1,LY1+(LY2-LY1)*R1,Z3, LX1+(LX2-LX1)*R1,LY1+(LY2-LY1)*R1,LHoleZ-PlaceZ, LX1+(LX2-LX1)*R2,LY1+(LY2-LY1)*R2,LHoleZ-PlaceZ, LX1+(LX2-LX1)*R2,LY1+(LY2-LY1)*R2,Z4, LeftTex,   Transparent, SemiTrans
+
+  ' Draw a four-sided polygon above the hole
+
+  RECTANGLE LX1+(LX2-LX1)*R1,LY1+(LY2-LY1)*R1,LHoleZ+LHoleHeight-PlaceZ, LX1+(LX2-LX1)*R1,LY1+(LY2-LY1)*R1,StartHeight+(EndHeight-StartHeight)*R1+(Z2-Z1)*R1, LX1+(LX2-LX1)*R2,LY1+(LY2-LY1)*R2,StartHeight+(EndHeight-StartHeight)*R2+(Z2-Z1)*R2, LX1+(LX2-LX1)*R2,LY1+(LY2-LY1)*R2,LHoleZ+LHoleHeight-PlaceZ, LeftTex,   Transparent, SemiTrans
+EndIf
+If Right
+  R  = Sqrt(Sqr(RX2-RX1) + Sqr(RY2-RY1))
+  R1 = ((R*RHolePos)-(RHoleWidth/2))/R
+  R2 = ((R*RHolePos)+(RHoleWidth/2))/R
+  Z3 = Z1+(Z2-Z1)*R1
+  Z4 = Z1+(Z2-Z1)*R2
+
+  ' Draw four-sided polygons on either side of the hole (if any)
+
+  RECTANGLE RX1,RY1,StartHeight,                                                                 RX1,RY1,Z1,                           RX1+(RX2-RX1)*R1,RY1+(RY2-RY1)*R1,Z3, RX1+(RX2-RX1)*R1,RY1+(RY2-RY1)*R1,StartHeight+(EndHeight-StartHeight)*R1+(Z2-Z1)*R1, RightTex,   Transparent, SemiTrans
+  RECTANGLE RX1+(RX2-RX1)*R2,RY1+(RY2-RY1)*R2,StartHeight+(EndHeight-StartHeight)*R2+(Z2-Z1)*R2, RX1+(RX2-RX1)*R2,RY1+(RY2-RY1)*R2,Z4, RX2,RY2,Z2,                           RX2,RY2,EndHeight+(Z2-Z1),                                                           RightTex,   Transparent, SemiTrans
+
+  ' Draw a four-sided polygon below the hole
+
+  RECTANGLE RX1+(RX2-RX1)*R1,RY1+(RY2-RY1)*R1,RHoleZ-PlaceZ, RX1+(RX2-RX1)*R1,RY1+(RY2-RY1)*R1,Z3, RX1+(RX2-RX1)*R2,RY1+(RY2-RY1)*R2,Z4, RX1+(RX2-RX1)*R2,RY1+(RY2-RY1)*R2,RHoleZ-PlaceZ, RightTex,   Transparent, SemiTrans
+
+  ' Draw a four-sided polygon above the hole
+
+  RECTANGLE RX1+(RX2-RX1)*R1,RY1+(RY2-RY1)*R1,StartHeight+(EndHeight-StartHeight)*R1+(Z2-Z1)*R1, RX1+(RX2-RX1)*R1,RY1+(RY2-RY1)*R1,RHoleZ+RHoleHeight-PlaceZ, RX1+(RX2-RX1)*R2,RY1+(RY2-RY1)*R2,RHoleZ+RHoleHeight-PlaceZ, RX1+(RX2-RX1)*R2,RY1+(RY2-RY1)*R2,StartHeight+(EndHeight-StartHeight)*R2+(Z2-Z1)*R2, RightTex,   Transparent, SemiTrans
+EndIf
+If Front
+  RECTANGLE    SWC,SWS,0,                                              SWC,SWS,StartHeight,                                              -SWC,-SWS,StartHeight,                                            -SWC,-SWS,0,                                            FrontTex,  Transparent, SemiTrans   ' Front face
+EndIf
+If Back
+  RECTANGLE    -EWC+EndLocX-PlaceX,-EWS+EndLocY-PlaceY,EndLocZ-PlaceZ, -EWC+EndLocX-PlaceX,-EWS+EndLocY-PlaceY,EndHeight+EndLocZ-PlaceZ, EWC+EndLocX-PlaceX,EWS+EndLocY-PlaceY,EndHeight+EndLocZ-PlaceZ,   EWC+EndLocX-PlaceX,EWS+EndLocY-PlaceY,EndLocZ-PlaceZ,   BackTex,   Transparent, SemiTrans   ' Back face
+EndIf

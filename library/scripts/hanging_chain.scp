@@ -1,0 +1,57 @@
+CATEGORY Furniture
+
+PARAM ChainTex   String
+PARAM ChainWidth Float  Default 0.2
+
+Hint  ChainTex   The texture for the chain.
+Hint  ChainWidth The width of the chain in absolute units.
+
+Variable X1   Float
+Variable X2   Float
+Variable TZ   Float
+Variable Size Float
+
+Size = SizeX
+If Size > SizeY
+  Size = SizeY
+EndIf
+
+' Put in a sanity check to avoid divides by zero. OpenZone won't crash anyway, but this will prevent
+' an error from being listed in the script parsing log if the user makes the object's size 0.
+
+If (Size <> 0) And (ChainWidth <> 0)
+
+  ' We always must scale to 1 when creating objects since the Size parameter multiplies everything
+  ' we do. Therefore the width of the chain actually must *decrease* as the user enters larger
+  ' values for the chain height.
+
+  ' Divide the width by two because we want the object to be horizontally centered on the
+  ' coordinate and therefore we'll build rectangles from -X1 to +X1.
+
+  X1 = -(ChainWidth / 2) / Size
+
+  ' Create a helper variable to make the RectangleTex statements easier to read.
+
+  X2 = -X1
+
+  ' The horizontal texture coordinates always should range from 0 to 1, but vertically it depends on
+  ' how tall the chain is.
+
+  TZ = SizeZ / (Size * (X2 - X1))
+
+  ' Draw the front face along the X axis
+
+  RectangleTex X1,0,0, X1,0,1, X2,0,1, X2,0,0, 0,TZ, 0,0, 1,0, 1,TZ, ChainTex, False, False, True, 0, False, True
+
+  ' Draw the back face along the X axis
+
+  RectangleTex X2,0,0, X2,0,1, X1,0,1, X1,0,0, 1,TZ, 1,0, 0,0, 0,TZ, ChainTex, False, False, True, 0, False, True
+
+  ' Draw the front face along the Y axis
+
+  RectangleTex 0,X2,0, 0,X2,1, 0,X1,1, 0,X1,0, 0,TZ, 0,0, 1,0, 1,TZ, ChainTex, False, False, True, 0, False, True
+
+  ' Draw the back face along the Y axis
+
+  RectangleTex 0,X1,0, 0,X1,1, 0,X2,1, 0,X2,0, 1,TZ, 1,0, 0,0, 0,TZ, ChainTex, False, False, True, 0, False, True
+EndIf

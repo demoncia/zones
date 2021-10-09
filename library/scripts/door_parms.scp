@@ -1,0 +1,62 @@
+CATEGORY SQL
+
+' Integer parameters are the most customizable. For the SQLPARM command,
+' Boolean parameters will return 0 for False and -1 for True.
+
+' I did these in alphabetic order to make it readable, but it isn't necessary.
+
+PARAM DestZone    STRING  DEFAULT "NONE"
+PARAM DestX       INTEGER DEFAULT 0
+PARAM DestY       INTEGER DEFAULT 0
+PARAM DestZ       INTEGER DEFAULT 0
+PARAM DoorIsOpen  INTEGER DEFAULT 0
+PARAM Guild       INTEGER DEFAULT 0
+PARAM Incline     INTEGER DEFAULT 0
+PARAM InvertState INTEGER DEFAULT 0
+PARAM KeyItem     INTEGER DEFAULT 0
+PARAM LiftHeight  INTEGER DEFAULT 0
+PARAM LockPick    INTEGER DEFAULT 0
+PARAM OpenType    INTEGER DEFAULT 0
+PARAM TriggerDoor INTEGER DEFAULT 0
+PARAM TriggerType INTEGER DEFAULT 0
+
+HINT DestZone    'doors' table: destination zone short_name.
+HINT DestX       'doors' table: destination zone x coordinate.
+HINT DestY       'doors' table: destination zone y coordinate.
+HINT DestZ       'doors' table: destination zone z coordinate.
+HINT DoorIsOpen  'doors' table: set to 1 if the door should be open by default (or if a lift should be at the bottom by default)
+HINT Guild       'doors' table: the guild ID that can open the door.
+HINT Incline     'doors' table: unknown (see server documentation for details)
+HINT InvertState 'doors' table: set to 1 if the door should normally be open.
+HINT KeyItem     'doors' table: the item ID of the key that is required to unlock the door.
+HINT LiftHeight  'doors' table: if the door is a lift, the height that it traverses.
+HINT LockPick    'doors' table: unknown (see server documentation for details)
+HINT OpenType    'doors' table: determines the opening/closing motion.
+HINT TriggerDoor 'doors' table: the door ID of the door that triggers this door.
+HINT TriggerType 'doors' table: determines how the triggering door triggers this door.
+
+' The SQLPARM command affects ALL objects at this object's level that were
+' placed from the mesh library whose DoorRef parameter is True. For
+' instance, if this object is at the root level then it affects all objects
+' in the zone. If this object is in a group then it affects all objects in
+' its group and all sub-groups. OpenZone builds objects recursively so
+' SQLPARM commands in grouped objects should always override SQLPARM
+' commands from objects higher up in the object tree. It means that it's
+' safe to place one of these objects to set default door properties and
+' group more objects with doors that you wish to customize (for instance
+' for setting doors that require a specific key).
+
+SQLPARM "doors", "dest_zone",    DestZone
+SQLPARM "doors", "dest_x",       DestX
+SQLPARM "doors", "dest_y",       DestY
+SQLPARM "doors", "dest_z",       DestZ
+SQLPARM "doors", "doorisopen",   DoorIsOpen
+SQLPARM "doors", "guild",        Guild
+SQLPARM "doors", "incline",      Incline
+SQLPARM "doors", "invert_state", InvertState
+SQLPARM "doors", "keyitem",      KeyItem
+SQLPARM "doors", "liftheight",   LiftHeight
+SQLPARM "doors", "lockpick",     LockPick
+SQLPARM "doors", "opentype",     OpenType
+SQLPARM "doors", "triggerdoor",  TriggerDoor
+SQLPARM "doors", "triggertype",  TriggerType

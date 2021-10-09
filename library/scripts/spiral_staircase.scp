@@ -1,0 +1,222 @@
+' Reminder: WindScript is NOT case-sensitive
+
+CATEGORY Buildings
+PARAM    Sides            Integer Default 10       ' Number of sections around the circle
+PARAM    InnerRad         Float   Default 0.5
+PARAM    Winds            Float   Default 2
+PARAM    Full             Boolean Default True
+PARAM    Bottom           Boolean Default False
+PARAM    Clockwise        Boolean Default False
+PARAM    Semitransparent  Boolean Default False
+PARAM    Tex1             String
+PARAM    Tex2             String  Default Tex1
+PARAM    Tex3             String  Default Tex1
+PARAM    Solid            BOOLEAN Default True
+PARAM    Color            INTEGER Default 0
+PARAM    HasColor         BOOLEAN Default False
+PARAM    Masked           BOOLEAN Default False
+PARAM    CalcNormals      BOOLEAN Default True
+
+HINT     Sides            The number of steps.
+HINT     InnerRad         The inner radius, specified as a fraction of the overall width.
+HINT     Winds            The number of times the staircase winds around. This doesn't
+HINT     Winds            have to be specified as an integer; for example, 1.5 makes it
+HINT     Winds            wind around one-and-a-half times.
+HINT     Full             When True (and Winds <= 1), the inside of the steps extend all the
+HINT     Full             way down to to the ground. Otherwise they only extend to the bottom
+HINT     Full             of the step, and polygons for the bottom of each step are automatically
+HINT     Full             generated.
+HINT     Bottom           When True, polygons for the bottom of the staircase are generated.
+HINT     Bottom           If the staircase rests on the ground and Full is True, then
+HINT     Bottom           perhaps this should be set to False since bottom polygons won't
+HINT     Bottom           be visible.
+HINT     Clockwise        Determines the direction that the staircase winds, clockwise or
+HINT     Clockwise        counterclockwise.
+HINT     SemiTransparent  When True, makes the object 50% transparent.
+HINT     Tex1             The texture for the top and bottom of each step.
+HINT     Tex2             The texture for the front and back of each step. Defaults to Tex1.
+HINT     Tex3             The texture for the inside and outside of each ste. Defaults to Tex1.
+HINT     Solid            When True, makes sure that the player can't pass through the object.
+HINT     Solid            Players won't be able to climb the stairs if this is False.
+HINT     Color            When HasColor is true, specifies a tint to apply to the object.
+HINT     Color            Being an integer, this can also be specified as a hecadecimal
+HINT     Color            number in the form $aabbggrr.
+HINT     HasColor         When True, applies Color as a tint to the object.
+HINT     Masked           When True, means that the textures used are 8-bit masked textures
+HINT     Masked           (e.g. tree leaves) where the first color in the color palette is
+HINT     Masked           the transparent color.
+HINT     CalcNormals      When True, the script will specify normals to the polygon vertices
+HINT     CalcNormals      so the staircase appears rounded.
+
+VARIABLE SH       Float                    ' Step height
+VARIABLE SW       Float                    ' Step depth
+VARIABLE Z1       Float                    ' I * Step height
+VARIABLE Z2       Float                    ' (I + 1) * Step height
+VARIABLE I        Integer                  ' Counter
+VARIABLE IRad     Float                    ' Inner radius, sanity-checked
+VARIABLE W        Float                    ' Winds, sanity-checked
+VARIABLE Steps    Float                    ' NumSteps, sanity-checked
+VARIABLE S        Float                    ' Sections, sanity-checked
+VARIABLE IX1      Float
+VARIABLE IY1      Float
+VARIABLE IX2      Float
+VARIABLE IY2      Float
+VARIABLE OX1      Float
+VARIABLE OY1      Float
+VARIABLE OX2      Float
+VARIABLE OY2      Float
+
+' Make sure the number of sections is within reason
+
+S = Sides
+If S < 3
+  S = 3
+EndIf
+
+' Figure out the step width and height
+
+SH = 1 / S
+SW = 1 / S
+
+' Make sure the inner radius value is within reason
+
+IRad = InnerRad
+If IRad < 0
+  IRad = 0
+EndIf
+If IRad > 1
+  IRad = 1
+EndIf
+
+' Make sure the winds is within reason
+
+W = Winds
+If W < 0.1
+  W = 0.1
+EndIf
+
+' Make the staircase
+
+If Clockwise
+  IX1 = IRad / 2
+  IY1 = 0
+  OX1 = -0.5
+  OY1 = 0
+Else
+  IX1 = IRad / 2
+  IY1 = 0
+  OX1 = 0.5
+  OY1 = 0
+EndIf
+
+I  = 0
+Z1 = 0
+While I < S
+  Z2 = (I + 1) * SH;
+  If Clockwise
+    OX2 = -Cos((I + 1) * 360 * W / S) / 2
+    OY2 =  Sin((I + 1) * 360 * W / S) / 2
+    IX2 = -IRad * Cos((I + 1) * 360 * W / S) / 2
+    IY2 =  IRad * Sin((I + 1) * 360 * W / S) / 2
+
+    ' Inside part of the step
+
+    If (W <= 1) And Full
+      Rectangle IX1,IY1,0, IX1,IY1,Z2, IX2,IY2,Z2, IX2,IY2,0, Tex3, False, Semitransparent, Solid, Color, HasColor, Masked, CalcNormals, -IX1, -IY1, 0, -IX1, -IY1, 0, -IX2, -IY2, 0, -IX2, -IY2, 0
+    Else
+      Rectangle IX1,IY1,Z1, IX1,IY1,Z2, IX2,IY2,Z2, IX2,IY2,Z1, Tex3, False, Semitransparent, Solid, Color, HasColor, Masked, CalcNormals, -IX1, -IY1, 0, -IX1, -IY1, 0, -IX2, -IY2, 0, -IX2, -IY2, 0
+    EndIf
+
+    ' Outside part of the step
+
+    If (W <= 1) And Full
+      Rectangle OX1,OY1,0, OX2,OY2,0, OX2,OY2,Z2, OX1,OY1,Z2, Tex3, False, Semitransparent, Solid, Color, HasColor, Masked, CalcNormals, OX1, OY1, 0, OX2, OY2, 0, OX2, OY2, 0, OX1, OY1, 0
+    Else
+      Rectangle OX1,OY1,Z1, OX2,OY2,Z1, OX2,OY2,Z2, OX1,OY1,Z2, Tex3, False, Semitransparent, Solid, Color, HasColor, Masked, CalcNormals, OX1, OY1, 0, OX2, OY2, 0, OX2, OY2, 0, OX1, OY1, 0
+    EndIf
+
+    ' Front of the step
+
+    Rectangle IX1,IY1,Z1, OX1,OY1,Z1, OX1,OY1,Z2, IX1,IY1,Z2, Tex2, False, Semitransparent
+
+    ' Back of the step
+
+    If (W > 1) Or Not Full
+      Rectangle IX2,IY2,Z2, OX2,OY2,Z2, OX2,OY2,Z1, IX2,IY2,Z1, Tex2, False, Semitransparent
+    ElseIf I = S - 1
+      Rectangle IX2,IY2,Z2, OX2,OY2,Z2, OX2,OY2,0, IX2,IY2,0, Tex2, False, Semitransparent
+    EndIf
+
+    ' Top of the step
+
+    Triangle IX1,IY1,Z2, OX1,OY1,Z2, OX2,OY2,Z2, Tex1, False, Semitransparent
+    Triangle IX1,IY1,Z2, OX2,OY2,Z2, IX2,IY2,Z2, Tex1, False, Semitransparent
+
+    ' Bottom of the step
+
+    If (W > 1) Or Not Full
+      Triangle IX1,IY1,Z1, IX2,IY2,Z1, OX1,OY1,Z1, Tex1, False, Semitransparent
+      Triangle IX2,IY2,Z1, OX2,OY2,Z1, OX1,OY1,Z1, Tex1, False, Semitransparent
+    ElseIf Bottom
+      Triangle IX1,IY1,0, IX2,IY2,0, OX1,OY1,0, Tex1, False, Semitransparent
+      Triangle IX2,IY2,0, OX2,OY2,0, OX1,OY1,0, Tex1, False, Semitransparent
+    EndIf
+  Else
+    OX2 = Cos((I + 1) * 360 * W / S) / 2
+    OY2 = Sin((I + 1) * 360 * W / S) / 2
+    IX2 = IRad * Cos((I + 1) * 360 * W / S) / 2
+    IY2 = IRad * Sin((I + 1) * 360 * W / S) / 2
+
+    ' Inside part of the step
+
+    If (W <= 1) And Full
+      Rectangle IX1,IY1,0, IX2,IY2,0, IX2,IY2,Z2, IX1,IY1,Z2, Tex3, False, Semitransparent, Solid, Color, HasColor, Masked, CalcNormals, -IX1, -IY1, 0, -IX2, -IY2, 0, -IX2, -IY2, 0, -IX1, -IY1, 0
+    Else
+      Rectangle IX1,IY1,Z1, IX2,IY2,Z1, IX2,IY2,Z2, IX1,IY1,Z2, Tex3, False, Semitransparent, Solid, Color, HasColor, Masked, CalcNormals, -IX1, -IY1, 0, -IX2, -IY2, 0, -IX2, -IY2, 0, -IX1, -IY1, 0
+    EndIf
+
+    ' Outside part of the step
+
+    If (W <= 1) And Full
+      Rectangle OX1,OY1,0, OX1,OY1,Z2, OX2,OY2,Z2, OX2,OY2,0, Tex3, False, Semitransparent, Solid, Color, HasColor, Masked, CalcNormals, OX1, OY1, 0, OX1, OY1, 0, OX2, OY2, 0, OX2, OY2, 0
+    Else
+      Rectangle OX1,OY1,Z1, OX1,OY1,Z2, OX2,OY2,Z2, OX2,OY2,Z1, Tex3, False, Semitransparent, Solid, Color, HasColor, Masked, CalcNormals, OX1, OY1, 0, OX1, OY1, 0, OX2, OY2, 0, OX2, OY2, 0
+    EndIf
+
+    ' Front of the step
+
+    Rectangle IX1,IY1,Z1, IX1,IY1,Z2, OX1,OY1,Z2, OX1,OY1,Z1, Tex2, False, Semitransparent
+
+    ' Back of the step
+
+    If (W > 1) Or Not Full
+      Rectangle OX2,OY2,Z2, IX2,IY2,Z2, IX2,IY2,Z1, OX2,OY2,Z1, Tex2, False, Semitransparent
+    ElseIf I = S - 1
+      Rectangle OX2,OY2,Z2, IX2,IY2,Z2, IX2,IY2,0, OX2,OY2,0, Tex2, False, Semitransparent
+    EndIf
+
+    ' Top of the step
+
+    Triangle IX1,IY1,Z2, IX2,IY2,Z2, OX1,OY1,Z2, Tex1, False, Semitransparent
+    Triangle IX2,IY2,Z2, OX2,OY2,Z2, OX1,OY1,Z2, Tex1, False, Semitransparent
+
+    ' Bottom of the step
+
+    If (W > 1) Or Not Full
+      Triangle IX1,IY1,Z1, OX1,OY1,Z1, OX2,OY2,Z1, Tex1, False, Semitransparent
+      Triangle IX1,IY1,Z1, OX2,OY2,Z1, IX2,IY2,Z1, Tex1, False, Semitransparent
+    ElseIf Bottom
+      Triangle IX1,IY1,0, OX1,OY1,0, OX2,OY2,0, Tex1, False, Semitransparent
+      Triangle IX1,IY1,0, OX2,OY2,0, IX2,IY2,0, Tex1, False, Semitransparent
+    EndIf
+  EndIf
+
+  ' Move to the next step
+
+  IX1 = IX2
+  IY1 = IY2
+  OX1 = OX2
+  OY1 = OY2
+  Z1  = Z2
+  I   = I + 1
+Wend

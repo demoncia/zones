@@ -1,0 +1,107 @@
+Category Polyhedra
+
+Param Tex1        String
+Param Tex2        String  Default Tex1
+Param Tex3        String  Default Tex1
+Param Tex4        String  Default Tex1
+Param Tex5        String  Default Tex1
+Param Tex6        String  Default Tex1
+Param Tex7        String  Default Tex1
+Param Tex8        String  Default Tex1
+Param Tex9        String  Default Tex1
+Param Tex10       String  Default Tex1
+Param Tex11       String  Default Tex1
+Param Tex12       String  Default Tex1
+Param SemiTrans   Boolean Default False
+Param Transparent Boolean Default False
+Param Solid       Boolean Default True
+Param Color       Integer Default 0
+Param HasColor    Boolean Default False
+Param Masked      Boolean Default False
+Param CalcNormals Boolean Default True
+
+Hint  Tex1        The texture for the object.
+Hint  Tex2        The texture for pentagonal group 2. Defaults to Tex1.
+Hint  Tex3        The texture for pentagonal group 3. Defaults to Tex1.
+Hint  Tex4        The texture for pentagonal group 4. Defaults to Tex1.
+Hint  Tex5        The texture for pentagonal group 5. Defaults to Tex1.
+Hint  Tex6        The texture for pentagonal group 6. Defaults to Tex1.
+Hint  Tex7        The texture for pentagonal group 7. Defaults to Tex1.
+Hint  Tex8        The texture for pentagonal group 8. Defaults to Tex1.
+Hint  Tex9        The texture for pentagonal group 9. Defaults to Tex1.
+Hint  Tex10       The texture for pentagonal group 10. Defaults to Tex1.
+Hint  Tex11       The texture for pentagonal group 11. Defaults to Tex1.
+Hint  Tex12       The texture for pentagonal group 12. Defaults to Tex1.
+Hint  Semitrans   When True, makes the object 50% transparent.
+Hint  Transparent When True, makes the object fully transparent.
+Hint  Solid       When True, makes sure that the player can't pass through the object.
+Hint  Color       When HasColor is true, specifies a tint to apply to the object.
+Hint  Color       Being an integer, this can also be specified as a hecadecimal
+Hint  Color       number in the form $aabbggrr.
+Hint  HasColor    When True, applies Color as a tint to the object.
+Hint  Masked      When True, means that the textures used are 8-bit masked textures
+Hint  Masked      (e.g. tree leaves) where the first color in the color palette is
+Hint  Masked      the transparent color.
+Hint  CalcNormals When True, the script will specify normals to the polygon vertices
+Hint  CalcNormals so the object appears rounded.
+
+Triangle   -0.207,   -0.024,    0.500,    0.097,    0.186,    0.500,    0.097,   -0.144,    0.500, Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.417,   -0.047,    0.906,    0.197,    0.370,    0.906,    0.205,   -0.291,    0.937
+Triangle    0.097,    0.186,    0.500,    0.377,   -0.024,    0.373,    0.097,   -0.144,    0.500, Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.197,    0.370,    0.906,    0.748,   -0.047,    0.661,    0.205,   -0.291,    0.937
+Triangle   -0.207,   -0.024,    0.500,   -0.195,    0.288,    0.387,    0.097,    0.186,    0.500, Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.417,   -0.047,    0.906,   -0.402,    0.575,    0.709,    0.197,    0.370,    0.906
+Triangle    0.097,   -0.144,    0.500,   -0.116,   -0.363,    0.373,   -0.207,   -0.024,    0.500, Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.205,   -0.291,    0.937,   -0.228,   -0.709,    0.669,   -0.417,   -0.047,    0.906
+Triangle    0.323,    0.288,    0.274,    0.377,   -0.024,    0.373,    0.097,    0.186,    0.500, Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.654,    0.575,    0.496,    0.748,   -0.047,    0.661,    0.197,    0.370,    0.906
+Triangle    0.245,   -0.363,    0.294,    0.097,   -0.144,    0.500,    0.377,   -0.024,    0.373, Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.480,   -0.701,    0.520,    0.205,   -0.291,    0.937,    0.748,   -0.047,    0.661
+Triangle   -0.445,    0.124,    0.245,   -0.195,    0.288,    0.387,   -0.207,   -0.024,    0.500, Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.866,    0.236,    0.433,   -0.402,    0.575,    0.709,   -0.417,   -0.047,    0.906
+Triangle    0.048,    0.463,    0.245,    0.097,    0.186,    0.500,   -0.195,    0.288,    0.387, Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.094,    0.898,    0.433,    0.197,    0.370,    0.906,   -0.402,    0.575,    0.709
+Triangle    0.245,   -0.363,    0.294,   -0.116,   -0.363,    0.373,    0.097,   -0.144,    0.500, Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.480,   -0.701,    0.520,   -0.228,   -0.709,    0.669,    0.205,   -0.291,    0.937
+Triangle   -0.383,   -0.199,    0.274,   -0.207,   -0.024,    0.500,   -0.116,   -0.363,    0.373, Tex4, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.772,   -0.394,    0.496,   -0.417,   -0.047,    0.906,   -0.228,   -0.709,    0.669
+Triangle    0.323,    0.288,    0.274,    0.500,    0.124,    0.039,    0.377,   -0.024,    0.373, Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.654,    0.575,    0.496,    0.969,    0.236,    0.071,    0.748,   -0.047,    0.661
+Triangle    0.097,    0.186,    0.500,    0.048,    0.463,    0.245,    0.323,    0.288,    0.274, Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.197,    0.370,    0.906,    0.094,    0.898,    0.433,    0.654,    0.575,    0.496
+Triangle    0.377,   -0.024,    0.373,    0.455,   -0.199,    0.091,    0.245,   -0.363,    0.294, Tex5, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.748,   -0.047,    0.661,    0.906,   -0.386,    0.165,    0.480,   -0.701,    0.520
+Triangle   -0.445,    0.124,    0.245,   -0.287,    0.425,    0.088,   -0.195,    0.288,    0.387, Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.866,    0.236,    0.433,   -0.559,    0.811,    0.157,   -0.402,    0.575,    0.709
+Triangle   -0.207,   -0.024,    0.500,   -0.383,   -0.199,    0.274,   -0.445,    0.124,    0.245, Tex4, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.417,   -0.047,    0.906,   -0.772,   -0.394,    0.496,   -0.866,    0.236,    0.433
+Triangle   -0.195,    0.288,    0.387,   -0.287,    0.425,    0.088,    0.048,    0.463,    0.245, Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.402,    0.575,    0.709,   -0.559,    0.811,    0.157,    0.094,    0.898,    0.433
+Triangle    0.245,   -0.363,    0.294,    0.018,   -0.500,    0.091,   -0.116,   -0.363,    0.373, Tex6, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.480,   -0.701,    0.520,    0.039,   -0.984,    0.165,   -0.228,   -0.709,    0.669
+Triangle   -0.116,   -0.363,    0.373,   -0.297,   -0.425,    0.039,   -0.383,   -0.199,    0.274, Tex4, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.228,   -0.709,    0.669,   -0.575,   -0.811,    0.071,   -0.772,   -0.394,    0.496
+Triangle    0.297,    0.425,   -0.039,    0.500,    0.124,    0.039,    0.323,    0.288,    0.274, Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.575,    0.811,   -0.071,    0.969,    0.236,    0.071,    0.654,    0.575,    0.496
+Triangle    0.455,   -0.199,    0.091,    0.377,   -0.024,    0.373,    0.500,    0.124,    0.039, Tex5, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.906,   -0.386,    0.165,    0.748,   -0.047,    0.661,    0.969,    0.236,    0.071
+Triangle    0.297,    0.425,   -0.039,    0.323,    0.288,    0.274,    0.048,    0.463,    0.245, Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.575,    0.811,   -0.071,    0.654,    0.575,    0.496,    0.094,    0.898,    0.433
+Triangle    0.287,   -0.425,   -0.088,    0.245,   -0.363,    0.294,    0.455,   -0.199,    0.091, Tex5, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.559,   -0.811,   -0.157,    0.480,   -0.701,    0.520,    0.906,   -0.386,    0.165
+Triangle   -0.455,    0.199,   -0.091,   -0.287,    0.425,    0.088,   -0.445,    0.124,    0.245, Tex7, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.906,    0.386,   -0.165,   -0.559,    0.811,    0.157,   -0.866,    0.236,    0.433
+Triangle   -0.500,   -0.124,   -0.039,   -0.445,    0.124,    0.245,   -0.383,   -0.199,    0.274, Tex4, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.969,   -0.236,   -0.071,   -0.866,    0.236,    0.433,   -0.772,   -0.394,    0.496
+Triangle   -0.018,    0.500,   -0.091,    0.048,    0.463,    0.245,   -0.287,    0.425,    0.088, Tex8, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.039,    0.984,   -0.165,    0.094,    0.898,    0.433,   -0.559,    0.811,    0.157
+Triangle    0.287,   -0.425,   -0.088,    0.018,   -0.500,    0.091,    0.245,   -0.363,    0.294, Tex6, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.559,   -0.811,   -0.157,    0.039,   -0.984,    0.165,    0.480,   -0.701,    0.520
+Triangle   -0.297,   -0.425,    0.039,   -0.116,   -0.363,    0.373,    0.018,   -0.500,    0.091, Tex6, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.575,   -0.811,    0.071,   -0.228,   -0.709,    0.669,    0.039,   -0.984,    0.165
+Triangle   -0.500,   -0.124,   -0.039,   -0.383,   -0.199,    0.274,   -0.297,   -0.425,    0.039, Tex4, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.969,   -0.236,   -0.071,   -0.772,   -0.394,    0.496,   -0.575,   -0.811,    0.071
+Triangle    0.297,    0.425,   -0.039,    0.383,    0.199,   -0.274,    0.500,    0.124,    0.039, Tex9, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.575,    0.811,   -0.071,    0.772,    0.394,   -0.496,    0.969,    0.236,    0.071
+Triangle    0.500,    0.124,    0.039,    0.445,   -0.124,   -0.245,    0.455,   -0.199,    0.091, Tex5, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.969,    0.236,    0.071,    0.866,   -0.236,   -0.433,    0.906,   -0.386,    0.165
+Triangle    0.048,    0.463,    0.245,   -0.018,    0.500,   -0.091,    0.297,    0.425,   -0.039, Tex8, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.094,    0.898,    0.433,   -0.039,    0.984,   -0.165,    0.575,    0.811,   -0.071
+Triangle    0.455,   -0.199,    0.091,    0.445,   -0.124,   -0.245,    0.287,   -0.425,   -0.088, Tex5, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.906,   -0.386,    0.165,    0.866,   -0.236,   -0.433,    0.559,   -0.811,   -0.157
+Triangle   -0.455,    0.199,   -0.091,   -0.245,    0.363,   -0.294,   -0.287,    0.425,    0.088, Tex7, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.906,    0.386,   -0.165,   -0.480,    0.701,   -0.520,   -0.559,    0.811,    0.157
+Triangle   -0.445,    0.124,    0.245,   -0.500,   -0.124,   -0.039,   -0.455,    0.199,   -0.091, Tex7, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.866,    0.236,    0.433,   -0.969,   -0.236,   -0.071,   -0.906,    0.386,   -0.165
+Triangle   -0.287,    0.425,    0.088,   -0.245,    0.363,   -0.294,   -0.018,    0.500,   -0.091, Tex8, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.559,    0.811,    0.157,   -0.480,    0.701,   -0.520,   -0.039,    0.984,   -0.165
+Triangle    0.287,   -0.425,   -0.088,   -0.048,   -0.463,   -0.245,    0.018,   -0.500,    0.091, Tex6, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.559,   -0.811,   -0.157,   -0.094,   -0.898,   -0.433,    0.039,   -0.984,    0.165
+Triangle    0.018,   -0.500,    0.091,   -0.048,   -0.463,   -0.245,   -0.297,   -0.425,    0.039, Tex6, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.039,   -0.984,    0.165,   -0.094,   -0.898,   -0.433,   -0.575,   -0.811,    0.071
+Triangle   -0.297,   -0.425,    0.039,   -0.323,   -0.288,   -0.274,   -0.500,   -0.124,   -0.039, Tex10, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.575,   -0.811,    0.071,   -0.654,   -0.575,   -0.496,   -0.969,   -0.236,   -0.071
+Triangle    0.116,    0.363,   -0.373,    0.383,    0.199,   -0.274,    0.297,    0.425,   -0.039, Tex9, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.228,    0.709,   -0.669,    0.772,    0.394,   -0.496,    0.575,    0.811,   -0.071
+Triangle    0.445,   -0.124,   -0.245,    0.500,    0.124,    0.039,    0.383,    0.199,   -0.274, Tex9, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.866,   -0.236,   -0.433,    0.969,    0.236,    0.071,    0.772,    0.394,   -0.496
+Triangle    0.116,    0.363,   -0.373,    0.297,    0.425,   -0.039,   -0.018,    0.500,   -0.091, Tex8, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.228,    0.709,   -0.669,    0.575,    0.811,   -0.071,   -0.039,    0.984,   -0.165
+Triangle    0.195,   -0.288,   -0.387,    0.287,   -0.425,   -0.088,    0.445,   -0.124,   -0.245, Tex11, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.402,   -0.575,   -0.709,    0.559,   -0.811,   -0.157,    0.866,   -0.236,   -0.433
+Triangle   -0.377,    0.024,   -0.373,   -0.245,    0.363,   -0.294,   -0.455,    0.199,   -0.091, Tex7, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.748,    0.047,   -0.661,   -0.480,    0.701,   -0.520,   -0.906,    0.386,   -0.165
+Triangle   -0.377,    0.024,   -0.373,   -0.455,    0.199,   -0.091,   -0.500,   -0.124,   -0.039, Tex7, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.748,    0.047,   -0.661,   -0.906,    0.386,   -0.165,   -0.969,   -0.236,   -0.071
+Triangle    0.116,    0.363,   -0.373,   -0.018,    0.500,   -0.091,   -0.245,    0.363,   -0.294, Tex8, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.228,    0.709,   -0.669,   -0.039,    0.984,   -0.165,   -0.480,    0.701,   -0.520
+Triangle    0.195,   -0.288,   -0.387,   -0.048,   -0.463,   -0.245,    0.287,   -0.425,   -0.088, Tex11, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.402,   -0.575,   -0.709,   -0.094,   -0.898,   -0.433,    0.559,   -0.811,   -0.157
+Triangle   -0.323,   -0.288,   -0.274,   -0.297,   -0.425,    0.039,   -0.048,   -0.463,   -0.245, Tex10, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.654,   -0.575,   -0.496,   -0.575,   -0.811,    0.071,   -0.094,   -0.898,   -0.433
+Triangle   -0.377,    0.024,   -0.373,   -0.500,   -0.124,   -0.039,   -0.323,   -0.288,   -0.274, Tex10, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.748,    0.047,   -0.661,   -0.969,   -0.236,   -0.071,   -0.654,   -0.575,   -0.496
+Triangle    0.116,    0.363,   -0.373,    0.207,    0.024,   -0.500,    0.383,    0.199,   -0.274, Tex9, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.228,    0.709,   -0.669,    0.417,    0.047,   -0.906,    0.772,    0.394,   -0.496
+Triangle    0.383,    0.199,   -0.274,    0.207,    0.024,   -0.500,    0.445,   -0.124,   -0.245, Tex9, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.772,    0.394,   -0.496,    0.417,    0.047,   -0.906,    0.866,   -0.236,   -0.433
+Triangle    0.445,   -0.124,   -0.245,    0.207,    0.024,   -0.500,    0.195,   -0.288,   -0.387, Tex11, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.866,   -0.236,   -0.433,    0.417,    0.047,   -0.906,    0.402,   -0.575,   -0.709
+Triangle   -0.377,    0.024,   -0.373,   -0.097,    0.144,   -0.500,   -0.245,    0.363,   -0.294, Tex12, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.748,    0.047,   -0.661,   -0.205,    0.291,   -0.937,   -0.480,    0.701,   -0.520
+Triangle   -0.245,    0.363,   -0.294,   -0.097,    0.144,   -0.500,    0.116,    0.363,   -0.373, Tex12, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.480,    0.701,   -0.520,   -0.205,    0.291,   -0.937,    0.228,    0.709,   -0.669
+Triangle    0.195,   -0.288,   -0.387,   -0.097,   -0.186,   -0.500,   -0.048,   -0.463,   -0.245, Tex11, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,    0.402,   -0.575,   -0.709,   -0.197,   -0.370,   -0.906,   -0.094,   -0.898,   -0.433
+Triangle   -0.048,   -0.463,   -0.245,   -0.097,   -0.186,   -0.500,   -0.323,   -0.288,   -0.274, Tex10, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.094,   -0.898,   -0.433,   -0.197,   -0.370,   -0.906,   -0.654,   -0.575,   -0.496
+Triangle   -0.323,   -0.288,   -0.274,   -0.097,   -0.186,   -0.500,   -0.377,    0.024,   -0.373, Tex10, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.654,   -0.575,   -0.496,   -0.197,   -0.370,   -0.906,   -0.748,    0.047,   -0.661
+Triangle   -0.097,    0.144,   -0.500,    0.207,    0.024,   -0.500,    0.116,    0.363,   -0.373, Tex12, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.205,    0.291,   -0.937,    0.417,    0.047,   -0.906,    0.228,    0.709,   -0.669
+Triangle   -0.097,   -0.186,   -0.500,    0.195,   -0.288,   -0.387,    0.207,    0.024,   -0.500, Tex11, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.197,   -0.370,   -0.906,    0.402,   -0.575,   -0.709,    0.417,    0.047,   -0.906
+Triangle   -0.097,   -0.186,   -0.500,   -0.097,    0.144,   -0.500,   -0.377,    0.024,   -0.373, Tex12, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.197,   -0.370,   -0.906,   -0.205,    0.291,   -0.937,   -0.748,    0.047,   -0.661
+Triangle   -0.097,    0.144,   -0.500,   -0.097,   -0.186,   -0.500,    0.207,    0.024,   -0.500, Tex12, Transparent, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals,   -0.205,    0.291,   -0.937,   -0.197,   -0.370,   -0.906,    0.417,    0.047,   -0.906

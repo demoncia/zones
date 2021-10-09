@@ -1,0 +1,253 @@
+CATEGORY Geometry
+PARAM Sides       INTEGER Default 8
+PARAM Top         BOOLEAN Default True
+PARAM Bottom      BOOLEAN Default Top
+PARAM Outside     BOOLEAN Default True
+PARAM Inside      BOOLEAN Default True
+PARAM Angle       FLOAT   Default 360
+PARAM InsideSize  FLOAT   Default 0.5
+PARAM Tex1        STRING
+PARAM Tex2        STRING  DEFAULT Tex1
+PARAM Tex3        STRING  DEFAULT Tex1
+PARAM Tex4        STRING  DEFAULT Tex3
+PARAM SemiTrans   BOOLEAN DEFAULT False
+PARAM FullTexture BOOLEAN DEFAULT False
+PARAM TexScaleX   FLOAT   DEFAULT 1
+PARAM TexScaleZ   FLOAT   DEFAULT 1
+PARAM TopScale    FLOAT   Default 1
+PARAM Solid       BOOLEAN Default True
+PARAM Color       INTEGER Default 0
+PARAM HasColor    BOOLEAN Default False
+PARAM Masked      BOOLEAN Default False
+PARAM CalcNormals BOOLEAN Default True
+
+HINT  Sides       The number of sides for the pipe.
+HINT  Top         When True, creates polygons for the very top of the pipe.
+HINT  Top         If something is resting on the pipe such that the top isn't
+HINT  Top         visible, then this should be set to False.
+HINT  Bottom      When True, creates polygons for the very bottom of the pipe.
+HINT  Bottom      If the pipe is resting on something such that the bottom isn't
+HINT  Bottom      visible, then this should be set to False.
+HINT  Outside     When True, creates polygons for the main part of the pipe,
+HINT  Outside     visible from the outside.
+HINT  Inside      If Angle is less than 360, creates flat polygons that run from
+HINT  Inside      the outside of the pipe to the inside radius, using the inside
+HINT  Inside      pipe texture.
+HINT  Angle       The total sweep angle for the pipe, in degrees. 360 yields a
+HINT  Angle       complete pipe, while 180 yields just half of a pipe, for
+HINT  Angle       example.
+HINT  InsideSize  The inside radius, specified as a fraction of the pipe's
+HINT  InsideSize  overall width.
+HINT  Tex1        Texture for the top end of the pipe.
+HINT  Tex2        Texture for the bottom end of the pipe. Defaults to Tex1.
+HINT  Tex3        Texture for the inside of the pipe. Defaults to Tex1.
+HINT  Tex4        Texture for the outside of the pipe. Defaults to Tex3.
+HINT  SemiTrans   When True, makes the object 50% transparent.
+HINT  FullTexture When True, allows TexScaleX and TexScaleZ to determine how
+HINT  FullTexture the texture is mapped onto the faces. Otherwise, OpenZone
+HINT  FullTexture uses its internal algorithm based on overall object size to
+HINT  FullTexture map textures onto faces.
+HINT  TexScaleX   Acts as a multiplier for horizontal texture coordinates
+HINT  TexScaleX   when FullTexture is True.
+HINT  TexScaleZ   Acts as a multiplier for vertical texture coordinates
+HINT  TexScaleZ   when FullTexture is True.
+HINT  TopScale    Acts as a multiplier for the width of the top of the pipe
+HINT  TopScale    relative to the bottom. This can be used to taper (or expand)
+HINT  TopScale    the pipe as it rises.
+HINT  Solid       When True, makes sure that the player can't pass through the object.
+HINT  Color       When HasColor is true, specifies a tint to apply to the object.
+HINT  Color       Being an integer, this can also be specified as a hecadecimal
+HINT  Color       number in the form $aabbggrr.
+HINT  HasColor    When True, applies Color as a tint to the object.
+HINT  Masked      When True, means that the textures used are 8-bit masked textures
+HINT  Masked      (e.g. tree leaves) where the first color in the color palette is
+HINT  Masked      the transparent color.
+HINT  CalcNormals When True, the script will specify normals to the polygon vertices
+HINT  CalcNormals so the pipe appears rounded.
+
+Variable ISize  Float
+Variable S      Integer
+Variable I      Integer
+Variable OX1    Float
+Variable OY1    Float
+Variable OX2    Float
+Variable OY2    Float
+Variable IX1    Float
+Variable IY1    Float
+Variable IX2    Float
+Variable IY2    Float
+Variable Angle1 Float
+Variable Angle2 Float
+Variable A      Float
+Variable X      Float
+Variable Z      Float
+Variable IX2AB  Float
+Variable IX2BB  Float
+Variable OX2AB  Float
+Variable OX2BB  Float
+Variable IX2AT  Float
+Variable IX2BT  Float
+Variable OX2AT  Float
+Variable OX2BT  Float
+Variable Z2     Float
+
+' Sanity-check angle
+
+A = Angle
+If A < 0.1
+  A = 0.1
+EndIf
+If A > 360
+  A = 360
+EndIf
+
+' Put the number of sides in a variable so we can make sure it contains a valid value
+
+S = Sides
+If S < 3
+  S = 3
+EndIf
+
+' Put the inside size in a variable so we can do a sanity check
+
+ISize = InsideSize
+If ISize < 0
+  ISize = 0
+EndIf
+If ISize > 1
+  ISize = 1
+EndIf
+
+' Initialize our starting angle and coordinates.  This way is the most efficient.
+
+Angle1 = 0
+OX1    = 0.5
+OY1    = 0
+IX1    = ISize / 2
+IY1    = 0
+
+' Calculate texture scales
+
+If FullTexture
+  X = TexScaleX
+  If SizeX <> 0
+    Z  = (SizeY / SizeX) * X * TexScaleZ
+    Z2 = (SizeZ / SizeX) * X * TexScaleZ
+  Else
+    Z  = X
+    Z2 = X
+  EndIf
+EndIf
+
+' Traverse around the circle
+
+I     = 0
+IX2AB = 0
+OX2AB = 0
+While I < S
+  Angle2 = (I + 1) * (A / S)
+  OX2 = Cos(Angle2) / 2     ' The parentheses aren't strictly necessary :)
+  OY2 = Sin(Angle2) / 2
+  IX2 = ISize * Cos(Angle2) / 2
+  IY2 = ISize * Sin(Angle2) / 2
+
+  ' Top
+
+  If Top
+    If FullTexture
+      TriangleTex IX1*TopScale,IY1*TopScale,1, IX2*TopScale,IY2*TopScale,1, OX2*TopScale,OY2*TopScale,1, IX1*X*TopScale,IY1*Z*TopScale,IX2*X*TopScale,IY2*Z*TopScale,OX2*X*TopScale,OY2*Z*TopScale, Tex1, False, SemiTrans
+      TriangleTex OX2*TopScale,OY2*TopScale,1, OX1*TopScale,OY1*TopScale,1, IX1*TopScale,IY1*TopScale,1, OX2*X*TopScale,OY2*Z*TopScale,OX1*X*TopScale,OY1*Z*TopScale,IX1*X*TopScale,IY1*Z*TopScale, Tex1, False, SemiTrans
+    Else
+      Triangle IX1*TopScale,IY1*TopScale,1, IX2*TopScale,IY2*TopScale,1, OX2*TopScale,OY2*TopScale,1, Tex1, False, SemiTrans
+      Triangle OX2*TopScale,OY2*TopScale,1, OX1*TopScale,OY1*TopScale,1, IX1*TopScale,IY1*TopScale,1, Tex1, False, SemiTrans
+    EndIf
+  EndIf
+
+  ' Bottom
+
+  If Bottom
+    If FullTexture
+      TriangleTex IX1,IY1,0, OX1,OY1,0, OX2,OY2,0, IX1*X,IY1*Z,OX1*X,OY1*Z,OX2*X,OY2*Z, Tex2, False, SemiTrans
+      TriangleTex OX2,OY2,0, IX2,IY2,0, IX1,IY1,0, OX2*X,OY2*Z,IX2*X,IY2*Z,IX1*X,IY1*Z, Tex2, False, SemiTrans
+    Else
+      Triangle IX1,IY1,0, OX1,OY1,0, OX2,OY2,0, Tex2, False, SemiTrans
+      Triangle OX2,OY2,0, IX2,IY2,0, IX1,IY1,0, Tex2, False, SemiTrans
+    EndIf
+  EndIf
+
+  ' Inside sides
+
+  If FullTexture
+    If SizeX <> 0
+      IX2BB = IX2AB + Sqrt(Sqr(IX2-IX1)+Sqr((IY2-IY1)*(SizeY/SizeX)))
+    Else
+      IX2BB = IX2AB + Sqrt(Sqr(IX2-IX1)+Sqr(IY2-IY1))
+    EndIf
+    IX2AT = ((IX2BB-IX2AB)/2)*(1-TopScale)+IX2AB
+    IX2BT = ((IX2BB-IX2AB)/2)*(1+TopScale)+IX2AB
+    TriangleTex IX1*TopScale,IY1*TopScale,1, IX1,IY1,0, IX2,IY2,0, IX2AT*X,Z2, IX2AB*X,0, IX2BB*X,0,  Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, -IX1, -IY1, 0, -IX1, -IY1, 0, -IX2, -IY2, 0
+    TriangleTex IX2,IY2,0, IX2*TopScale,IY2*TopScale,1, IX1*TopScale,IY1*TopScale,1, IX2BB*X,0, IX2BT*X,Z2, IX2AT*X,Z2, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, -IX2, -IY2, 0, -IX2, -IY2, 0, -IX1, -IY1, 0
+    IX2AB = IX2BB
+  Else
+    Triangle IX1*TopScale,IY1*TopScale,1, IX1,IY1,0, IX2,IY2,0, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, -IX1, -IY1, 0, -IX1, -IY1, 0, -IX2, -IY2, 0
+    Triangle IX2,IY2,0, IX2*TopScale,IY2*TopScale,1, IX1*TopScale,IY1*TopScale,1, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, -IX2, -IY2, 0, -IX2, -IY2, 0, -IX1, -IY1, 0
+  EndIf
+
+  ' Outside sides
+
+  If Outside
+    If FullTexture
+      If SizeX <> 0
+        OX2BB = OX2AB + Sqrt(Sqr(OX2-OX1)+Sqr((OY2-OY1)*(SizeY/SizeX)))
+      Else
+        OX2BB = OX2AB + Sqrt(Sqr(OX2-OX1)+Sqr(OY2-OY1))
+      EndIf
+      OX2AT = ((OX2BB-OX2AB)/2)*(1-TopScale)+OX2AB
+      OX2BT = ((OX2BB-OX2AB)/2)*(1+TopScale)+OX2AB
+      TriangleTex OX1*TopScale,OY1*TopScale,1, OX2*TopScale,OY2*TopScale,1, OX2,OY2,0, OX2AT*X,Z2, OX2BT*X,Z2, OX2BB*X,0, Tex4, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, OX1, OY1, 0, OX2, OY2, 0, OX2, OY2, 0
+      TriangleTex OX2,OY2,0, OX1,OY1,0, OX1*TopScale,OY1*TopScale,1, OX2BB*X,0, OX2AB*X,0, OX2AT*X,Z2,  Tex4, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, OX2, OY2, 0, OX1, OY1, 0, OX1, OY1, 0
+      OX2AB = OX2BB
+    Else
+      Triangle OX1*TopScale,OY1*TopScale,1, OX2*TopScale,OY2*TopScale,1, OX2,OY2,0, Tex4, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, OX1, OY1, 0, OX2, OY2, 0, OX2, OY2, 0
+      Triangle OX2,OY2,0, OX1,OY1,0, OX1*TopScale,OY1*TopScale,1, Tex4, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, OX2, OY2, 0, OX1, OY1, 0, OX1, OY1, 0
+    EndIf
+  EndIf
+
+  ' Prepare for the next section
+
+  Angle1 = Angle2
+  OX1 = OX2
+  OY1 = OY2
+  IX1 = IX2
+  IY1 = IY2
+  I = I + 1
+Wend
+
+' Inside
+
+If (A < 360) And Inside
+  If FullTexture
+    If SizeX <> 0
+      IX2BB = Sqrt(Sqr(0.5-(ISize/2))+Sqr((0.5-(ISize/2))*(SizeY/SizeX)))
+      IX2BT = Sqrt(Sqr((0.5-(ISize/2))*TopScale)+Sqr((0.5-(ISize/2))*(SizeY/SizeX)*TopScale))
+    Else
+      IX2BB = Sqrt(Sqr(0.5-(ISize/2))+Sqr(0.5-(ISize/2)))
+      IX2BT = Sqrt(Sqr((0.5-(ISize/2))*TopScale)+Sqr((0.5-(ISize/2))*TopScale))
+    EndIf
+
+    RectangleTex ISize / 2,0,0, (ISize / 2)*TopScale,0,1, 0.5*TopScale,0,1, 0.5,0,0, 0,0, 0,Z2, IX2BT*X,Z2, IX2BB*X,0, Tex3, False, SemiTrans
+
+    If SizeX <> 0
+      IX2BB = Sqrt(Sqr(OX1-IX1)+Sqr((OY1-IY1)*(SizeY/SizeX)))
+      IX2BT = Sqrt(Sqr((OX1-IX1)*TopScale)+Sqr((OY1-IY1)*(SizeY/SizeX)*TopScale))
+    Else
+      IX2BB = Sqrt(Sqr(OX1-IX1)+Sqr(OY1-IY1))
+      IX2BT = Sqrt(Sqr((OX1-IX1)*TopScale)+Sqr((OY1-IY1)*TopScale))
+    EndIf
+
+    RectangleTex OX1,OY1,0, OX1*TopScale,OY1*TopScale,1, IX1*TopScale,IY1*TopScale,1, IX1,IY1,0,     IX2BB*X,0, IX2BT*X,Z2, 0,Z2, 0,0, Tex3, False, SemiTrans
+  Else
+    Rectangle ISize / 2,0,0, (ISize / 2)*TopScale,0,1, 0.5*TopScale,0,1, 0.5,0,0, Tex3, False, SemiTrans
+    Rectangle OX1,OY1,0, OX1*TopScale,OY1*TopScale,1, IX1*TopScale,IY1*TopScale,1, IX1,IY1,0,     Tex3, False, SemiTrans
+  EndIf
+EndIf

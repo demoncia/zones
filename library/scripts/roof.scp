@@ -1,0 +1,463 @@
+' Reminder: WindScript is NOT case-sensitive
+
+CATEGORY Buildings
+PARAM    TopX           Float   Default 0
+PARAM    TopY           Float   Default 1
+PARAM    BotX           Float   Default 1
+PARAM    BotY           Float   Default 1
+PARAM    OverhangX      Float   Default 0         ' Absolute coordinates, not a fraction
+PARAM    OverhangY      Float   Default 0         ' Absolute coordinates, not a fraction
+PARAM    Ceiling        Boolean Default False
+PARAM    Beveled        Boolean Default False
+PARAM    LRTex          String                    ' Left-right
+PARAM    FBTex          String  Default LRTex     ' Front-back
+PARAM    InsideLRTex    String  Default LRTex     ' Inside Left-right
+PARAM    InsideFBTex    String  Default FBTex     ' Inside Front-back
+PARAM    TopTex         String  Default LRTex     ' Top
+PARAM    InsideTopTex   String  Default TopTex    ' Inside Top
+PARAM    CeilTex        String  Default LRTex     ' Inside ceiling
+PARAM    BevelTex       String  Default LRTex     ' Beveled sides
+PARAM    InsideBevelTex String  Default BevelTex  ' Inside Beveled sides
+PARAM    FullTexture    Boolean Default False
+PARAM    TexScaleX      Float   Default 1
+PARAM    TexScaleZ      Float   Default 1
+PARAM    FBFullTexture  Boolean Default FullTexture
+PARAM    FBTexScaleX    Float   Default TexScaleX
+PARAM    FBTexScaleZ    Float   Default TexScaleZ
+
+HINT     TopX           Width of the top of the roof along the X direction. The
+HINT     TopX           roof script is capable of creating a flat section in the
+HINT     TopX           top center of the roof. If TopX is 0 and TopY isn't 0
+HINT     TopX           (or vice versa), then the result is a standard gabled roof.
+HINT     TopX           If they are both 0, then the result is a pyramid. This is
+HINT     TopX           specified in fractional units, where 1 represents the X
+HINT     TopX           size of the whole object.
+HINT     TopY           Width of the top of the roof along the Y direction. The
+HINT     TopY           roof script is capable of creating a flat section in the
+HINT     TopY           top center of the roof. If TopX is 0 and TopY isn't 0
+HINT     TopY           (or vice versa), then the result is a standard gabled roof.
+HINT     TopY           If they are both 0, then the result is a pyramid. This is
+HINT     TopY           specified in fractional units, where 1 represents the Y
+HINT     TopY           size of the whole object.
+HINT     BotX           Works like TopX, but specifies the width of the bottom of
+HINT     BotX           the roof in the X direction. The script will automatically
+HINT     BotX           create sloping parts of the roof that go from the top size
+HINT     BotX           to the bottom size.
+HINT     BotY           Works like TopY, but specifies the width of the bottom of
+HINT     BotY           the roof in the Y direction. The script will automatically
+HINT     BotY           create sloping parts of the roof that go from the top size
+HINT     BotY           to the bottom size.
+HINT     OverhangX      When the centerline of the roof extends along the X direction
+HINT     OverhangX      (usually when TopY is 0 and TopX isn't), this extends the
+HINT     OverhangX      sloping parts of the roof outward so there is an overhang at
+HINT     OverhangX      each end. They only overhang at the ends of the gable, not
+HINT     OverhangX      downward over the lower walls.
+HINT     OverhangY      When the centerline of the roof extends along the Y direction
+HINT     OverhangY      (usually when TopX is 0 and TopY isn't), this extends the
+HINT     OverhangY      sloping parts of the roof outward so there is an overhang at
+HINT     OverhangY      each end. They only overhang at the ends of the gable, not
+HINT     OverhangY      downward over the lower walls.
+HINT     Ceiling        When True, creates a rectangle at the bottom of the roof,
+HINT     Ceiling        visible from below. Otherwise polygons for the inside
+HINT     Ceiling        surfaces of the roof are created.
+HINT     Beveled        This only works when TopX and TopY are less than 1. When
+HINT     Beveled        set to True, it bevels the corners of the roof.
+HINT     LRTex          The left and right texture, if one looks at the roof along
+HINT     LRTex          the Y axis.
+HINT     FBTex          The front and back texture, if one looks at the roof along
+HINT     FBTex          the Y axis. Defaults to LRTex.
+HINT     InsideLRTex    The texture for the inside left and right surfaces of the roof. Defaults to LRTex.
+HINT     InsideFBTex    The texture for the inside front and back surfaces of the roof. Defaults to FBTex.
+HINT     TopTex         The texture for the flat top portion of the roof, visible when
+HINT     TopTex         both TopX and TopY aren't 0. Defaults to LRTex.
+HINT     InsideTopTex   The texture for the inside of the flat top portion of the roof. Defaults to TopTex.
+HINT     CeilTex        The texture for the bottom ceiling of the roof, visible when Ceiling is True. Defaults to LRTex.
+HINT     BevelTex       The texture for the corner bevels of the roof. Defaults to LRTex.
+HINT     InsideBevelTex The texture for the inside of the corner bevels of the roof. Defaults to BevelTex.
+HINT     FullTexture    When True, allows TexScaleX and TexScaleZ to determine how
+HINT     FullTexture    the texture is mapped onto the faces. Otherwise, OpenZone
+HINT     FullTexture    uses its internal algorithm based on overall object size to
+HINT     FullTexture    map textures onto faces.
+HINT     TexScaleX      Acts as a multiplier for horizontal texture coordinates
+HINT     TexScaleX      when FullTexture is True. Acts on the left and right textures.
+HINT     TexScaleZ      Acts as a multiplier for vertical texture coordinates
+HINT     TexScaleZ      when FullTexture is True. Acts on the left and right textures.
+HINT     FBTexScaleX    Acts as a multiplier for horizontal texture coordinates
+HINT     FBTexScaleX    when FullTexture is True. Acts on the front and back textures.
+HINT     FBTexScaleX    Defaults to TexScaleX.
+HINT     FBTexScaleZ    Acts as a multiplier for vertical texture coordinates
+HINT     FBTexScaleZ    when FullTexture is True. Acts on the front and back textures.
+HINT     FBTexScaleZ    Defaults to TexScaleZ.
+
+VARIABLE TX2      Float
+VARIABLE TY2      Float
+VARIABLE BX2      Float
+VARIABLE BY2      Float
+VARIABLE OVX      Float
+VARIABLE OVY      Float
+
+VARIABLE X        Float
+VARIABLE Y        Float
+VARIABLE ZX       Float
+VARIABLE ZY       Float
+VARIABLE FBX      Float
+VARIABLE FBY      Float
+VARIABLE FBZX     Float
+VARIABLE FBZY     Float
+
+VARIABLE X0       Float
+VARIABLE Y0       Float
+
+OVX = OverhangX / SizeX
+OVY = OverhangY / SizeY
+
+variable texx  float
+variable texy  float
+variable texx2 float
+variable texy2 float
+
+' Sanity check
+
+If TopX < 0
+  TopX = 0
+EndIf
+If TopY < 0
+  TopY = 0
+EndIf
+If BotX < 0
+  BotX = 0
+EndIf
+If BotY < 0
+  BotY = 0
+EndIf
+If BotX < TopX
+  BotX = TopX
+EndIf
+If BotY < TopY
+  BotY = TopY
+EndIf
+
+' Find the origin for texture coordinate purposes
+
+X0 = 0.5 - BotX / 2 - OVX;
+Y0 = 0.5 - BotY / 2 - OVY;
+
+If FullTexture
+  X = TexScaleX
+  If SizeX <> 0
+    Y = TexScaleX * (SizeY / SizeX)
+  Else
+    Y = X
+  EndIf
+  ZX = TexScaleZ
+  ZY = TexScaleZ
+
+  ' Are there left and right square areas?
+
+  If (TopY <> 0) And (BotY <> 0)
+    TY2 = TopY
+    If TY2 > BotY
+      TY2 = BotY
+    EndIf
+    TY2 = TY2 / 2 ' + OVY
+    TX2 = TopX / 2
+    BX2 = BotX / 2
+
+    texy = sqrt(sqr(sizez) + sqr(sizex*(tx2-bx2))) / SizeZ
+
+    RectangleTex 0.5-BX2,0.5+TY2+OVY,0, 0.5-TX2,0.5+TY2+OVY,1, 0.5-TX2,0.5-TY2-OVY,1, 0.5-BX2,0.5-TY2-OVY,0,    (0.5+TY2+OVY-Y0)*Y,-X0*ZY, (0.5+TY2+OVY-Y0)*Y,(texy-X0)*ZY, (0.5-TY2-OVY-Y0)*Y,(texy-X0)*ZY, (0.5-TY2-OVY-Y0)*Y,-X0*ZY,      LRTex   ' Left
+    RectangleTex 0.5+BX2,0.5-TY2-OVY,0, 0.5+TX2,0.5-TY2-OVY,1, 0.5+TX2,0.5+TY2+OVY,1, 0.5+BX2,0.5+TY2+OVY,0,    (0.5-TY2-OVY-Y0)*Y,-X0*ZY, (0.5-TY2-OVY-Y0)*Y,(texy-X0)*ZY, (0.5+TY2+OVY-Y0)*Y,(texy-X0)*ZY, (0.5+TY2+OVY-Y0)*Y,-X0*ZY,      LRTex   ' Right
+    If Not Ceiling
+      RectangleTex 0.5-BX2,0.5-TY2,0, 0.5-TX2,0.5-TY2,1, 0.5-TX2,0.5+TY2,1, 0.5-BX2,0.5+TY2,0,     (0.5-TY2-Y0)*Y,-X0*ZY, (0.5-TY2-Y0)*Y,(texy-X0)*ZY, (0.5+TY2-Y0)*Y,(texy-X0)*ZY, (0.5+TY2-Y0)*Y,-X0*ZY,      InsideLRTex   ' Left
+      RectangleTex 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+TY2,1, 0.5+TX2,0.5-TY2,1, 0.5+BX2,0.5-TY2,0,     (0.5+TY2-Y0)*Y,-X0*ZY, (0.5+TY2-Y0)*Y,(texy-X0)*ZY, (0.5-TY2-Y0)*Y,(texy-X0)*ZY, (0.5-TY2-Y0)*Y,-X0*ZY,      InsideLRTex   ' Right
+    EndIf
+
+    ' Y Overhang
+
+    If Not Ceiling
+      RectangleTex 0.5-BX2,0.5-TY2-OVY,0, 0.5-TX2,0.5-TY2-OVY,1, 0.5-TX2,0.5-TY2,1,     0.5-BX2,0.5-TY2,0,        (0.5-TY2-OVY-Y0)*Y,-X0*ZY, (0.5-TY2-OVY-Y0)*Y,(texy-X0)*ZY, (0.5-TY2-Y0)*Y,(texy-X0)*ZY,     (0.5-TY2-Y0)*Y,-X0*ZY,      InsideLRTex   ' Left front
+      RectangleTex 0.5-BX2,0.5+TY2,0,     0.5-TX2,0.5+TY2,1,     0.5-TX2,0.5+TY2+OVY,1, 0.5-BX2,0.5+TY2+OVY,0,    (0.5+TY2-Y0)*Y,-X0*ZY,     (0.5+TY2-Y0)*Y,(texy-X0)*ZY,     (0.5+TY2+OVY-Y0)*Y,(texy-X0)*ZY, (0.5+TY2+OVY-Y0)*Y,-X0*ZY,  InsideLRTex   ' Left rear
+
+      RectangleTex 0.5+BX2,0.5-TY2,0,     0.5+TX2,0.5-TY2,1,     0.5+TX2,0.5-TY2-OVY,1, 0.5+BX2,0.5-TY2-OVY,0,    (0.5-TY2-Y0)*Y,-X0*ZY,     (0.5-TY2-Y0)*Y,(texy-X0)*ZY,     (0.5-TY2-OVY-Y0)*Y,(texy-X0)*ZY, (0.5-TY2-OVY-Y0)*Y,-X0*ZY,  InsideLRTex   ' Right front
+      RectangleTex 0.5+BX2,0.5+TY2+OVY,0, 0.5+TX2,0.5+TY2+OVY,1, 0.5+TX2,0.5+TY2,1,     0.5+BX2,0.5+TY2,0,        (0.5+TY2+OVY-Y0)*Y,-X0*ZY, (0.5+TY2+OVY-Y0)*Y,(texy-X0)*ZY, (0.5+TY2-Y0)*Y,(texy-X0)*ZY,     (0.5+TY2-Y0)*Y,-X0*ZY,      InsideLRTex   ' Right rear
+    EndIf
+  EndIf
+Else
+  ' Are there left and right square areas?
+
+  If (TopY <> 0) And (BotY <> 0)
+    TY2 = TopY
+    If TY2 > BotY
+      TY2 = BotY
+    EndIf
+    TY2 = TY2 / 2 ' + OVY
+    TX2 = TopX / 2
+    BX2 = BotX / 2
+    Rectangle 0.5-BX2,0.5+TY2+OVY,0, 0.5-TX2,0.5+TY2+OVY,1, 0.5-TX2,0.5-TY2-OVY,1, 0.5-BX2,0.5-TY2-OVY,0, LRTex   ' Left
+    Rectangle 0.5+BX2,0.5-TY2-OVY,0, 0.5+TX2,0.5-TY2-OVY,1, 0.5+TX2,0.5+TY2+OVY,1, 0.5+BX2,0.5+TY2+OVY,0, LRTex   ' Right
+    If Not Ceiling
+      Rectangle 0.5-TX2,0.5-TY2,1, 0.5-TX2,0.5+TY2,1, 0.5-BX2,0.5+TY2,0, 0.5-BX2,0.5-TY2,0, InsideLRTex   ' Left
+      Rectangle 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+TY2,1, 0.5+TX2,0.5-TY2,1, 0.5+BX2,0.5-TY2,0, InsideLRTex   ' Right
+    EndIf
+
+    ' Y Overhang
+
+    If Not Ceiling
+      Rectangle 0.5-BX2,0.5-TY2-OVY,0, 0.5-TX2,0.5-TY2-OVY,1, 0.5-TX2,0.5-TY2,1,     0.5-BX2,0.5-TY2,0,     InsideLRTex   ' Left front
+      Rectangle 0.5-BX2,0.5+TY2,0,     0.5-TX2,0.5+TY2,1,     0.5-TX2,0.5+TY2+OVY,1, 0.5-BX2,0.5+TY2+OVY,0, InsideLRTex   ' Left rear
+
+      Rectangle 0.5+BX2,0.5-TY2,0,     0.5+TX2,0.5-TY2,1,     0.5+TX2,0.5-TY2-OVY,1, 0.5+BX2,0.5-TY2-OVY,0, InsideLRTex   ' Right front
+      Rectangle 0.5+BX2,0.5+TY2+OVY,0, 0.5+TX2,0.5+TY2+OVY,1, 0.5+TX2,0.5+TY2,1,     0.5+BX2,0.5+TY2,0,     InsideLRTex   ' Right rear
+    EndIf
+  EndIf
+EndIf
+
+If FBFullTexture
+  FBX = FBTexScaleX
+  If SizeX <> 0
+    FBY = FBTexScaleX * (SizeY / SizeX)
+  Else
+    FBY = FbX
+  EndIf
+  FBZX = FBTexScaleZ
+  FBZY = FBTexScaleZ
+
+  ' Are there front and rear square areas?
+
+  If (TopX <> 0) And (BotX <> 0)
+    TX2 = TopX
+    If TX2 > BotX
+      TX2 = BotX
+    EndIf
+    TX2 = TX2 / 2 ' + OVX
+    TY2 = TopY / 2
+    BY2 = BotY / 2 ' + OVY
+
+    texy = sqrt(sqr(sizez) + sqr(sizey*(ty2-by2))) / SizeZ
+
+    RectangleTex 0.5-TX2-OVX,0.5-BY2,0, 0.5-TX2-OVX,0.5-TY2,1, 0.5+TX2+OVX,0.5-TY2,1, 0.5+TX2+OVX,0.5-BY2,0,    (0.5-TX2-OVX-X0)*FBX,-Y0*FBZX, (0.5-TX2-OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5+TX2+OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5+TX2+OVX-X0)*FBX,-Y0*FBZX,     FBTex   ' Front
+    RectangleTex 0.5+TX2+OVX,0.5+BY2,0, 0.5+TX2+OVX,0.5+TY2,1, 0.5-TX2-OVX,0.5+TY2,1, 0.5-TX2-OVX,0.5+BY2,0,    (0.5+TX2+OVX-X0)*FBX,-Y0*FBZX, (0.5+TX2+OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5-TX2-OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5-TX2-OVX-X0)*FBX,-Y0*FBZX,     FBTex   ' Rear
+    If Not Ceiling
+      RectangleTex 0.5+TX2,0.5-BY2,0, 0.5+TX2,0.5-TY2,1, 0.5-TX2,0.5-TY2,1, 0.5-TX2,0.5-BY2,0,    (0.5+TX2-X0)*FBX,-Y0*FBZX, (0.5+TX2-X0)*FBX,(texy-Y0)*FBZX, (0.5-TX2-X0)*FBX,(texy-Y0)*FBZX, (0.5-TX2-X0)*FBX,-Y0*FBZX,     InsideFBTex   ' Front
+      RectangleTex 0.5-TX2,0.5+BY2,0, 0.5-TX2,0.5+TY2,1, 0.5+TX2,0.5+TY2,1, 0.5+TX2,0.5+BY2,0,    (0.5-TX2-X0)*FBX,-Y0*FBZX, (0.5-TX2-X0)*FBX,(texy-Y0)*FBZX, (0.5+TX2-X0)*FBX,(texy-Y0)*FBZX, (0.5+TX2-X0)*FBX,-Y0*FBZX,     InsideFBTex   ' Rear
+    EndIf
+
+    ' X Overhang
+
+    If Not Ceiling
+      RectangleTex 0.5+TX2+OVX,0.5-BY2,0, 0.5+TX2+OVX,0.5-TY2,1, 0.5+TX2,0.5-TY2,1,     0.5+TX2,0.5-BY2,0,        (0.5+TX2+OVX-X0)*FBX,-Y0*FBZX, (0.5+TX2+OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5+TX2-X0)*FBX,(texy-Y0)*FBZX,     (0.5+TX2-X0)*FBX,-Y0*FBZX,         InsideFBTex   ' Front
+      RectangleTex 0.5-TX2,0.5-BY2,0,     0.5-TX2,0.5-TY2,1,     0.5-TX2-OVX,0.5-TY2,1, 0.5-TX2-OVX,0.5-BY2,0,    (0.5-TX2-X0)*FBX,-Y0*FBZX,     (0.5-TX2-X0)*FBX,(texy-Y0)*FBZX,     (0.5-TX2-OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5-TX2-OVX-X0)*FBX,-Y0*FBZX,     InsideFBTex   ' Front
+
+      RectangleTex 0.5-TX2-OVX,0.5+BY2,0, 0.5-TX2-OVX,0.5+TY2,1, 0.5-TX2,0.5+TY2,1,     0.5-TX2,0.5+BY2,0,        (0.5-TX2-OVX-X0)*FBX,-Y0*FBZX, (0.5-TX2-OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5-TX2-X0)*FBX,(texy-Y0)*FBZX,     (0.5-TX2-X0)*FBX,-Y0*FBZX,         InsideFBTex   ' Rear
+      RectangleTex 0.5+TX2,0.5+BY2,0,     0.5+TX2,0.5+TY2,1,     0.5+TX2+OVX,0.5+TY2,1, 0.5+TX2+OVX,0.5+BY2,0,    (0.5+TX2-X0)*FBX,-Y0*FBZX,     (0.5+TX2-X0)*FBX,(texy-Y0)*FBZX,     (0.5+TX2+OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5+TX2+OVX-X0)*FBX,-Y0*FBZX,     InsideFBTex   ' Rear
+    EndIf
+  EndIf
+Else
+  ' Are there front and rear square areas?
+
+  If (TopX <> 0) And (BotX <> 0)
+    TX2 = TopX
+    If TX2 > BotX
+      TX2 = BotX
+    EndIf
+    TX2 = TX2 / 2 ' + OVX
+    TY2 = TopY / 2
+    BY2 = BotY / 2 ' + OVY
+    Rectangle 0.5-TX2-OVX,0.5-BY2,0, 0.5-TX2-OVX,0.5-TY2,1, 0.5+TX2+OVX,0.5-TY2,1, 0.5+TX2+OVX,0.5-BY2,0, FBTex   ' Front
+    Rectangle 0.5+TX2+OVX,0.5+BY2,0, 0.5+TX2+OVX,0.5+TY2,1, 0.5-TX2-OVX,0.5+TY2,1, 0.5-TX2-OVX,0.5+BY2,0, FBTex   ' Rear
+    If Not Ceiling
+      Rectangle 0.5+TX2,0.5-BY2,0, 0.5+TX2,0.5-TY2,1, 0.5-TX2,0.5-TY2,1, 0.5-TX2,0.5-BY2,0, InsideFBTex   ' Front
+      Rectangle 0.5-TX2,0.5+BY2,0, 0.5-TX2,0.5+TY2,1, 0.5+TX2,0.5+TY2,1, 0.5+TX2,0.5+BY2,0, InsideFBTex   ' Rear
+    EndIf
+
+    ' X Overhang
+
+    If Not Ceiling
+      Rectangle 0.5+TX2+OVX,0.5-BY2,0, 0.5+TX2+OVX,0.5-TY2,1, 0.5+TX2,0.5-TY2,1,     0.5+TX2,0.5-BY2,0,     InsideFBTex   ' Front
+      Rectangle 0.5-TX2,0.5-BY2,0,     0.5-TX2,0.5-TY2,1,     0.5-TX2-OVX,0.5-TY2,1, 0.5-TX2-OVX,0.5-BY2,0, InsideFBTex   ' Front
+
+      Rectangle 0.5-TX2-OVX,0.5+BY2,0, 0.5-TX2-OVX,0.5+TY2,1, 0.5-TX2,0.5+TY2,1,     0.5-TX2,0.5+BY2,0,     InsideFBTex   ' Rear
+      Rectangle 0.5+TX2,0.5+BY2,0,     0.5+TX2,0.5+TY2,1,     0.5+TX2+OVX,0.5+TY2,1, 0.5+TX2+OVX,0.5+BY2,0, InsideFBTex   ' Rear
+    EndIf
+  EndIf
+EndIf
+
+' Set up variables for the rest of the roof
+
+TX2 = TopX / 2
+TY2 = TopY / 2
+BX2 = BotX / 2
+BY2 = BotY / 2
+
+If FullTexture
+  ' Is there a top area?
+
+  If (TX2 <> 0) And (TY2 <> 0)
+    texx = topx
+    texy = texx*(SizeY*topy)/(SizeX*topx)
+    RectangleTex 0.5-TX2,0.5-TY2,1, 0.5-TX2,0.5+TY2,1, 0.5+TX2,0.5+TY2,1, 0.5+TX2,0.5-TY2,1,    0,0, 0,texy*X, texx*X,texy*X, texx*X,0,     TopTex   ' Top
+    If Not Ceiling
+      RectangleTex 0.5+TX2,0.5-TY2,1, 0.5+TX2,0.5+TY2,1, 0.5-TX2,0.5+TY2,1, 0.5-TX2,0.5-TY2,1,    texx*X,0, texx*X,texy*X, 0,texy*X, 0,0,     InsideTopTex   ' Top
+    EndIf
+  EndIf
+Else
+  ' Is there a top area?
+
+  If (TX2 <> 0) And (TY2 <> 0)
+    Rectangle 0.5-TX2,0.5-TY2,1, 0.5-TX2,0.5+TY2,1, 0.5+TX2,0.5+TY2,1, 0.5+TX2,0.5-TY2,1, TopTex   ' Top
+    If Not Ceiling
+      Rectangle 0.5+TX2,0.5-TY2,1, 0.5+TX2,0.5+TY2,1, 0.5-TX2,0.5+TY2,1, 0.5-TX2,0.5-TY2,1, InsideTopTex   ' Top
+    EndIf
+  EndIf
+EndIf
+
+
+' Draw the corners or bevels (beveled roofs can't have overhangs)
+
+If (TX2 <> BX2) Or (TY2 <> BY2)
+  If Beveled
+    texy  = sqrt(1+sqr(ty2-by2))
+    texx2 = sqrt(sqr(bx2)+sqr(by2))/4
+
+    If FullTexture
+      TriangleTex 0.5-TX2,0.5-TY2,1, 0.5-TX2,0.5-BY2,0, 0.5-BX2,0.5-TY2,0,    -X0*X,(texy-Y0)*ZX, (TeXx2-X0)*X,-Y0*ZX, (-teXx2-X0)*X,-Y0*ZX,     BevelTex ' Front left
+      TriangleTex 0.5+TX2,0.5-TY2,1, 0.5+BX2,0.5-TY2,0, 0.5+TX2,0.5-BY2,0,    -X0*X,(texy-Y0)*ZX, (teXx2-X0)*X,-Y0*ZX, (-TeXx2-X0)*X,-Y0*ZX,     BevelTex ' Front right
+      TriangleTex 0.5-TX2,0.5+TY2,1, 0.5-BX2,0.5+TY2,0, 0.5-TX2,0.5+BY2,0,    -X0*X,(texy-Y0)*ZX, (teXx2-X0)*X,-Y0*ZX, (-TeXx2-X0)*X,-Y0*ZX,     BevelTex ' Rear left
+      TriangleTex 0.5+TX2,0.5+TY2,1, 0.5+TX2,0.5+BY2,0, 0.5+BX2,0.5+TY2,0,    -X0*X,(texy-Y0)*ZX, (TeXx2-X0)*X,-Y0*ZX, (-teXx2-X0)*X,-Y0*ZX,     BevelTex ' Rear right
+
+      If Not Ceiling
+        TriangleTex 0.5-BX2,0.5-TY2,0, 0.5-TX2,0.5-BY2,0, 0.5-TX2,0.5-TY2,1,    (teXx2-X0)*X,-Y0*ZX, (-TeXx2-X0)*X,-Y0*ZX, -X0*X,(texy-Y0)*ZX,     InsideBevelTex ' Front left
+        TriangleTex 0.5+TX2,0.5-BY2,0, 0.5+BX2,0.5-TY2,0, 0.5+TX2,0.5-TY2,1,    (TeXx2-X0)*X,-Y0*ZX, (-teXx2-X0)*X,-Y0*ZX, -X0*X,(texy-Y0)*ZX,     InsideBevelTex ' Front right
+        TriangleTex 0.5-TX2,0.5+BY2,0, 0.5-BX2,0.5+TY2,0, 0.5-TX2,0.5+TY2,1,    (TeXx2-X0)*X,-Y0*ZX, (-teXx2-X0)*X,-Y0*ZX, -X0*X,(texy-Y0)*ZX,     InsideBevelTex ' Rear left
+        TriangleTex 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+BY2,0, 0.5+TX2,0.5+TY2,1,    (teXx2-X0)*X,-Y0*ZX, (-TeXx2-X0)*X,-Y0*ZX, -X0*X,(texy-Y0)*ZX,     InsideBevelTex ' Rear right
+      EndIf
+    Else
+      Triangle 0.5-TX2,0.5-TY2,1, 0.5-TX2,0.5-BY2,0, 0.5-BX2,0.5-TY2,0, BevelTex ' Front left
+      Triangle 0.5+TX2,0.5-TY2,1, 0.5+BX2,0.5-TY2,0, 0.5+TX2,0.5-BY2,0, BevelTex ' Front right
+      Triangle 0.5-TX2,0.5+TY2,1, 0.5-BX2,0.5+TY2,0, 0.5-TX2,0.5+BY2,0, BevelTex ' Rear left
+      Triangle 0.5+TX2,0.5+TY2,1, 0.5+TX2,0.5+BY2,0, 0.5+BX2,0.5+TY2,0, BevelTex ' Rear right
+      If Not Ceiling
+        Triangle 0.5-BX2,0.5-TY2,0, 0.5-TX2,0.5-BY2,0, 0.5-TX2,0.5-TY2,1, InsideBevelTex ' Front left
+        Triangle 0.5+TX2,0.5-BY2,0, 0.5+BX2,0.5-TY2,0, 0.5+TX2,0.5-TY2,1, InsideBevelTex ' Front right
+        Triangle 0.5-TX2,0.5+BY2,0, 0.5-BX2,0.5+TY2,0, 0.5-TX2,0.5+TY2,1, InsideBevelTex ' Rear left
+        Triangle 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+BY2,0, 0.5+TX2,0.5+TY2,1, InsideBevelTex ' Rear right
+      EndIf
+    EndIf
+  Else
+    texy = sqrt(sqr(sizez) + sqr(sizey*(ty2-by2))) / SizeZ
+
+    If FBFullTexture
+      TriangleTex 0.5-TX2-OVX,0.5-TY2,1, 0.5-TX2-OVX,0.5-BY2,0, 0.5-BX2-OVX,0.5-BY2,0,    (0.5-TX2-OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5-TX2-OVX-X0)*FBX,-Y0*FBZX, (0.5-BX2-OVX-X0)*FBX,-Y0*FBZX,     FBTex ' Front left
+      TriangleTex 0.5+TX2+OVX,0.5-TY2,1, 0.5+BX2+OVX,0.5-BY2,0, 0.5+TX2+OVX,0.5-BY2,0,    (0.5+TX2+OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5+BX2+OVX-X0)*FBX,-Y0*FBZX, (0.5+TX2+OVX-X0)*FBX,-Y0*FBZX,     FBTex ' Front right
+      TriangleTex 0.5-TX2-OVX,0.5+TY2,1, 0.5-BX2-OVX,0.5+BY2,0, 0.5-TX2-OVX,0.5+BY2,0,    (0.5-TX2-OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5-BX2-OVX-X0)*FBX,-Y0*FBZX, (0.5-TX2-OVX-X0)*FBX,-Y0*FBZX,     FBTex ' Rear left
+      TriangleTex 0.5+TX2+OVX,0.5+TY2,1, 0.5+TX2+OVX,0.5+BY2,0, 0.5+BX2+OVX,0.5+BY2,0,    (0.5+TX2+OVX-X0)*FBX,(texy-Y0)*FBZX, (0.5+TX2+OVX-X0)*FBX,-Y0*FBZX, (0.5+BX2+OVX-X0)*FBX,-Y0*FBZX,     FBTex ' Rear right
+      If Not Ceiling
+        TriangleTex 0.5-BX2-OVX,0.5-BY2,0, 0.5-TX2-OVX,0.5-BY2,0, 0.5-TX2-OVX,0.5-TY2,1,    (0.5-BX2-OVX-X0)*FBX,-Y0*FBZX, (0.5-TX2-OVX-X0)*FBX,-Y0*FBZX, (0.5-TX2-OVX-X0)*FBX,(texy-Y0)*FBZX,     InsideFBTex ' Front left
+        TriangleTex 0.5+TX2+OVX,0.5-BY2,0, 0.5+BX2+OVX,0.5-BY2,0, 0.5+TX2+OVX,0.5-TY2,1,    (0.5+TX2+OVX-X0)*FBX,-Y0*FBZX, (0.5+BX2+OVX-X0)*FBX,-Y0*FBZX, (0.5+TX2+OVX-X0)*FBX,(texy-Y0)*FBZX,     InsideFBTex ' Front right
+        TriangleTex 0.5-TX2-OVX,0.5+BY2,0, 0.5-BX2-OVX,0.5+BY2,0, 0.5-TX2-OVX,0.5+TY2,1,    (0.5-TX2-OVX-X0)*FBX,-Y0*FBZX, (0.5-BX2-OVX-X0)*FBX,-Y0*FBZX, (0.5-TX2-OVX-X0)*FBX,(texy-Y0)*FBZX,     InsideFBTex ' Rear left
+        TriangleTex 0.5+BX2+OVX,0.5+BY2,0, 0.5+TX2+OVX,0.5+BY2,0, 0.5+TX2+OVX,0.5+TY2,1,    (0.5+BX2+OVX-X0)*FBX,-Y0*FBZX, (0.5+TX2+OVX-X0)*FBX,-Y0*FBZX, (0.5+TX2+OVX-X0)*FBX,(texy-Y0)*FBZX,     InsideFBTex ' Rear right
+      EndIf
+    Else
+      Triangle 0.5-TX2-OVX,0.5-TY2,1, 0.5-TX2-OVX,0.5-BY2,0, 0.5-BX2-OVX,0.5-BY2,0, FBTex ' Front left
+      Triangle 0.5+TX2+OVX,0.5-TY2,1, 0.5+BX2+OVX,0.5-BY2,0, 0.5+TX2+OVX,0.5-BY2,0, FBTex ' Front right
+      Triangle 0.5-TX2-OVX,0.5+TY2,1, 0.5-BX2-OVX,0.5+BY2,0, 0.5-TX2-OVX,0.5+BY2,0, FBTex ' Rear left
+      Triangle 0.5+TX2+OVX,0.5+TY2,1, 0.5+TX2+OVX,0.5+BY2,0, 0.5+BX2+OVX,0.5+BY2,0, FBTex ' Rear right
+      If Not Ceiling
+        Triangle 0.5-BX2-OVX,0.5-BY2,0, 0.5-TX2-OVX,0.5-BY2,0, 0.5-TX2-OVX,0.5-TY2,1, InsideFBTex ' Front left
+        Triangle 0.5+TX2+OVX,0.5-BY2,0, 0.5+BX2+OVX,0.5-BY2,0, 0.5+TX2+OVX,0.5-TY2,1, InsideFBTex ' Front right
+        Triangle 0.5-TX2-OVX,0.5+BY2,0, 0.5-BX2-OVX,0.5+BY2,0, 0.5-TX2-OVX,0.5+TY2,1, InsideFBTex ' Rear left
+        Triangle 0.5+BX2+OVX,0.5+BY2,0, 0.5+TX2+OVX,0.5+BY2,0, 0.5+TX2+OVX,0.5+TY2,1, InsideFBTex ' Rear right
+      EndIf
+    EndIf
+
+    texy = sqrt(sqr(sizez) + sqr(sizex*(tx2-bx2))) / SizeZ
+
+    If FullTexture
+      TriangleTex 0.5-TX2,0.5-TY2-OVY,1, 0.5-BX2,0.5-BY2-OVY,0, 0.5-BX2,0.5-TY2-OVY,0,    (0.5-TY2-OVY-Y0)*Y,(texy-X0)*ZY, (0.5-BY2-OVY-Y0)*Y,-X0*ZY, (0.5-TY2-OVY-Y0)*Y,-X0*ZY,     LRTex ' Left front
+      TriangleTex 0.5-TX2,0.5+TY2+OVY,1, 0.5-BX2,0.5+TY2+OVY,0, 0.5-BX2,0.5+BY2+OVY,0,    (0.5+TY2+OVY-Y0)*Y,(texy-X0)*ZY, (0.5+TY2+OVY-Y0)*Y,-X0*ZY, (0.5+BY2+OVY-Y0)*Y,-X0*ZY,     LRTex ' Left rear
+      TriangleTex 0.5+TX2,0.5-TY2-OVY,1, 0.5+BX2,0.5-TY2-OVY,0, 0.5+BX2,0.5-BY2-OVY,0,    (0.5-TY2-OVY-Y0)*Y,(texy-X0)*ZY, (0.5-TY2-OVY-Y0)*Y,-X0*ZY, (0.5-BY2-OVY-Y0)*Y,-X0*ZY,     LRTex ' Right front
+      TriangleTex 0.5+TX2,0.5+TY2+OVY,1, 0.5+BX2,0.5+BY2+OVY,0, 0.5+BX2,0.5+TY2+OVY,0,    (0.5+TY2+OVY-Y0)*Y,(texy-X0)*ZY, (0.5+BY2+OVY-Y0)*Y,-X0*ZY, (0.5+TY2+OVY-Y0)*Y,-X0*ZY,     LRTex ' Right rear
+      If Not Ceiling
+        TriangleTex 0.5-BX2,0.5-TY2-OVY,0, 0.5-BX2,0.5-BY2-OVY,0, 0.5-TX2,0.5-TY2-OVY,1,    (0.5-TY2-OVY-Y0)*Y,-X0*ZY, (0.5-BY2-OVY-Y0)*Y,-X0*ZY, (0.5-TY2-OVY-Y0)*Y,(texy-X0)*ZY,     InsideLRTex ' Left front
+        TriangleTex 0.5-BX2,0.5+BY2+OVY,0, 0.5-BX2,0.5+TY2+OVY,0, 0.5-TX2,0.5+TY2+OVY,1,    (0.5+BY2+OVY-Y0)*Y,-X0*ZY, (0.5+TY2+OVY-Y0)*Y,-X0*ZY, (0.5+TY2+OVY-Y0)*Y,(texy-X0)*ZY,     InsideLRTex ' Left rear
+        TriangleTex 0.5+BX2,0.5-BY2-OVY,0, 0.5+BX2,0.5-TY2-OVY,0, 0.5+TX2,0.5-TY2-OVY,1,    (0.5-BY2-OVY-Y0)*Y,-X0*ZY, (0.5-TY2-OVY-Y0)*Y,-X0*ZY, (0.5-TY2-OVY-Y0)*Y,(texy-X0)*ZY,     InsideLRTex ' Right front
+        TriangleTex 0.5+BX2,0.5+TY2+OVY,0, 0.5+BX2,0.5+BY2+OVY,0, 0.5+TX2,0.5+TY2+OVY,1,    (0.5+TY2+OVY-Y0)*Y,-X0*ZY, (0.5+BY2+OVY-Y0)*Y,-X0*ZY, (0.5+TY2+OVY-Y0)*Y,(texy-X0)*ZY,     InsideLRTex ' Right rear
+      EndIf
+    Else
+      Triangle 0.5-TX2,0.5-TY2-OVY,1, 0.5-BX2,0.5-BY2-OVY,0, 0.5-BX2,0.5-TY2-OVY,0, LRTex ' Left front
+      Triangle 0.5-TX2,0.5+TY2+OVY,1, 0.5-BX2,0.5+TY2+OVY,0, 0.5-BX2,0.5+BY2+OVY,0, LRTex ' Left rear
+      Triangle 0.5+TX2,0.5-TY2-OVY,1, 0.5+BX2,0.5-TY2-OVY,0, 0.5+BX2,0.5-BY2-OVY,0, LRTex ' Right front
+      Triangle 0.5+TX2,0.5+TY2+OVY,1, 0.5+BX2,0.5+BY2+OVY,0, 0.5+BX2,0.5+TY2+OVY,0, LRTex ' Right rear
+      If Not Ceiling
+        Triangle 0.5-BX2,0.5-TY2-OVY,0, 0.5-BX2,0.5-BY2-OVY,0, 0.5-TX2,0.5-TY2-OVY,1, InsideLRTex ' Left front
+        Triangle 0.5-BX2,0.5+BY2+OVY,0, 0.5-BX2,0.5+TY2+OVY,0, 0.5-TX2,0.5+TY2+OVY,1, InsideLRTex ' Left rear
+        Triangle 0.5+BX2,0.5-BY2-OVY,0, 0.5+BX2,0.5-TY2-OVY,0, 0.5+TX2,0.5-TY2-OVY,1, InsideLRTex ' Right front
+        Triangle 0.5+BX2,0.5+TY2+OVY,0, 0.5+BX2,0.5+BY2+OVY,0, 0.5+TX2,0.5+TY2+OVY,1, InsideLRTex ' Right rear
+      EndIf
+    EndIf
+
+  EndIf
+EndIf
+
+' Is there a flat inside ceiling?
+
+If (BX2 <> 0) And (BY2 <> 0) And Ceiling
+  If FullTexture
+    If Beveled
+      RectangleTex 0.5-TX2,0.5-BY2,0, 0.5+TX2,0.5-BY2,0, 0.5+TX2,0.5+BY2,0, 0.5-TX2,0.5+BY2,0,    (0.5-TX2-X0)*X,(0.5-BY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5-BY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5+BY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5+BY2-Y0)*ZX,     CeilTex
+
+      RectangleTex 0.5-TX2,0.5-TY2,0, 0.5-TX2,0.5+TY2,0, 0.5-BX2,0.5+TY2,0, 0.5-BX2,0.5-TY2,0,    (0.5-TX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5-BX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5-BX2-X0)*X,(0.5-TY2-Y0)*ZX,     CeilTex
+      RectangleTex 0.5+TX2,0.5-TY2,0, 0.5+BX2,0.5-TY2,0, 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+TY2,0,    (0.5+TX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5+BX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5+BX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5+TY2-Y0)*ZX,     CeilTex
+
+      TriangleTex  0.5-TX2,0.5-TY2,0, 0.5-BX2,0.5-TY2,0, 0.5-TX2,0.5-BY2,0,    (0.5-TX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5-BX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5-BY2-Y0)*ZX,     CeilTex ' Front left
+      TriangleTex  0.5+TX2,0.5-TY2,0, 0.5+TX2,0.5-BY2,0, 0.5+BX2,0.5-TY2,0,    (0.5+TX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5-BY2-Y0)*ZX, (0.5+BX2-X0)*X,(0.5-TY2-Y0)*ZX,     CeilTex ' Front right
+      TriangleTex  0.5-TX2,0.5+TY2,0, 0.5-TX2,0.5+BY2,0, 0.5-BX2,0.5+TY2,0,    (0.5-TX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5+BY2-Y0)*ZX, (0.5-BX2-X0)*X,(0.5+TY2-Y0)*ZX,     CeilTex ' Rear left
+      TriangleTex  0.5+TX2,0.5+TY2,0, 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+BY2,0,    (0.5+TX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5+BX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5+BY2-Y0)*ZX,     CeilTex ' Rear right
+      If Not Ceiling
+        RectangleTex 0.5-TX2,0.5+BY2,0, 0.5+TX2,0.5+BY2,0, 0.5+TX2,0.5-BY2,0, 0.5-TX2,0.5-BY2,0,    (0.5-TX2-X0)*X,(0.5+BY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5+BY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5-BY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5-BY2-Y0)*ZX,     CeilTex
+
+        RectangleTex 0.5-BX2,0.5-TY2,0, 0.5-BX2,0.5+TY2,0, 0.5-TX2,0.5+TY2,0, 0.5-TX2,0.5-TY2,0,    (0.5-BX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5-BX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5-TY2-Y0)*ZX,     CeilTex
+        RectangleTex 0.5+TX2,0.5+TY2,0, 0.5+BX2,0.5+TY2,0, 0.5+BX2,0.5-TY2,0, 0.5+TX2,0.5-TY2,0,    (0.5+TX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5+BX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5+BX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5-TY2-Y0)*ZX,     CeilTex
+
+        TriangleTex 0.5-TX2,0.5-BY2,0, 0.5-BX2,0.5-TY2,0, 0.5-TX2,0.5-TY2,0,    (0.5-TX2-X0)*X,(0.5-BY2-Y0)*ZX, (0.5-BX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5-TY2-Y0)*ZX,     CeilTex ' Front left
+        TriangleTex 0.5+BX2,0.5-TY2,0, 0.5+TX2,0.5-BY2,0, 0.5+TX2,0.5-TY2,0,    (0.5+BX2-X0)*X,(0.5-TY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5-BY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5-TY2-Y0)*ZX,     CeilTex ' Front right
+        TriangleTex 0.5-BX2,0.5+TY2,0, 0.5-TX2,0.5+BY2,0, 0.5-TX2,0.5+TY2,0,    (0.5-BX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5+BY2-Y0)*ZX, (0.5-TX2-X0)*X,(0.5+TY2-Y0)*ZX,     CeilTex ' Rear left
+        TriangleTex 0.5+TX2,0.5+BY2,0, 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+TY2,0,    (0.5+TX2-X0)*X,(0.5+BY2-Y0)*ZX, (0.5+BX2-X0)*X,(0.5+TY2-Y0)*ZX, (0.5+TX2-X0)*X,(0.5+TY2-Y0)*ZX,     CeilTex ' Rear right
+      EndIf
+    Else
+      RectangleTex 0.5-BX2-OVX,0.5-BY2-OVY,0, 0.5+BX2+OVX,0.5-BY2-OVY,0, 0.5+BX2+OVX,0.5+BY2+OVY,0, 0.5-BX2-OVX,0.5+BY2+OVY,0,    (0.5-BX2-OVX-X0)*X,(0.5-BY2-OVY-Y0)*ZX, (0.5+BX2+OVX-X0)*X,(0.5-BY2-OVY-Y0)*ZX, (0.5+BX2+OVX-X0)*X,(0.5+BY2+OVY-Y0)*ZX, (0.5-BX2-X0)*X,(0.5+BY2+OVY-Y0)*ZX,     CeilTex
+      If Not Ceiling
+        RectangleTex 0.5-BX2-OVX,0.5+BY2+OVY,0, 0.5+BX2+OVX,0.5+BY2+OVY,0, 0.5+BX2+OVX,0.5-BY2-OVY,0, 0.5-BX2-OVX,0.5-BY2-OVY,0,    (0.5-BX2-OVX-X0)*X,(0.5+BY2+OVY-Y0)*ZX, (0.5+BX2+OVX-X0)*X,(0.5+BY2+OVY-Y0)*ZX, (0.5+BX2+OVX-X0)*X,(0.5-BY2-OVY-Y0)*ZX, (0.5-BX2-OVX-X0)*X,(0.5-BY2-OVY-Y0)*ZX,     CeilTex
+      EndIf
+    EndIf
+  Else
+    If Beveled
+      Rectangle 0.5-TX2,0.5-BY2,0, 0.5+TX2,0.5-BY2,0, 0.5+TX2,0.5+BY2,0, 0.5-TX2,0.5+BY2,0, CeilTex
+
+      Rectangle 0.5-TX2,0.5-TY2,0, 0.5-TX2,0.5+TY2,0, 0.5-BX2,0.5+TY2,0, 0.5-BX2,0.5-TY2,0, CeilTex
+      Rectangle 0.5+TX2,0.5-TY2,0, 0.5+BX2,0.5-TY2,0, 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+TY2,0, CeilTex
+
+      Triangle  0.5-TX2,0.5-TY2,0, 0.5-BX2,0.5-TY2,0, 0.5-TX2,0.5-BY2,0, CeilTex ' Front left
+      Triangle  0.5+TX2,0.5-TY2,0, 0.5+TX2,0.5-BY2,0, 0.5+BX2,0.5-TY2,0, CeilTex ' Front right
+      Triangle  0.5-TX2,0.5+TY2,0, 0.5-TX2,0.5+BY2,0, 0.5-BX2,0.5+TY2,0, CeilTex ' Rear left
+      Triangle  0.5+TX2,0.5+TY2,0, 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+BY2,0, CeilTex ' Rear right
+      If Not Ceiling
+        Rectangle 0.5-TX2,0.5+BY2,0, 0.5+TX2,0.5+BY2,0, 0.5+TX2,0.5-BY2,0, 0.5-TX2,0.5-BY2,0, CeilTex
+
+        Rectangle 0.5-BX2,0.5-TY2,0, 0.5-BX2,0.5+TY2,0, 0.5-TX2,0.5+TY2,0, 0.5-TX2,0.5-TY2,0, CeilTex
+        Rectangle 0.5+TX2,0.5+TY2,0, 0.5+BX2,0.5+TY2,0, 0.5+BX2,0.5-TY2,0, 0.5+TX2,0.5-TY2,0, CeilTex
+
+        Triangle 0.5-TX2,0.5-BY2,0, 0.5-BX2,0.5-TY2,0, 0.5-TX2,0.5-TY2,0, CeilTex ' Front left
+        Triangle 0.5+BX2,0.5-TY2,0, 0.5+TX2,0.5-BY2,0, 0.5+TX2,0.5-TY2,0, CeilTex ' Front right
+        Triangle 0.5-BX2,0.5+TY2,0, 0.5-TX2,0.5+BY2,0, 0.5-TX2,0.5+TY2,0, CeilTex ' Rear left
+        Triangle 0.5+TX2,0.5+BY2,0, 0.5+BX2,0.5+TY2,0, 0.5+TX2,0.5+TY2,0, CeilTex ' Rear right
+      EndIf
+    Else
+      Rectangle 0.5-BX2-OVX,0.5-BY2-OVY,0, 0.5+BX2+OVX,0.5-BY2-OVY,0, 0.5+BX2+OVX,0.5+BY2+OVY,0, 0.5-BX2-OVX,0.5+BY2+OVY,0, CeilTex
+      If Not Ceiling
+        Rectangle 0.5-BX2-OVX,0.5+BY2+OVY,0, 0.5+BX2+OVX,0.5+BY2+OVY,0, 0.5+BX2+OVX,0.5-BY2-OVY,0, 0.5-BX2-OVX,0.5-BY2-OVY,0, CeilTex
+      EndIf
+    EndIf
+  EndIf
+EndIf
+

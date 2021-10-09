@@ -1,0 +1,197 @@
+CATEGORY Geometry
+PARAM Sides       INTEGER Default 8
+PARAM Top         BOOLEAN Default True
+PARAM Bottom      BOOLEAN Default Top
+PARAM Inside      BOOLEAN Default True
+PARAM Angle       FLOAT   Default 360
+PARAM Tex1        STRING
+PARAM Tex2        STRING  DEFAULT Tex1
+PARAM Tex3        STRING  DEFAULT Tex1
+PARAM SemiTrans   BOOLEAN DEFAULT False
+PARAM FullTexture BOOLEAN Default False
+PARAM TexScaleX   FLOAT   Default 1
+PARAM TexScaleZ   FLOAT   Default 1
+PARAM TopScale    FLOAT   Default 1
+PARAM Outside     BOOLEAN Default True
+PARAM Solid       BOOLEAN Default True
+PARAM Color       INTEGER Default 0
+PARAM HasColor    BOOLEAN Default False
+PARAM Masked      BOOLEAN Default False
+PARAM CalcNormals BOOLEAN Default True
+
+HINT  Sides       The number of sides for the cylinder.
+HINT  Top         When True, creates polygons for the very top of the cylinder.
+HINT  Top         If something is resting on the cylinder such that the top
+HINT  Top         isn't visible, then this should be set to False.
+HINT  Bottom      When True, creates polygons for the very bottom of the cylinder.
+HINT  Bottom      If the cylinder is resting on something such that the bottom
+HINT  Bottom      isn't visible, then this should be set to False.
+HINT  Inside      If Angle is less than 360, creates flat polygons that run from
+HINT  Inside      the outside of the cylinder to its center.
+HINT  Angle       The total sweep angle for the cylinder, in degrees. 360 yields
+HINT  Angle       a complete cylinder, while 180 yields just half of a cylinder, for
+HINT  Angle       example.
+HINT  Tex1        Texture for the top end of the cylinder.
+HINT  Tex2        Texture for the bottom end of the cylinder. Defaults to Tex1.
+HINT  Tex3        Texture for the main part of the cylinder. Defaults to Tex1.
+HINT  SemiTrans   When True, makes the object 50% transparent.
+HINT  FullTexture When True, allows TexScaleX and TexScaleZ to determine how
+HINT  FullTexture the texture is mapped onto the faces. Otherwise, OpenZone
+HINT  FullTexture uses its internal algorithm based on overall object size to
+HINT  FullTexture map textures onto faces.
+HINT  TexScaleX   Acts as a multiplier for horizontal texture coordinates
+HINT  TexScaleX   when FullTexture is True.
+HINT  TexScaleZ   Acts as a multiplier for vertical texture coordinates
+HINT  TexScaleZ   when FullTexture is True.
+HINT  TopScale    Acts as a multiplier for the width of the top of the cylinder
+HINT  TopScale    relative to the bottom. This can be used to taper (or expand)
+HINT  TopScale    the cylinder as it rises.
+HINT  Outside     When True, creates polygons for the main part of the cylinder,
+HINT  Outside     visible from the outside.
+HINT  Solid       When True, makes sure that the player can't pass through the object.
+HINT  Color       When HasColor is true, specifies a tint to apply to the object.
+HINT  Color       Being an integer, this can also be specified as a hecadecimal
+HINT  Color       number in the form $aabbggrr.
+HINT  HasColor    When True, applies Color as a tint to the object.
+HINT  Masked      When True, means that the textures used are 8-bit masked textures
+HINT  Masked      (e.g. tree leaves) where the first color in the color palette is
+HINT  Masked      the transparent color.
+HINT  CalcNormals When True, the script will specify normals to the polygon vertices
+HINT  CalcNormals so the cylinder appears rounded.
+
+Variable S      Integer
+Variable I      Integer
+Variable X1     Float
+Variable Y1     Float
+Variable X2     Float
+Variable Y2     Float
+Variable Angle2 Float
+Variable A      Float
+Variable X      Float
+Variable Z      Float
+Variable X2AB   Float
+Variable X2BB   Float
+Variable X2AT   Float
+Variable X2BT   Float
+Variable Z2     Float
+
+' Sanity-check angle
+
+A = Angle
+If A < 0.1
+  A = 0.1
+EndIf
+If A > 360
+  A = 360
+EndIf
+
+' Put the number of sides in a variable so we can make sure it contains a valid value
+
+S = Sides
+If S < 3
+  S = 3
+EndIf
+
+' Initialize our starting angle and coordinates.  This way is the most efficient.
+
+X1 = 0.5
+Y1 = 0
+
+' Calculate texture scales
+
+If FullTexture
+  X = TexScaleX
+  If SizeX <> 0
+    Z  = (SizeY / SizeX) * X * TexScaleZ
+    Z2 = (SizeZ / SizeX) * X * TexScaleZ
+  Else
+    Z  = X
+    Z2 = X
+  EndIf
+EndIf
+
+' Traverse around the circle
+
+I    = 0
+X2AT = 0
+X2AB = 0
+While I < S
+  Angle2 = (I + 1) * (A / S)
+  X2 = Cos(Angle2) / 2     ' The parentheses aren't strictly necessary :)
+  Y2 = Sin(Angle2) / 2
+
+  ' Top
+
+  If Top
+    If FullTexture
+      TriangleTex 0,0,1, X2*TopScale,Y2*TopScale,1, X1*TopScale,Y1*TopScale,1, 0,0, X2*X*TopScale,Y2*Z*TopScale, X1*X*TopScale,Y1*Z*TopScale, Tex1, False, SemiTrans, Solid, Color, HasColor, Masked
+    Else
+      Triangle 0,0,1, X2*TopScale,Y2*TopScale,1, X1*TopScale,Y1*TopScale,1, Tex1, False, SemiTrans, Solid, Color, HasColor, Masked
+    EndIf
+  EndIf
+
+  ' Bottom
+
+  If Bottom
+    If FullTexture
+      TriangleTex 0,0,0, X1,Y1,0, X2,Y2,0, 0,0, X1*X,Y1*Z, X2*X,Y2*Z, Tex2, False, SemiTrans, Solid, Color, HasColor, Masked
+    Else
+      Triangle 0,0,0, X1,Y1,0, X2,Y2,0, Tex2, False, SemiTrans, Solid, Color, HasColor, Masked
+    EndIf
+  EndIf
+
+  ' Sides
+
+  If Outside
+    If FullTexture
+      If SizeX <> 0
+        X2BB = X2AB + Sqrt(Sqr(X2-X1)+Sqr((Y2-Y1)*(SizeY/SizeX)))
+      Else
+        X2BB = X2AB + Sqrt(Sqr(X2-X1)+Sqr(Y2-Y1))
+      EndIf
+      X2AT = ((X2BB-X2AB)/2)*(1-TopScale)+X2AB
+      X2BT = ((X2BB-X2AB)/2)*(1+TopScale)+X2AB
+      TriangleTex X1*TopScale,Y1*TopScale,1, X2*TopScale,Y2*TopScale,1, X2,Y2,0,                   X2AT*X,Z2, X2BT*X,Z2, X2BB*X,0, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, X1, Y1, 0, X2, Y2, 0, X2, Y2, 0
+      TriangleTex X2,Y2,0,                   X1,Y1,0,                   X1*TopScale,Y1*TopScale,1, X2BB*X,0, X2AB*X,0, X2AT*X,Z2,  Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, X2, Y2, 0, X1, Y1, 0, X1, Y1, 0
+      X2AB = X2BB
+    Else
+      Triangle X1*TopScale,Y1*TopScale,1, X2*TopScale,Y2*TopScale,1, X2,Y2,0,                   Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, X1, Y1, 0, X2, Y2, 0, X2, Y2, 0
+      Triangle X2,Y2,0,                   X1,Y1,0,                   X1*TopScale,Y1*TopScale,1, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked, CalcNormals, X2, Y2, 0, X1, Y1, 0, X1, Y1, 0
+    EndIf
+  EndIf
+
+  ' Prepare for the next section
+
+  X1     = X2
+  Y1     = Y2
+  I      = I + 1
+Wend
+
+' Inside
+
+If (A < 360) And Inside
+  If FullTexture
+    If SizeX <> 0
+      X2BB = Sqrt(Sqr(0.5)+Sqr(0.5*(SizeY/SizeX)))
+      X2BT = Sqrt(Sqr(0.5*TopScale)+Sqr(0.5*(SizeY/SizeX)*TopScale))
+    Else
+      X2BB = Sqrt(Sqr(0.5)+Sqr(0.5))
+      X2BT = Sqrt(Sqr(0.5*TopScale)+Sqr(0.5*TopScale))
+    EndIf
+
+    RectangleTex 0,0,0, 0,0,1, 0.5*TopScale,0,1, 0.5,0,0, 0,0, 0,Z2, X2BT*X,Z2, X2BB*X,0, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked
+
+    If SizeX <> 0
+      X2BB = Sqrt(Sqr(X1)+Sqr(Y1*(SizeY/SizeX)))
+      X2BT = Sqrt(Sqr(X1*TopScale)+Sqr(Y1*(SizeY/SizeX)*TopScale))
+    Else
+      X2BB = Sqrt(Sqr(X1)+Sqr(Y1))
+      X2BT = Sqrt(Sqr(X1*TopScale)+Sqr(Y1*TopScale))
+    EndIf
+
+    RectangleTex X1,Y1,0, X1*TopScale,Y1*TopScale,1, 0,0,1, 0,0,0, X2BB*X,0, X2BT*X,Z2, 0,Z2, 0,0, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked
+  Else
+    Rectangle 0,0,0, 0,0,1, 0.5*TopScale,0,1, 0.5,0,0, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked
+    Rectangle X1,Y1,0, X1*TopScale,Y1*TopScale,1, 0,0,1, 0,0,0, Tex3, False, SemiTrans, Solid, Color, HasColor, Masked
+  EndIf
+EndIf

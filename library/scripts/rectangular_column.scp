@@ -1,0 +1,43 @@
+CATEGORY Buildings
+Param    Tex1        String
+Param    Tex2        String  Default Tex1
+Param    Tex3        String  Default Tex1
+Param    Top         Boolean Default True
+Param    Bottom      Boolean Default True
+Param    Transparent Boolean Default False
+Param    SemiTrans   Boolean Default False
+Param    FullTexture Boolean Default False
+Param    TexScaleX   Float   Default 1
+Param    TexScaleZ   Float   Default 1
+Param    TexXShift   Float   Default 0
+Param    TexZShift   Float   Default 0
+
+Hint     Tex1        The texture for the column base.
+Hint     Tex2        The texture for the main part of the column. Defaults to Tex1.
+Hint     Tex3        The texture for the top of the column. Defaults to Tex1.
+Hint     Top         When True, creates polygons for the very top of the column.
+Hint     Top         If something is resting on the column such that the top
+Hint     Top         can't be seen, then this should be set to False.
+Hint     Bottom      When True, creates polygons for the very bottom of the column.
+Hint     Bottom      If the column is resting on something such that the bottom
+Hint     Bottom      can't be seen, then this should be set to False.
+Hint     Transparent When True, makes the object fully transparent.
+Hint     SemiTrans   When True, makes the object 50% transparent.
+Hint     FullTexture When True, allows TexScaleX and TexScaleZ to determine how
+Hint     FullTexture the texture is mapped onto the faces. Otherwise, OpenZone
+Hint     FullTexture uses its internal algorithm based on overall object size to
+Hint     FullTexture map textures onto faces.
+Hint     TexScaleX   Acts as a multiplier for horizontal texture coordinates
+Hint     TexScaleX   when FullTexture is True.
+Hint     TexScaleZ   Acts as a multiplier for vertical texture coordinates
+Hint     TexScaleZ   when FullTexture is True.
+Hint     TexXShift   Acts as an offset to horizontal texture coordinates for all
+Hint     TexXShift   faces. Values should generally range from -1 to 1.
+Hint     TexXShift   This parameter is only active when FullTexture is True.
+Hint     TexZShift   Acts as an offset to vertical texture coordinates for all
+Hint     TexZShift   faces. Values should generally range from -1 to 1.
+Hint     TexZShift   This parameter is only active when FullTexture is True.
+
+Script Box -0.5,           -0.5,           0,           0,0,0, 1,           1,           0.2/SizeZ,   Tex1, Tex1, Tex1, Tex1, Tex1, Tex1, SemiTrans, FullTexture, TexScaleX,                   TexScaleZ, 1, 1, 0, 0, True,  Bottom, TexXShift, TexZShift, Transparent;
+Script Box -0.5+0.3/SizeX, -0.5+0.3/SizeY, 0.2/SizeZ,   0,0,0, 1-0.6/SizeX, 1-0.6/SizeY, 1-0.4/SizeZ, Tex2, Tex2, Tex2, Tex2, Tex2, Tex2, SemiTrans, FullTexture, TexScaleX*(SizeX-0.6)/SizeX, TexScaleZ, 1, 1, 0, 0, False, False,  TexXShift, TexZShift, Transparent;
+Script Box -0.5,           -0.5,           1-0.2/SizeZ, 0,0,0, 1,           1,           0.2/SizeZ,   Tex3, Tex3, Tex3, Tex3, Tex3, Tex3, SemiTrans, FullTexture, TexScaleX,                   TexScaleZ, 1, 1, 0, 0, Top,   True,   TexXShift, TexZShift, Transparent;

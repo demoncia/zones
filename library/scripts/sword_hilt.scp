@@ -1,0 +1,372 @@
+Category Weapons
+
+Param Tex1           String
+Param Tex2           String  Default Tex1
+Param Tex3           String  Default Tex1
+Param CenterLength   Float   Default 1
+Param CenterSections Integer Default 1
+Param CenterAngle    Float   Default 15
+Param EndAngle       Float   Default 210
+Param EndSections    Integer Default 5
+Param EndWidth       Float   Default 0.5
+Param EndThickness   Float   Default 0.5
+Param EndRadius      Float   Default 0.5
+Param SemiTrans      Boolean Default False
+Param Transparent    Boolean Default False
+Param Solid          Boolean Default True
+Param Color          Integer Default 0
+Param HasColor       Boolean Default False
+Param Masked         Boolean Default False
+Param CenterAngle2   Float   Default CenterAngle
+Param EndAngle2      Float   Default EndAngle
+
+Hint  Tex1           The texture for the inside and outside of the hilt.
+Hint  Tex2           The texture for the front and back of the hilt. Defaults to Tex1.
+Hint  Tex3           The texture for the ends of the hilt. Defaults to Tex1.
+Hint  CenterLength   The fraction of the total hilt width for the center section.
+Hint  CenterSections The number of sections to use for the center hilt section.
+Hint  CenterAngle    The curvature angle for the center section. Can be either positive
+Hint  CenterAngle    or negative.
+Hint  EndAngle       The curvature angle for the end sections. Can be either positive
+Hint  EndAngle       or negative.
+Hint  EndSections    The number of sections to use for the end hilt sections.
+Hint  EndWidth       The fraction of the total hilt width for the end sections. This
+Hint  EndWidth       can be used to taper the ends of the hilt.
+Hint  EndThickness   The fraction of the hilt thickness for the end sections.  This can
+Hint  EndThickness   be used to taper the ends of the hilt.
+Hint  EndRadius      A multiplier to use for the radius of the curved end sections.
+Hint  SemiTrans      When True, makes the object 50% transparent.
+Hint  Transparent    When True, makes the object fully transparent.
+Hint  Solid          When True, makes sure that the player can't pass through the object.
+Hint  Color          When HasColor is true, specifies a tint to apply to the object.
+Hint  Color          Being an integer, this can also be specified as a hecadecimal
+Hint  Color          number in the form $aabbggrr.
+Hint  HasColor       When True, applies Color as a tint to the object.
+Hint  Masked         When True, means that the textures used are 8-bit masked textures
+Hint  Masked         (e.g. tree leaves) where the first color in the color palette is
+Hint  Masked         the transparent color.
+Hint  CenterAngle2   Like CanterAngle but allows one end of the hilt to differ from the other.
+Hint  EndAngle2      Like EndAngle but allows one end of the hilt to differ from the other.
+
+Variable CL     Float
+Variable CS     Integer
+Variable I      Integer
+Variable J      Integer
+Variable Beta   Float
+Variable Beta2  Float
+Variable Gamma1 Float
+Variable Gamma2 Float
+Variable Gamma3 Float
+Variable Gamma4 Float
+Variable Phi    Float
+Variable Phi2   Float
+Variable Zeta1  Float
+Variable Zeta2  Float
+Variable Zeta3  Float
+Variable Zeta4  Float
+Variable Delta  Float
+Variable Delta2 Float
+Variable D      Float
+Variable DD     Float
+Variable R      Float
+Variable RR     Float
+
+Variable R1     Float
+Variable R2     Float
+Variable R3     Float
+Variable R4     Float
+Variable T1     Float
+Variable T2     Float
+Variable T3     Float
+Variable T4     Float
+Variable U1     Float
+Variable U2     Float
+Variable U3     Float
+Variable U4     Float
+Variable W1     Float
+Variable W2     Float
+
+Variable S1     Float
+Variable S2     Float
+Variable S3     Float
+Variable S4     Float
+Variable X1     Float
+Variable X2     Float
+Variable X3     Float
+Variable X4     Float
+Variable V1     Float
+Variable V2     Float
+Variable V3     Float
+Variable V4     Float
+Variable Y1     Float
+Variable Y2     Float
+
+Variable EW     Float
+Variable ET     Float
+Variable CX     Float
+Variable CY     Float
+Variable DX     Float
+Variable DY     Float
+Variable ES     Integer
+
+CL = Abs(CenterLength)
+If CL > 1
+  CL = 1
+EndIf
+If CL < 0
+  CL = 0
+EndIf
+
+CS = Abs(CenterSections)
+If CS < 0
+  CS = 0
+EndIf
+
+Beta = Abs(CenterAngle / 2);
+If Beta > 90
+  Beta = 90
+EndIf
+
+Beta2 = Abs(CenterAngle2 / 2);
+If Beta2 > 90
+  Beta2 = 90
+EndIf
+
+EW = Abs(EndWidth)
+ET = Abs(EndThickness)
+
+If (CS > 0) And (Beta > 0) And (Beta2 > 0) And (SizeX <> 0)
+
+  Delta  = Beta  / CS;
+  Delta2 = Beta2 / CS;
+  Phi  = (Sgn(CenterAngle)  * Beta)  / CS
+  Phi2 = (Sgn(CenterAngle2) * Beta2) / CS
+  R  = SizeZ * (CL / 2) / Sin(Beta);
+  RR = SizeZ * (CL / 2) / Sin(Beta2);
+  D  = Sgn(CenterAngle);
+  DD = Sgn(CenterAngle2);
+
+  I = 0
+  While I < CS
+    J = I + 1
+    Gamma1 = I * Delta
+    Gamma2 = J * Delta
+    Gamma3 = I * Delta2
+    Gamma4 = J * Delta2
+
+    Zeta1 = I * Phi
+    Zeta2 = J * Phi
+    Zeta3 = I * Phi2
+    Zeta4 = J * Phi2
+
+    R1 = R + D * 0.5 * (1 + (I / CS) * (ET - 1) * CL) * SizeX
+    R2 = R - D * 0.5 * (1 + (I / CS) * (ET - 1) * CL) * SizeX
+    U1 = 0.5 * D * (R - R1 * Cos(Gamma1)) / SizeX
+    U2 = 0.5 * D * (R - R2 * Cos(Gamma1)) / SizeX
+    T1 = (R1 / SizeZ) * Sin(Gamma1) / 2
+    T2 = (R2 / SizeZ) * Sin(Gamma1) / 2
+    W1 = 0.5 * (1 + (I / CS) * (EW - 1) * CL)
+
+    R3 = R + D * 0.5 * (1 + (J / CS) * (ET - 1) * CL) * SizeX
+    R4 = R - D * 0.5 * (1 + (J / CS) * (ET - 1) * CL) * SizeX
+    U3 = 0.5 * D * (R - R3 * Cos(Gamma2)) / SizeX
+    U4 = 0.5 * D * (R - R4 * Cos(Gamma2)) / SizeX
+    T3 = (R3 / SizeZ) * Sin(Gamma2) / 2
+    T4 = (R4 / SizeZ) * Sin(Gamma2) / 2
+    W2 = 0.5 * (1 + (J / CS) * (EW - 1) * CL)
+
+    S1 = RR + DD * 0.5 * (1 + (I / CS) * (ET - 1) * CL) * SizeX
+    S2 = RR - DD * 0.5 * (1 + (I / CS) * (ET - 1) * CL) * SizeX
+    V1 = 0.5 * DD * (RR - S1 * Cos(Gamma3)) / SizeX
+    V2 = 0.5 * DD * (RR - S2 * Cos(Gamma3)) / SizeX
+    X1 = (S1 / SizeZ) * Sin(Gamma3) / 2
+    X2 = (S2 / SizeZ) * Sin(Gamma3) / 2
+    Y1 = 0.5 * (1 + (I / CS) * (EW - 1) * CL)
+
+    S3 = RR + DD * 0.5 * (1 + (J / CS) * (ET - 1) * CL) * SizeX
+    S4 = RR - DD * 0.5 * (1 + (J / CS) * (ET - 1) * CL) * SizeX
+    V3 = 0.5 * DD * (RR - S3 * Cos(Gamma4)) / SizeX
+    V4 = 0.5 * DD * (RR - S4 * Cos(Gamma4)) / SizeX
+    X3 = (S3 / SizeZ) * Sin(Gamma4) / 2
+    X4 = (S4 / SizeZ) * Sin(Gamma4) / 2
+    Y2 = 0.5 * (1 + (J / CS) * (EW - 1) * CL)
+
+    Rectangle U1,-W1,-T1,  U3,-W2,-T3,  U3, W2,-T3,  U1, W1,-T1,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, True, -Cos(Zeta1),0,-Sin(Zeta1), -Cos(Zeta2),0,-Sin(Zeta2), -Cos(Zeta2),0,-Sin(Zeta2), -Cos(Zeta1),0,-Sin(Zeta1)
+    Rectangle U4,-W2,-T4,  U2,-W1,-T2,  U2, W1,-T2,  U4, W2,-T4,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, True,  Cos(Zeta2),0, Sin(Zeta2),  Cos(Zeta1),0, Sin(Zeta1),  Cos(Zeta1),0, Sin(Zeta1),  Cos(Zeta2),0, Sin(Zeta2)
+    Rectangle U2,-W1,-T2,  U4,-W2,-T4,  U3,-W2,-T3,  U1,-W1,-T1,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+    Rectangle U4, W2,-T4,  U2, W1,-T2,  U1, W1,-T1,  U3, W2,-T3,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+
+    Rectangle V1,-Y1, X1,  V1, Y1, X1,  V3, Y2, X3,  V3,-Y2, X3,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, True, -Cos(Zeta3),0, Sin(Zeta3), -Cos(Zeta3),0, Sin(Zeta3), -Cos(Zeta4),0, Sin(Zeta4), -Cos(Zeta4),0, Sin(Zeta4)
+    Rectangle V2,-Y1, X2,  V4,-Y2, X4,  V4, Y2, X4,  V2, Y1, X2,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, True,  Cos(Zeta3),0,-Sin(Zeta3),  Cos(Zeta4),0,-Sin(Zeta4),  Cos(Zeta4),0,-Sin(Zeta4),  Cos(Zeta3),0,-Sin(Zeta3)
+    Rectangle V2,-Y1, X2,  V1,-Y1, X1,  V3,-Y2, X3,  V4,-Y2, X4,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+    Rectangle V2, Y1, X2,  V4, Y2, X4,  V3, Y2, X3,  V1, Y1, X1,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+
+    I = I + 1
+  Wend
+
+  If (CL = 1) And (EW > 0) And (ET > 0)
+
+    Rectangle V4,-Y2, X4,  V3,-Y2, X3,  V3,Y2, X3,  V4,Y2, X4,  Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+    Rectangle U3,-W2,-T3,  U4,-W2,-T4,  U4,W2,-T4,  U3,W2,-T3,  Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+
+  EndIf
+
+  If CL < 1
+
+    R  = SizeX * Abs(EndRadius)
+    CX = (U3 + U4) / 2 +     Sgn(EndAngle) * R * Cos(Beta) / SizeX
+    CY = (T3 + T4) / 2 - D * Sgn(EndAngle) * R * Sin(Beta) / SizeZ
+    D  = Sgn(EndAngle)
+    U1 = U3
+    U2 = U4
+    T1 = T3
+    T2 = T4
+    W1 = W2
+
+    RR = SizeX * Abs(EndRadius)
+    DX = (V3 + V4) / 2 +      Sgn(EndAngle2) * RR * Cos(Beta2) / SizeX
+    DY = (X3 + X4) / 2 - DD * Sgn(EndAngle2) * RR * Sin(Beta2) / SizeZ
+    DD = Sgn(EndAngle2)
+    V1 = V3
+    V2 = V4
+    X1 = X3
+    X2 = X4
+    Y1 = Y2
+
+  EndIf
+
+Else
+
+  R1 = 0.5 * (1 + (ET - 1) * CL)
+  R2 = 0.5 * (1 + (EW - 1) * CL)
+
+  S1 = 0.5 * (1 + (ET - 1) * CL)
+  S2 = 0.5 * (1 + (EW - 1) * CL)
+
+  Rectangle  -R1, -R2, CL,  -0.5,-0.5,  0,  -0.5, 0.5,  0,   -R1,  R2, CL,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+  Rectangle -0.5,-0.5,  0,   -R1, -R2,-CL,   -R1,  R2,-CL,  -0.5, 0.5,  0,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+  Rectangle   R1, -R2,-CL,   0.5,-0.5,  0,   0.5, 0.5,  0,    R1,  R2,-CL,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+  Rectangle  0.5,-0.5,  0,    R1, -R2, CL,    R1,  R2, CL,   0.5, 0.5,  0,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+  Rectangle   R1, -R2, CL,   0.5,-0.5,  0,  -0.5,-0.5,  0,   -R1, -R2, CL,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+  Rectangle  0.5,-0.5,  0,    R1, -R2,-CL,   -R1, -R2,-CL,  -0.5,-0.5,  0,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+  Rectangle  0.5, 0.5,  0,    R1,  R2, CL,   -R1,  R2, CL,  -0.5, 0.5,  0,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+  Rectangle   R1,  R2,-CL,   0.5, 0.5,  0,  -0.5, 0.5,  0,   -R1,  R2,-CL,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+
+  If (CL = 1) And (EW > 0) And (ET > 0)
+
+    Rectangle  R1,-R2, CL,  -R1,-R2, CL,  -R1,R2, CL,   R1,R2, CL,  Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+    Rectangle -R1,-R2,-CL,   R1,-R2,-CL,   R1,R2,-CL,  -R1,R2,-CL,  Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+
+  EndIf
+
+  If CL < 1
+
+    R = 1 - CL
+    D = Sgn(EndAngle)
+    CX = R1
+    CY = R
+    U1 = -R1
+    U2 = R1
+    T1 = CL
+    T2 = CL
+    W1 = R2
+    Beta = 0
+
+    RR = 1 - CL
+    DD = Sgn(EndAngle2)
+    DX = S1
+    DY = RR
+    V1 = -S1
+    V2 = S1
+    X1 = CL
+    X2 = CL
+    Y1 = S2
+    Beta2 = 0
+
+  EndIf
+
+EndIf
+
+ES = Abs(EndSections)
+If ES < 0
+  ES = 0
+EndIf
+
+If (ES > 0) And (CL < 1)
+
+  Delta  = Abs(EndAngle)  / ES;
+  Delta2 = Abs(EndAngle2) / ES;
+
+  I = 1
+  While I <= ES
+
+    If D >= 0
+      Gamma1 = 180 - (CenterAngle  / 2) - (I - 1) * Delta
+      Gamma2 = 180 - (CenterAngle  / 2) - I * Delta
+    Else
+      Gamma1 = -(CenterAngle / 2) + (I - 1) * Delta
+      Gamma2 = -(CenterAngle / 2) + I * Delta
+    EndIf
+
+    If DD >= 0
+      Gamma3 = 180 - (CenterAngle2  / 2) - (I - 1) * Delta2
+      Gamma4 = 180 - (CenterAngle2  / 2) - I * Delta2
+    Else
+      Gamma3 = -(CenterAngle2 / 2) + (I - 1) * Delta2
+      Gamma4 = -(CenterAngle2 / 2) + I * Delta2
+    EndIf
+
+    R1 = R  + 0.25 * D  * (1 + (ET - 1) * (CL + (I / ES) * (1 - CL))) * SizeX
+    R2 = R  - 0.25 * D  * (1 + (ET - 1) * (CL + (I / ES) * (1 - CL))) * SizeX
+
+    S1 = RR + 0.25 * DD * (1 + (ET - 1) * (CL + (I / ES) * (1 - CL))) * SizeX
+    S2 = RR - 0.25 * DD * (1 + (ET - 1) * (CL + (I / ES) * (1 - CL))) * SizeX
+
+    U3 = CX + 1 * R1 * Cos(Gamma2) / SizeX
+    U4 = CX + 1 * R2 * Cos(Gamma2) / SizeX
+
+    V3 = DX + 1 * S1 * Cos(Gamma4) / SizeX
+    V4 = DX + 1 * S2 * Cos(Gamma4) / SizeX
+
+    T3 = CY + R1 * Sin(Gamma2) / SizeZ
+    T4 = CY + R2 * Sin(Gamma2) / SizeZ
+
+    X3 = DY + S1 * Sin(Gamma4) / SizeZ
+    X4 = DY + S2 * Sin(Gamma4) / SizeZ
+
+    W2 = 0.5 * EW * (CL + (I / ES) * (1 - CL))
+
+    Y2 = 0.5 * EW * (CL + (I / ES) * (1 - CL))
+
+    Rectangle V3,-Y2, X3,  V1,-Y1, X1,  V1, Y1, X1,  V3, Y2, X3,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, True,   Cos(Gamma4),0, DD*Sin(Gamma4),  Cos(Gamma3),0, DD*Sin(Gamma3),  Cos(Gamma3),0, DD*Sin(Gamma3),  Cos(Gamma4),0, DD*Sin(Gamma4)
+    Rectangle U1,-W1,-T1,  U3,-W2,-T3,  U3, W2,-T3,  U1, W1,-T1,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, True,   Cos(Gamma1),0,-D* Sin(Gamma1),  Cos(Gamma2),0,-D* Sin(Gamma2),  Cos(Gamma2),0,-D* Sin(Gamma2),  Cos(Gamma1),0,-D* Sin(Gamma1)
+    Rectangle V2,-Y1, X2,  V4,-Y2, X4,  V4, Y2, X4,  V2, Y1, X2,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, True,  -Cos(Gamma3),0,-DD*Sin(Gamma3), -Cos(Gamma4),0,-DD*Sin(Gamma4), -Cos(Gamma4),0,-DD*Sin(Gamma4), -Cos(Gamma3),0,-DD*Sin(Gamma3)
+    Rectangle U4,-W2,-T4,  U2,-W1,-T2,  U2, W1,-T2,  U4, W2,-T4,  Tex1, Transparent, SemiTrans, Solid, Color, HasColor, Masked, True,  -Cos(Gamma2),0, D* Sin(Gamma2), -Cos(Gamma1),0, D* Sin(Gamma1), -Cos(Gamma1),0, D* Sin(Gamma1), -Cos(Gamma2),0, D* Sin(Gamma2)
+    Rectangle V4,-Y2, X4,  V2,-Y1, X2,  V1,-Y1, X1,  V3,-Y2, X3,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+    Rectangle U2,-W1,-T2,  U4,-W2,-T4,  U3,-W2,-T3,  U1,-W1,-T1,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+    Rectangle V2, Y1, X2,  V4, Y2, X4,  V3, Y2, X3,  V1, Y1, X1,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+    Rectangle U2, W1,-T2,  U1, W1,-T1,  U3, W2,-T3,  U4, W2,-T4,  Tex2, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+
+    U1 = U3
+    U2 = U4
+    T1 = T3
+    T2 = T4
+    W1 = W2
+
+    V1 = V3
+    V2 = V4
+    X1 = X3
+    X2 = X4
+    Y1 = Y2
+
+    I = I + 1
+  Wend
+
+  If (EW > 0) And (ET > 0)
+
+    Rectangle V4,-Y2, X4,  V3,-Y2, X3,  V3,Y2, X3,  V4,Y2, X4,  Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+    Rectangle U3,-W2,-T3,  U4,-W2,-T4,  U4,W2,-T4,  U3,W2,-T3,  Tex3, Transparent, SemiTrans, Solid, Color, HasColor, Masked, False
+
+  EndIf
+
+EndIf

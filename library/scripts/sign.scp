@@ -1,0 +1,29 @@
+CATEGORY Furniture
+
+PARAM Sides     BOOLEAN DEFAULT True
+PARAM TwoSided  BOOLEAN DEFAULT False
+PARAM SideTex   STRING
+PARAM Face      STRING  DEFAULT SideTex
+PARAM SemiTrans BOOLEAN DEFAULT False
+
+HINT  Sides     When this is True, the sides and back of the sign are
+HINT  Sides     generated. Otherwise only the front is generated.
+HINT  TwoSided  If this is True then the front texture is also used for the
+HINT  TwoSided  back of the sign. Otherwise the texture for the sides of
+HINT  TwoSided  the sign is used for the back.
+HINT  SideTex   The texture for the sides of the sign.
+HINT  Face      The texture for the front of the sign. Defaults to SideTex.
+HINT  SemiTrans When True, makes the object 50% transparent.
+
+If Sides
+  RECTANGLETEX 0,0,0, 1,0,0, 1,1,0, 0,1,0,   0,0, 1,0, 1,1, 0,1, SideTex, false, SemiTrans   ' Bottom face
+  RECTANGLETEX 0,0,0, 0,1,0, 0,1,1, 0,0,1,   0,0, 1,0, 1,1, 0,1, SideTex, false, SemiTrans   ' Left face
+  RECTANGLETEX 1,0,0, 1,0,1, 1,1,1, 1,1,0,   1,0, 1,1, 0,1, 0,0, SideTex, false, SemiTrans   ' Right face
+  RECTANGLETEX 0,0,1, 0,1,1, 1,1,1, 1,0,1,   0,1, 0,0, 1,0, 1,1, SideTex, false, SemiTrans   ' Top face
+  If Not TwoSided
+    RECTANGLETEX 1,1,0, 1,1,1, 0,1,1, 0,1,0,   0,0, 0,1, 1,1, 1,0, SideTex, false, SemiTrans   ' Back face
+  Else
+    RECTANGLETEX 1,1,0, 1,1,1, 0,1,1, 0,1,0,   0,0, 0,1, 1,1, 1,0, Face, false, SemiTrans      ' Back face
+  EndIf
+EndIf
+RECTANGLETEX 0,0,0, 0,0,1, 1,0,1, 1,0,0,   0,0, 0,1, 1,1, 1,0, Face, false, SemiTrans   ' Front face (the sign itself)

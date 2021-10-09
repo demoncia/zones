@@ -1,0 +1,32 @@
+CATEGORY Earth
+
+' x axis is north-south (north is increasing)
+' y axis is east-west   (west is increasing)
+
+Param NorthWidth     Float Default 0.05
+Param SouthWidth     Float Default 0.05
+Param EastWidth      Float Default 0.05
+Param WestWidth      Float Default 0.05
+Param NorthHeight    Float Default 1
+Param SouthHeight    Float Default 1
+Param EastHeight     Float Default 1
+Param WestHeight     Float Default 1
+Param FloorTex       String
+Param NorthTex       String Default FloorTex
+Param SouthTex       String Default FloorTex
+Param EastTex        String Default FloorTex
+Param WestTex        String Default FloorTex
+
+Rectangle SouthWidth,EastWidth,0,  SouthWidth,1 - WestWidth,0,  1 - NorthWidth,1 - WestWidth,0,  1 - NorthWidth,EastWidth,0,  FloorTex
+
+Triangle SouthWidth,0,0, 0,1,SouthHeight, SouthWidth,1,0,  SouthTex
+Triangle SouthWidth,0,0, 0,0,SouthHeight, 0,1,SouthHeight, SouthTex
+
+Triangle 1,EastWidth,0, 0,0,EastHeight, 0,EastWidth,0,  EastTex
+Triangle 1,EastWidth,0, 1,0,EastHeight, 0,0,EastHeight, EastTex
+
+Triangle 0,1 - WestWidth,0, 1,1,WestHeight, 1,1 - WestWidth,0, WestTex
+Triangle 0,1 - WestWidth,0, 0,1,WestHeight, 1,1,WestHeight,    WestTex
+
+Triangle 1 - NorthWidth,1,0, 1,0,NorthHeight, 1 - NorthWidth,0,0, NorthTex
+Triangle 1 - NorthWidth,1,0, 1,1,NorthHeight, 1,0,NorthHeight,    NorthTex
