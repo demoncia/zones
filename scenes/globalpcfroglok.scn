@@ -1,0 +1,8 @@
+LongName globalpcfroglok
+ShortName globalpcfroglok
+ZoneType Outdoor
+
+Creature FRF, mind_flayer
+Creature FRM, hook_horror
+
+
