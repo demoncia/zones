@@ -32,7 +32,7 @@
 <epair name="ClipperDoubleclickedSplit">1</epair>
 <epair name="ClipperResetFlip">true</epair>
 <epair name="ClipperResetPoints">true</epair>
-<epair name="Count">2</epair>
+<epair name="Count">3</epair>
 <epair name="CubicClipping">false</epair>
 <epair name="CubicScale">14</epair>
 <epair name="CustomShaderEditorCommand"></epair>
@@ -46,9 +46,9 @@
 <epair name="EntitySplit2">57</epair>
 <epair name="EntityWnd">-1 -1 444 777</epair>
 <epair name="ExtraResoucePath"></epair>
-<epair name="File0">C:/code/projects/demoncia/zones/library/textures/quake3/maps/crystalshard.map</epair>
-<epair name="File1">C:/code/projects/demoncia/zones/library/textures/quake3/maps/clz.map</epair>
-<epair name="File2"></epair>
+<epair name="File0">C:/code/projects/demoncia/zones/library/textures/quake3/maps/delves.map</epair>
+<epair name="File1">C:/code/projects/demoncia/zones/library/textures/quake3/maps/crystalshard.map</epair>
+<epair name="File2">C:/code/projects/demoncia/zones/library/textures/quake3/maps/clz.map</epair>
 <epair name="File3"></epair>
 <epair name="File4"></epair>
 <epair name="File5"></epair>
@@ -66,7 +66,7 @@
 <epair name="Height">480</epair>
 <epair name="HideNonShadersInCommon">true</epair>
 <epair name="LastLightIntensity">0</epair>
-<epair name="LastMap">C:/code/projects/demoncia/zones/library/textures/quake3/maps/crystalshard.map</epair>
+<epair name="LastMap">C:/code/projects/demoncia/zones/library/textures/quake3/maps/delves.map</epair>
 <epair name="LeftMouseClickSelector">true</epair>
 <epair name="LightRadiuses">true</epair>
 <epair name="LoadLastMap">false</epair>
@@ -113,7 +113,7 @@
 <epair name="SI_ShowAxis">true</epair>
 <epair name="SI_ShowBboxes">false</epair>
 <epair name="SI_ShowConnections">true</epair>
-<epair name="SI_ShowCoords">false</epair>
+<epair name="SI_ShowCoords">true</epair>
 <epair name="SI_ShowNames">true</epair>
 <epair name="SI_ShowNamesDist">512</epair>
 <epair name="SI_ShowNamesRatio">64</epair>
